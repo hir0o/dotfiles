@@ -26,5 +26,4 @@ ln -sfv "$XDG_CONFIG_HOME/zsh/.zshenv" "$HOME/.zshenv"
 
 VSCODE_PATH="$HOME/Library/Application\ Support/Code/User"
 mkdir -p "$VSCODE_PATH"
-ls $VSCODE_PATH
 ln -sfv  "$XDG_CONFIG_HOME/vscode/"* VSCODE_PATH

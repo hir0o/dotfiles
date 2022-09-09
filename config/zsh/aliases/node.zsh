@@ -1,0 +1,1 @@
+alias cnode='nodenv versions | fzf | xargs nodenv global'

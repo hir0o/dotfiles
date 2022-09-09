@@ -1,0 +1,135 @@
+[user]
+  name = hir0o
+  email = mk.9.q.kyu@gmail.com
+
+[alias]
+  ad  = add
+  ada = add -A
+  amd  = commit --amend
+  st  = status
+  ss  = stash -u
+  sl  = !"git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'"
+  sp  = !"git stash apply `git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'`"
+  spc = !"git stash list | grep `git rev-parse --abbrev-ref HEAD | cut -d  "/" -f 2` | fzf --preview 'git stash show -p --color=always' | xargs git stash pop"
+  sd  = !"git stash drop `git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'`"
+  rmc = rm -r --cached .
+  rmc = !"git checkout -- . && git clean -df ."
+  br  = branch
+  brd = !git branch -D `git branch | fzf -m`
+  brda= !git branch -D `git branch | sed '/*/d' | tr '\n' ' '`
+  cm  = commit --verbose
+  cmm = !"git add -A && git status && git commit -m"
+  coa = !"git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git checkout"
+  co  = !"git checkout `git branch | fzf`"
+  cob = checkout -b
+  df  = diff
+  dfh = diff HEAD
+  lg  = log
+  lgp = log -p
+  lgs = log --stat
+  lgg = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  mg  = merge
+  mgab= merge --abort
+  mgb = !git merge `git branch | fzf`
+  st  = status
+  ps  = !git push origin `git rev-parse --abbrev-ref HEAD`
+  pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
+  psh = push heroku master
+  rb  = rebase
+  rf  = reflog --date=iso
+  rs  = reset
+  rsh = reset --hard
+  bk  = reset --soft HEAD^
+  cre = !"git init && git add -A && git commit -m init && gh repo create && git push origin `git rev-parse --abbrev-ref HEAD` && gh repo view --web"
+  pr  = !gh pr create -B $(git branch | fzf)
+  pdf = !gh pr diff `gh pr list | fzf | cut -f 1`
+  pmg = !gh pr merge
+  op  = !gh repo view --web
+  opg = !gh repo view `ghq list | fzf | cut -d "/" -f 2,3` --web
+  opi = !gh issue view `gh issue list | fzf | cut -f 1` --web
+  opp = !gh pr view `gh pr list | fzf | cut -f 1` --web
+  fps = ftp push
+  g   = !ghq get
+  rmg = !rm -rf `ghq list -p | fzf`
+  fst = fuzzy status
+  fbr = fuzzy branch
+  flg = fuzzy log
+  fss = fuzzy stash
+  fh = fetch
+  reb = rebase -i
+  cin = !"gibo dump $(gibo list | fzf) >> .gitignore"
+  cmdl= git reset --soft HEAD^
+
+[core]
+  editor = nvim
+  pager = delta
+
+[color]
+  ui = true
+
+[color]
+  ui = true
+  diff = auto
+  branch = auto
+  status = auto
+  showbranch = auto
+
+[color "branch"]
+  local = green
+  remote = red
+  current = green reverse
+
+[color "diff"]
+  old = red bold
+  new = green bold
+  meta = yellow bold
+  frag = magenta bold
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[commit]
+  template = ~/.config/git/template/commit-template
+
+[delta]
+  line-numbers = true
+  hunk-header-style = omit
+  file-style = "#338ECF" ul
+  file-decoration-style = none
+  syntax-theme = Dracula
+  whitespace-error-style = 22 reverse
+  line-numbers-left-style = "#3D424D"
+  line-numbers-right-style = "#3D424D"
+  side-by-side = true
+
+[interactive]
+  diffFilter = delta --color-only
+
+[ghq]
+  root = ~/ghq/
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[init]
+  defaultBranch = main
+  templateDir = ~/.config/git/template
+
+[gitflow "branch"]
+    main = main
+    develop = develop
+
+[gitflow "prefix"]
+    feature = feature/
+    release = release/
+    hotfix = hotfix/
+    support = support/
+  versiontag =
+
+[pull]
+	rebase = true

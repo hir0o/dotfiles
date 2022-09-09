@@ -1,0 +1,5 @@
+alias r='rails'
+alias rc='rails console'
+alias rs='rails server'
+alias rmig='rails db:migrate'
+alias rres='rails db:reset'

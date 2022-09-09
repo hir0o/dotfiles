@@ -1,0 +1,10 @@
+{
+  "InputInt": {
+    "prefix": ["inputint"],
+    "body": ["n = int(input())", "$0"]
+  },
+  "InputIntMap": {
+    "prefix": ["inputintmap"],
+    "body": ["${1:a, b} = map(int, input().split())", "$2"]
+  }
+}

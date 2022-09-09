@@ -1,0 +1,119 @@
+{
+  "function component": {
+    "prefix": "fc",
+    "body": [
+      "import { VFC } from 'react';",
+      "",
+      "const ${1:${TM_FILENAME_BASE:ComponentName}}: VFC = () => {",
+      "\treturn (",
+      "\t\t$2",
+      "\t)",
+      "};",
+      "",
+      "export default ${1:${TM_FILENAME_BASE:ComponentName}};"
+    ]
+  },
+  "function component with linaria": {
+    "prefix": "fcs",
+    "body": [
+      "import React, { VFC } from 'react';",
+      "import styled from 'styled-components';",
+      "",
+      "const ${1:ComponentName}: VFC = () => {",
+      "\treturn (",
+      "\t\t<Styled${1:ComponentName}>",
+      "\t\t\t$4",
+      "\t\t</Styled${1:ComponentName}>",
+      "\t)",
+      "};",
+      "",
+      "const Styled${1:ComponentName} = styled.$2`",
+      "\t$3",
+      "`",
+      "",
+      "export default ${1:ComponentName};"
+    ]
+  },
+  "function component with props": {
+    "prefix": "fcp",
+    "body": [
+      "import { VFC } from 'react';",
+      "",
+      "type PropsType = {$2}",
+      "",
+      "const ${1:ComponentName}: VFC<PropsType> = ({$3}) => {",
+      "\treturn (",
+      "\t\t$4",
+      "\t)",
+      "};",
+      "",
+      "export default ${1:ComponentName};"
+    ]
+  },
+  "props type": {
+    "prefix": "pt",
+    "body": ["type PropsType = {$1}"]
+  },
+  "presentor container component": {
+    "prefix": "prc",
+    "body": [
+      "import { VFC, ReactElement } from \"react\";",
+      "",
+      "type Props = {};",
+      "",
+      "type PresentorProps = {};",
+      "",
+      "export const ${1:ComponentName}Presenter: VFC<PresentorProps> = () => {",
+      "\treturn (",
+      "\t\t<>",
+      "\t\t\t<div className=\"${2:ClassName}\"></div>",
+      "\t\t\t<style jsx>",
+      "\t\t\t\t{`",
+      "\t\t\t\t`}",
+      "\t\t\t</style>",
+      "\t\t</>",
+      "\t);",
+      "};",
+      "",
+      "export const ${1:ComponentName}Container = ({",
+      "\tpresenter,",
+      "\t...props",
+      "}: Props & { presenter: (props: PresentorProps) => ReactElement }) => {",
+      "\treturn presenter({ ...props });",
+      "};",
+      "",
+      "export const ${1:ComponentName} = (props: Props) => (",
+      "\t<${1:ComponentName}Container",
+      "\t\tpresenter={(presenterProps) => <${1:ComponentName}Presenter {...presenterProps} />}",
+      "\t\t{...props}",
+      "\t/>",
+      ");"
+    ]
+  },
+  "state action type": {
+    "prefix": "set state type",
+    "body": ["Dispatch<SetStateAction<${0:type}>>"]
+  },
+  "useEffect": {
+    "prefix": "ue",
+    "body": ["useEffect(() => {", "\t$0", "}, []);"]
+  },
+  "sfc": {
+    "prefix": "styled components",
+    "body": [
+      "import React from 'react'",
+      "import styled from 'styled-components'",
+      "type Props = {",
+      "  className?: string",
+      "}",
+      "export const ${1:FC${TM_FILENAME_BASE:ComponentName}}: React.FC<Props> = ({ className }) => {",
+      "return <div className={className}>$2</div>",
+      "}",
+      "export const ${TM_FILENAME_BASE:ComponentName} = styled(${1:FC${TM_FILENAME_BASE:ComponentName}})``"
+    ]
+  },
+  "className": {
+    "prefix": "cnst",
+    "body": ["className={`\\${className}__$1`}"]
+  }
+}

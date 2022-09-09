@@ -1,0 +1,164 @@
+{
+	"パラメータ受け取るやつ": {
+		"prefix": "params.require",
+		"body": [
+			"params.require(:$1).permit(:$2)"
+		],
+		"description": "パラメータ受け取るやつ"
+	},
+	"redirect": {
+		"prefix": "redirect_to",
+		"body": [
+			"redirect_to ${1:path}, flash: { ${2:success}: '${3:message}' }"
+		],
+		"description": "リダイレクトするやつ"
+	},
+	"validate:presence": {
+		"prefix": "validates:presence",
+		"body": [
+			"validates :${1:colum_name}, presence: true"
+		],
+		"description": "空のバリデーションするやつ"
+	},
+	"route:get": {
+		"prefix": "route:get",
+		"body": [
+			"get '/${1:models}/${2:path}', to: '${1:models}#${3:action}'${4:, as: '${path_alias}'}"
+		]
+	},
+	"add_column": {
+		"prefix": "add_column",
+		"body": [
+			"add_column :${1:models}, :${2:column_name}, :${3:column_type}, ${4:null: ${5:false}}"
+		],
+		"description": "カラム追加するやつ"
+	},
+	"add_column:boolean": {
+		"prefix": "add_column:boolean",
+		"body": [
+			"add_column :${1:models}, :${2:column_name}, :boolean, null: ${3:false}, default:  ${3:false}"
+		],
+		"description": "カラム追加するやつ"
+	},
+	"add_column:string": {
+		"prefix": "add_column:string",
+		"body": [
+			"add_column :${1:models}, :${2:column_name}, :string, null: ${3:false}"
+		],
+		"description": "カラム追加するやつ"
+	},
+	"add_column:intager": {
+		"prefix": "add_column:intager",
+		"body": [
+			"add_column :${1:models}, :${2:column_name}, :intager, null: ${3:false}"
+		],
+		"description": "カラム追加するやつ"
+	},
+	"root path": {
+		"prefix": "root",
+		"body": [
+			"root '${1:controller_names}#${2:action}'"
+		],
+		"description": "ルートパス"
+	},
+	"resources": {
+		"prefix": "resources",
+		"body": [
+			"resources :${1:resourses}, only: %i[$2]"
+		],
+		"description": "resources"
+	},
+	"private": {
+		"prefix": "private",
+		"body": [
+			"private"
+		]
+	},
+	"current_user": {
+		"prefix": "current_user",
+		"body": [
+			"current_user"
+		]
+	},
+	"flash": {
+		"prefix": "flash",
+		"body": [
+			"flash.now[:$1] = $2"
+		]
+	},
+	"integer": {
+		"prefix": "integer",
+		"body": [
+			"integer"
+		]
+	},
+	"has_many": {
+		"prefix": "has_many",
+		"body": [
+			"has_many :${1:models}, ${2:dependent: :destroy}"
+		]
+	},
+	"has_one": {
+		"prefix": "has_one",
+		"body": [
+			"has_one :${1:model}, ${2:dependent: :destroy}"
+		]
+	},
+	"belongs_to": {
+		"prefix": "belongs_to",
+		"body": [
+			"belongs_to :${1:model}"
+		]
+	},
+	"remove_reference": {
+		"prefix": "remove_reference",
+		"body": [
+			"remove_reference :${1:tables}, :${2:column}, index: true, foreign_key: true"
+		]
+	},
+	"each_with_index": {
+		"prefix": "each_with_index",
+		"body": [
+      "each_with_index do |${1:model}|",
+      "\t$2",
+      "end"
+		]
+	},
+	"eacg": {
+		"prefix": "each",
+		"body": [
+      "each do |${1:model}|",
+      "\t$2",
+      "end"
+		]
+  },
+  "def:create": {
+    "prefix": "def:create",
+    "body": [
+      "def create",
+      "\t@${1:model} = ${2:Model}.new(${1:model}_params)",
+      "\tif @${1:model}.save",
+      "\t\t$3",
+      "\telse",
+      "\t\trender ${4::new}",
+      "\tend",
+      "end"
+    ]
+  },
+  "def:update": {
+    "prefix": "def:update",
+    "body": [
+      "def update",
+      "\tif @${1:model}.update(${1:model}_params)",
+      "\t\t$3",
+      "\telse",
+      "\t\trender ${4::edit}",
+      "\tend",
+      "end"
+    ]
+  },
+  "javascript_pack_tag": {
+    "prefix": "javascript_pack_tag",
+    "body": "javascript_pack_tag '$1'"
+  }
+}

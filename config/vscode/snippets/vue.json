@@ -1,0 +1,9 @@
+{
+  "コンポーネントのインポート": {
+    "prefix": "imc",
+    "body": [
+      "import $1 from '~/components/$2/$1'"
+    ],
+    "description": "コンポーネントインポートするやつ"
+  }
+}

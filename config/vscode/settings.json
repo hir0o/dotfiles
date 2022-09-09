@@ -1,0 +1,154 @@
+{
+  // ========== Theme ==========
+  "workbench.colorTheme": "Ayu Dark",
+  "workbench.iconTheme": "material-icon-theme",
+  "material-icon-theme.folders.color": "#224249",
+  "material-icon-theme.folders.theme": "classic",
+  "material-icon-theme.saturation": 0.5,
+  "editor.semanticTokenColorCustomizations": {
+    "comment": {
+      "foreground": "#479b47",
+      "fontStyle": "italic"
+    }
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.fontFamily": "\"HackGen35Nerd Console\"",
+  "editor.cursorBlinking": "solid", // [blink, smooth, solid, expand]  // カーソル の点滅
+  "editor.guides.bracketPairs": false,
+  "workbench.colorCustomizations": {
+    "terminal.tab.activeBorder": "#ff0",
+    "tab.activeBorderTop": "#ff0",
+    "editorBracketHighlight.foreground1": "#B48EAD",
+    "editorBracketHighlight.foreground2": "#A3BE8C",
+    "editorBracketHighlight.foreground3": "#EBCB8B",
+    "editorBracketHighlight.foreground4": "#D08770",
+    "editorBracketHighlight.foreground5": "#BF616A",
+    "editorBracketHighlight.foreground6": "#abb2c0",
+    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165"
+  },
+
+  // ========== Emmet ==========
+  "emmet.excludeLanguages": ["markdown"], // emmetを適用しない
+  "emmet.includeLanguages": {
+    // emmetを適用する
+    "php": "html",
+    "erb": "html",
+    "scss": "css",
+    "javascript": "javascriptreact"
+  },
+
+  // ========== Formatter ==========
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
+
+  "eslint.packageManager": "yarn",
+  "eslint.validate": [
+    // eslint適応するやつ
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  // Specific
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+
+  // 引数名とか表紙するやつ
+  // "javascript.inlayHints.parameterNames.enabled": "all",
+  // "typescript.inlayHints.parameterNames.enabled": "all",
+
+  // ========== Vim ==========
+  // ノーマルモード
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["<C-d>"], "after": ["g", "b"] } // マルチカーソル,
+  ],
+  "vim.surround": true,
+
+  // 補完
+  "editor.detectIndentation": true, // editor.tabSizeを開いてるファイルに合わせる
+  "editor.quickSuggestions": {
+    // 補完候補を出す場所
+    "other": true,
+    "strings": true,
+    "comments": true
+  }, // ペーストしたテキストをフォーマットする
+  "editor.insertSpaces": true, // インデントをスペースにする
+  "editor.linkedEditing": true, // 閉じタグを自動で編集する
+  "editor.matchBrackets": "always", // 対応するカッコを強調する
+  "editor.minimap.enabled": false, // ミニマップの表示
+  "explorer.confirmDelete": false, // ファイルを削除するときに確認する
+  "explorer.confirmDragAndDrop": false, // ファイルを移動するときに確認する
+  "explorer.compactFolders": true, // フォルダ階層をまとめない
+  "files.insertFinalNewline": false, // 末尾に改行を自動で入れる
+  "files.trimFinalNewlines": true, // 末尾の改行を削除する
+  "files.trimTrailingWhitespace": true, // 末尾の空白を削除する
+  "terminal.integrated.cursorStyle": "line", // ターミナルのカーソル
+  "editor.glyphMargin": false, // グリフマージンを表示しない
+  "editor.cursorStyle": "line", // エディタのカーソル
+  "editor.lineNumbers": "on", // 行数の表示
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?", // 文字の折り返し
+  "editor.tabSize": 2, // タブサイズ
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": false,
+    "Log": false,
+    "rust": true,
+    "typescriptreact": true
+  },
+
+  // Suggest
+  "editor.suggestSelection": "first", // サジェストのどの位置から選択するか。
+  "editor.snippetSuggestions": "top", // ユーザースニペットを上に持ってくる
+  "editor.tabCompletion": "on", // Tabでスニペットを挿入するかどうか
+  "security.workspace.trust.untrustedFiles": "open",
+  "files.autoGuessEncoding": true,
+  "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
+  "editor.inlineSuggest.enabled": true,
+  "workbench.startupEditor": "none",
+  "cSpell.userWords": [
+    "AGESTOCK",
+    "Alertbar",
+    "Chank",
+    "Datetime",
+    "datetimes",
+    "sekokan",
+    "SoftRoid",
+    "ssid",
+    "testid",
+    "usecases"
+  ],
+  "codestream.serverUrl": "https://api.codestream.com",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnSave": true,
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editor.titleScrollbarSizing": "large",
+  "workbench.editor.enablePreview": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 5000,
+  // 将来デフォルトでtrueになる
+  "git.mergeEditor": true,
+  "git.ignoreRebaseWarning": true,
+  "editor.folding": false,
+  "breadcrumbs.enabled": false,
+  "window.title": "${activeEditorMedium}${separator}${activeEditorShort}",
+  "notebook.lineNumbers": "on",
+  "typescript.referencesCodeLens.enabled": true,
+  "editor.stickyScroll.enabled": true,
+  "terminal.integrated.smoothScrolling": false // ターミナルのスムーズなスクロール
+}

@@ -16,11 +16,13 @@ else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-# brew update
-# brew bundle install --file "$REPO_DIR/config/homebrew/Brewfile"
+brew update
+brew bundle install --file "$REPO_DIR/config/homebrew/Brewfile"
 
 # setup link
 echo "Setting up links..."
 ln -sfv "$REPO_DIR/config/"* "$XDG_CONFIG_HOME"
-ln -sfv  "$XDG_CONFIG_HOME/vscode/"* "${HOME}/Library/Application Support/Code/User"
 ln -sfv "$XDG_CONFIG_HOME/zsh/.zshenv" "$HOME/.zshenv"
+VSCODE_PATH="${HOME}/Library/Application\ Support/Code/User"
+mkdir -p "$VSCODE_PATH"
+ln -sfv  "$XDG_CONFIG_HOME/vscode/"* VSCODE_PATH

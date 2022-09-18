@@ -12,7 +12,7 @@
     }
   },
   "editor.bracketPairColorization.enabled": true,
-  "editor.fontFamily": "\"HackGen35Nerd Console\"",
+  "editor.fontFamily": "HackGen35 Console NF",
   "editor.cursorBlinking": "solid", // [blink, smooth, solid, expand]  // カーソル の点滅
   "editor.guides.bracketPairs": false,
   "workbench.colorCustomizations": {
@@ -42,7 +42,6 @@
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "editor.codeActionsOnSave": ["source.fixAll.eslint"],
-
   "eslint.packageManager": "yarn",
   "eslint.validate": [
     // eslint適応するやつ
@@ -51,7 +50,6 @@
     "typescript",
     "typescriptreact"
   ],
-
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
@@ -65,18 +63,15 @@
       "other": "on"
     }
   },
-
   // 引数名とか表紙するやつ
   // "javascript.inlayHints.parameterNames.enabled": "all",
   // "typescript.inlayHints.parameterNames.enabled": "all",
-
   // ========== Vim ==========
   // ノーマルモード
   "vim.normalModeKeyBindingsNonRecursive": [
     { "before": ["<C-d>"], "after": ["g", "b"] } // マルチカーソル,
   ],
   "vim.surround": true,
-
   // 補完
   "editor.detectIndentation": true, // editor.tabSizeを開いてるファイルに合わせる
   "editor.quickSuggestions": {
@@ -98,19 +93,18 @@
   "terminal.integrated.cursorStyle": "line", // ターミナルのカーソル
   "editor.glyphMargin": false, // グリフマージンを表示しない
   "editor.cursorStyle": "line", // エディタのカーソル
-  "editor.lineNumbers": "on", // 行数の表示
+  "editor.lineNumbers": "off", // 行数の表示
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?", // 文字の折り返し
   "editor.tabSize": 2, // タブサイズ
   "github.copilot.enable": {
-    "*": true,
+    "*": false,
     "yaml": false,
     "plaintext": false,
     "markdown": false,
     "Log": false,
     "rust": true,
-    "typescriptreact": true
+    "typescriptreact": false
   },
-
   // Suggest
   "editor.suggestSelection": "first", // サジェストのどの位置から選択するか。
   "editor.snippetSuggestions": "top", // ユーザースニペットを上に持ってくる
@@ -150,5 +144,7 @@
   "notebook.lineNumbers": "on",
   "typescript.referencesCodeLens.enabled": true,
   "editor.stickyScroll.enabled": true,
-  "terminal.integrated.smoothScrolling": false // ターミナルのスムーズなスクロール
+  "terminal.integrated.smoothScrolling": false,
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "workbench.activityBar.visible": false
 }

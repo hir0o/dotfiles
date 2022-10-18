@@ -1,7 +1,7 @@
 ZSH_PATH="$XDG_CONFIG_HOME/zsh"
 
 
-# General 
+# General
 mkcd() { mkdir $@; cd $@; }
 alias vz='nvim ${DOTPATH}/.zshrc'
 alias srz='source ~/.zshrc'
@@ -33,16 +33,16 @@ source "$ZSH_PATH/aliases/node.zsh"
 source "$ZSH_PATH/aliases/vscode.zsh"
 source "$ZSH_PATH/aliases/yarn.zsh"
 
-# anyenv 
+# anyenv
 eval "$(anyenv init -)"
 export PATH="$HOME/.anyenv/bin:$PATH"
 
-# Fuzzy 
+# Fuzzy
 export PATH="$HOME/git-fuzzy/bin:$PATH"
 export GIT_FUZZY_STATUS_ADD_KEY='Ctrl-A'
 export GIT_FUZZY_STATUS_RESET_KEY='Ctrl-R'
 
-# FZF 
+# FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden -g '!.git' -g '!node_modules' --max-columns 200"
 export FZF_DEFAULT_OPTS='--reverse --color fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:229 --color info:150,prompt:110,spinner:150,pointer:167,marker:174'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

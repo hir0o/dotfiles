@@ -9,4 +9,4 @@ else
     git clone https://github.com/hir0o/dotfiles "$INSTALL_DIR"
 fi
 
-/bin/bash "$INSTALL_DIR/scripts/setup.bash"
+/bin/zsh "$INSTALL_DIR/scripts/setup.zsh"

@@ -16,15 +16,18 @@
   "editor.cursorBlinking": "solid", // [blink, smooth, solid, expand]  // カーソル の点滅
   "editor.guides.bracketPairs": false,
   "workbench.colorCustomizations": {
-    "terminal.tab.activeBorder": "#ff0",
-    "tab.activeBorderTop": "#ff0",
+    // "terminal.tab.activeBorder": "#ff0",
+    // "tab.activeBorderTop": "#ff0",
     "editorBracketHighlight.foreground1": "#B48EAD",
     "editorBracketHighlight.foreground2": "#A3BE8C",
     "editorBracketHighlight.foreground3": "#EBCB8B",
     "editorBracketHighlight.foreground4": "#D08770",
     "editorBracketHighlight.foreground5": "#BF616A",
     "editorBracketHighlight.foreground6": "#abb2c0",
-    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165"
+    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165",
+    "editorStickyScroll.background": "#162031",
+
+    "editorStickyScrollHover.background": "#162031"
   },
 
   // ========== Emmet ==========
@@ -73,7 +76,7 @@
   ],
   "vim.surround": true,
   // 補完
-  "editor.detectIndentation": true, // editor.tabSizeを開いてるファイルに合わせる
+  "editor.detectIndentation": false, // editor.tabSizeを開いてるファイルに合わせる
   "editor.quickSuggestions": {
     // 補完候補を出す場所
     "other": true,
@@ -93,17 +96,18 @@
   "terminal.integrated.cursorStyle": "line", // ターミナルのカーソル
   "editor.glyphMargin": false, // グリフマージンを表示しない
   "editor.cursorStyle": "line", // エディタのカーソル
-  "editor.lineNumbers": "off", // 行数の表示
+  "editor.lineNumbers": "on", // 行数の表示
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?", // 文字の折り返し
   "editor.tabSize": 2, // タブサイズ
   "github.copilot.enable": {
-    "*": false,
+    "*": true,
     "yaml": false,
     "plaintext": false,
     "markdown": false,
-    "Log": false,
+    "Log": true,
     "rust": true,
-    "typescriptreact": false
+    "typescriptreact": true,
+    "c": true
   },
   // Suggest
   "editor.suggestSelection": "first", // サジェストのどの位置から選択するか。
@@ -114,37 +118,33 @@
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
   "editor.inlineSuggest.enabled": true,
   "workbench.startupEditor": "none",
-  "cSpell.userWords": [
-    "AGESTOCK",
-    "Alertbar",
-    "Chank",
-    "Datetime",
-    "datetimes",
-    "sekokan",
-    "SoftRoid",
-    "ssid",
-    "testid",
-    "usecases"
-  ],
   "codestream.serverUrl": "https://api.codestream.com",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.formatOnSave": true,
-  "workbench.editor.tabSizing": "shrink",
+  // "workbench.editor.tabSizing": "shrink",
   "workbench.editor.titleScrollbarSizing": "large",
   "workbench.editor.enablePreview": true,
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 5000,
   // 将来デフォルトでtrueになる
   "git.mergeEditor": true,
-  "git.ignoreRebaseWarning": true,
-  "editor.folding": false,
-  "breadcrumbs.enabled": false,
+  "git.ignoreRebaseWarning": true, // rebaseの警告を表示しない
+  "editor.folding": false, // 折りたたみ
+  "breadcrumbs.enabled": false, // パスを表示する
   "window.title": "${activeEditorMedium}${separator}${activeEditorShort}",
   "notebook.lineNumbers": "on",
   "typescript.referencesCodeLens.enabled": true,
-  "editor.stickyScroll.enabled": true,
+  "editor.stickyScroll.enabled": false,
   "terminal.integrated.smoothScrolling": false,
   "rust-analyzer.checkOnSave.command": "clippy",
-  "workbench.activityBar.visible": false
+  "editor.stickyScroll.maxLineCount": 5,
+  "window.commandCenter": true,
+  // "workbench.activityBar.visible": false
+  "clang-format.executable": "/absolute/path/to/clang-format",
+  // ターミナルでの打ち間違えの修正
+  "workbench.audioCues.terminalQuickFix": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.activityBar.visible": false,
+  "workbench.statusBar.visible": false
 }

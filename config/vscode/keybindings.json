@@ -299,26 +299,6 @@
     "when": "editorTextFocus && resourceExtname == .md"
   },
   {
-    "key": "g d",
-    "command": "editor.action.revealDefinition",
-    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor && vim.mode == 'Normal'"
-  },
-  {
-    "key": "f12",
-    "command": "-editor.action.revealDefinition",
-    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-  },
-  {
-    "key": "g shift+d",
-    "command": "editor.action.goToImplementation",
-    "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor && vim.mode == 'Normal'"
-  },
-  {
-    "key": "cmd+f12",
-    "command": "-editor.action.goToImplementation",
-    "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
-  },
-  {
     "key": "shift+k",
     "command": "editor.action.showHover",
     "when": "editorTextFocus && vim.mode == 'Normal'"
@@ -327,6 +307,16 @@
     "key": "cmd+k cmd+i",
     "command": "-editor.action.showHover",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "[Semicolon] a",
+    "command": "editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
+  },
+  {
+    "key": "[Semicolon] shift+c",
+    "command": "github.copilot.toggleCopilot",
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
   },
   {
     "key": "g p",
@@ -347,13 +337,43 @@
     "command": "-workbench.action.navigateForward"
   },
   {
-    "key": "[Semicolon] a",
-    "command": "editor.action.quickFix",
-    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
-  },
-  {
     "key": "cmd+.",
     "command": "-editor.action.quickFix",
     "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "g d",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor && vim.mode == 'Normal'"
+  },
+  {
+    "key": "f12",
+    "command": "-editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "g shift+d",
+    "command": "editor.action.goToImplementation",
+    "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor && vim.mode == 'Normal'"
+  },
+  {
+    "key": "cmd+f12",
+    "command": "-editor.action.goToImplementation",
+    "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "g shift+a",
+    "command": "editor.action.marker.prevInFiles",
+    "when": "editorFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "g a",
+    "command": "editor.action.marker.nextInFiles",
+    "when": "editorFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "g l",
+    "command": "workbench.action.gotoLine",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
   }
 ]

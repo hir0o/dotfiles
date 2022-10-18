@@ -21,6 +21,10 @@ export HISTFILE="$XDG_STATE_HOME/zsh_history"
 export SAVEHIST=100000      # historyの上限
 export HISTSIZE=100000      # historyの上限
 
+egc(){
+  gcc $1 && ./a.out
+}
+
 # Plugins
 export SHELDON_CONFIG_DIR="$XDG_CONFIG_HOME/sheldon"
 export SHELDON_DATA_DIR="$XDG_STATE_HOME/sheldon"
@@ -40,6 +44,7 @@ zsh-defer source "$XDG_CONFIG_HOME/zsh/.lazy.zshrc"
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:$CARGO_HOME/bin
 
 # function
 zshaddhistory() {

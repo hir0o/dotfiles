@@ -1,5 +1,4 @@
 {
-  // ========== Theme ==========
   "workbench.colorTheme": "Ayu Dark",
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.folders.color": "#224249",
@@ -12,7 +11,8 @@
     }
   },
   "editor.bracketPairColorization.enabled": true,
-  "editor.fontFamily": "HackGen35 Console NF",
+  "editor.fontFamily": "HackGen35",
+  "terminal.integrated.fontFamily": "HackGen35 Console NF",
   "editor.cursorBlinking": "solid", // [blink, smooth, solid, expand]  // カーソル の点滅
   "editor.guides.bracketPairs": false,
   "workbench.colorCustomizations": {
@@ -24,24 +24,24 @@
     "editorBracketHighlight.foreground4": "#D08770",
     "editorBracketHighlight.foreground5": "#BF616A",
     "editorBracketHighlight.foreground6": "#abb2c0",
-    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165",
-    "editorStickyScroll.background": "#162031",
-
-    "editorStickyScrollHover.background": "#162031"
+    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165"
+    // "editorStickyScroll.background": "#162031",
+    // "editorStickyScrollHover.background": "#162031"
   },
-
-  // ========== Emmet ==========
-  "emmet.excludeLanguages": ["markdown"], // emmetを適用しない
+  "emmet.excludeLanguages": ["markdown"],
   "emmet.includeLanguages": {
     // emmetを適用する
     "php": "html",
     "erb": "html",
     "scss": "css",
-    "javascript": "javascriptreact"
+    "javascript": "javascriptreact",
+    "typescriptreact": "javascriptreact"
   },
 
-  // ========== Formatter ==========
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "editor.codeActionsOnSave": ["source.fixAll.eslint"],
@@ -96,14 +96,14 @@
   "terminal.integrated.cursorStyle": "line", // ターミナルのカーソル
   "editor.glyphMargin": false, // グリフマージンを表示しない
   "editor.cursorStyle": "line", // エディタのカーソル
-  "editor.lineNumbers": "on", // 行数の表示
+  "editor.lineNumbers": "off", // 行数の表示
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?", // 文字の折り返し
   "editor.tabSize": 2, // タブサイズ
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
-    "plaintext": false,
-    "markdown": false,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true,
     "Log": true,
     "rust": true,
     "typescriptreact": true,
@@ -121,17 +121,17 @@
   "codestream.serverUrl": "https://api.codestream.com",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   // "workbench.editor.tabSizing": "shrink",
   "workbench.editor.titleScrollbarSizing": "large",
-  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreview": false, // ファイルのプレビュー
+  "workbench.editor.enablePreviewFromQuickOpen": false, // ファイルのプレビュー
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 5000,
-  // 将来デフォルトでtrueになる
+  // memo: 将来デフォルトでtrueになる
   "git.mergeEditor": true,
   "git.ignoreRebaseWarning": true, // rebaseの警告を表示しない
-  "editor.folding": false, // 折りたたみ
-  "breadcrumbs.enabled": false, // パスを表示する
+  "editor.folding": true, // パスを表示する
   "window.title": "${activeEditorMedium}${separator}${activeEditorShort}",
   "notebook.lineNumbers": "on",
   "typescript.referencesCodeLens.enabled": true,
@@ -141,10 +141,12 @@
   "editor.stickyScroll.maxLineCount": 5,
   "window.commandCenter": true,
   // "workbench.activityBar.visible": false
-  "clang-format.executable": "/absolute/path/to/clang-format",
-  // ターミナルでの打ち間違えの修正
-  "workbench.audioCues.terminalQuickFix": true,
+  "[c]": {
+    "clang-format.executable": "/absolute/path/to/clang-format"
+  },
   "diffEditor.ignoreTrimWhitespace": false,
+  "breadcrumbs.enabled": false,
+  "workbench.editor.showTabs": false,
   "workbench.activityBar.visible": false,
-  "workbench.statusBar.visible": false
+  "redhat.telemetry.enabled": true
 }

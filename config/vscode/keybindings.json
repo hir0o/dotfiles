@@ -1,45 +1,5 @@
 [
   {
-    "key": "space e",
-    "command": "workbench.view.explorer",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
-  {
-    "key": "space e",
-    "command": "workbench.action.focusFirstEditorGroup",
-    "when": "explorerViewletFocus"
-  },
-  {
-    "key": "space t",
-    "command": "workbench.view.focusFirstEditorGroup",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
-  {
-    "key": "space a",
-    "command": "workbench.action.toggleActivityBarVisibility",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
-  {
-    "key": "ctrl+s h",
-    "command": "workbench.action.focusSideBar",
-    "when": "!filesExplorerFocus"
-  },
-  {
-    "key": "ctrl+s t",
-    "command": "workbench.action.terminal.focus",
-    "when": "!terminalFocus"
-  },
-  {
-    "key": "ctrl+s l",
-    "command": "workbench.action.focusFirstEditorGroup",
-    "when": "!editorTextFocus && !terminalFocus"
-  },
-  {
-    "key": "ctrl+s l",
-    "command": "workbench.action.terminal.toggleTerminal",
-    "when": "terminalFocus"
-  },
-  {
     "key": "[Semicolon] r",
     "command": "workbench.action.terminal.searchWorkspace",
     "when": "vim.mode != 'Insert' && !terminalFocus"
@@ -80,10 +40,6 @@
   },
 
   {
-    "key": "ctrl+s v",
-    "command": "workbench.action.splitEditor"
-  },
-  {
     "key": "ctrl+s s",
     "command": "workbench.action.splitEditorOrthogonal",
     "when": "editorFocus"
@@ -96,11 +52,6 @@
   {
     "key": "cmd+k cmd+left",
     "command": "-workbench.action.focusLeftGroup"
-  },
-  {
-    "key": "ctrl+s l",
-    "command": "workbench.action.focusRightGroup",
-    "when": "editorFocus"
   },
   {
     "key": "cmd+k cmd+right",
@@ -364,16 +315,99 @@
   {
     "key": "g shift+a",
     "command": "editor.action.marker.prevInFiles",
-    "when": "editorFocus && vim.mode == 'Normal'"
+    "when": "editorTextFocus && vim.mode == 'Normal'"
   },
   {
     "key": "g a",
     "command": "editor.action.marker.nextInFiles",
-    "when": "editorFocus && vim.mode == 'Normal'"
+    "when": "editorTextFocus && vim.mode == 'Normal'"
   },
   {
     "key": "g l",
     "command": "workbench.action.gotoLine",
     "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+
+  {
+    "key": "cmd+enter",
+    "command": "filesExplorer.openFilePreserveFocus",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder && !inputFocus"
+  },
+  {
+    "key": "space",
+    "command": "-filesExplorer.openFilePreserveFocus",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder && !inputFocus"
+  },
+  {
+    "key": "g e",
+    "command": "workbench.action.focusFirstEditorGroup",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder && !inputFocus && vim.mode == 'Normal'"
+  },
+
+  {
+    "key": "g shift+e",
+    "command": "workbench.view.explorer",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "g r",
+    "command": "editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor && vim.mode == 'Normal'"
+  },
+  {
+    "key": "shift+f12",
+    "command": "-editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "key": "space e",
+    "command": "workbench.action.focusFirstEditorGroup",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space t",
+    "command": "workbench.view.focusFirstEditorGroup",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "space a",
+    "command": "workbench.action.toggleActivityBarVisibility",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "s v",
+    "command": "extension.multiCommand.execute",
+    "args": {
+      "sequence": [
+        "workbench.action.editorLayoutTwoColumns",
+        "workbench.action.focusRightGroup"
+      ]
+    },
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "s l",
+    "command": "workbench.action.focusRightGroup",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "s h",
+    "command": "workbench.action.focusLeftGroup",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "cmd+n",
+    "command": "workbench.action.terminal.newInActiveWorkspace",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "; k",
+    "command": "editor.toggleFold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "cmd+k cmd+l",
+    "command": "-editor.toggleFold",
+    "when": "editorTextFocus && foldingEnabled"
   }
 ]

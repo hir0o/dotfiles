@@ -12,7 +12,7 @@
     ]
   },
   "next page component": {
-    "prefix": "np",
+    "prefix": "page",
     "body": [
       "import type { NextPage } from 'next'",
       "",
@@ -36,5 +36,20 @@
     "prefix": "uc",
     "body": ["const $1 = useCallback(() => {", "\t$2", "}, [])"],
     "description": "use callback"
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "import { screen, render } from '@testing-library/react'",
+      "import userEvent from '@testing-library/user-event'",
+      "import '@testing-library/jest-dom'",
+      "",
+      "describe('$1', () => {",
+      "  it('$2', () => {",
+      "    $3",
+      "  })",
+      "})",
+      ""
+    ]
   }
 }

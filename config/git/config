@@ -20,7 +20,7 @@
   cm  = commit --verbose
   cmm = !"git add -A && git status && git commit -m"
   coa = !"git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git checkout"
-  co  = !"git checkout `git branch | fzf`"
+  co  = !git branch | fzf | xargs git checkout
   cob = checkout -b
   df  = diff
   dfh = diff HEAD
@@ -31,7 +31,7 @@
   mg  = merge
   mgab= merge --abort
   mgb = !git merge `git branch | fzf`
-  st  = status
+  st  = status -s
   ps  = !git push origin `git rev-parse --abbrev-ref HEAD`
   pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
   psh = push heroku master
@@ -63,9 +63,6 @@
 [core]
   editor = nvim
   pager = delta
-
-[color]
-  ui = true
 
 [color]
   ui = true
@@ -129,7 +126,6 @@
     release = release/
     hotfix = hotfix/
     support = support/
-  versiontag =
 
 [pull]
 	rebase = true

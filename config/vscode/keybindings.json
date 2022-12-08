@@ -403,11 +403,15 @@
   {
     "key": "; k",
     "command": "editor.toggleFold",
-    "when": "editorTextFocus && foldingEnabled"
+    "when": "editorTextFocus && foldingEnabled && vim.mode == 'Normal'"
   },
   {
     "key": "cmd+k cmd+l",
     "command": "-editor.toggleFold",
     "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+     "key": "cmd+alt+w",
+      "command": "workbench.action.closeAllEditors"
   }
 ]

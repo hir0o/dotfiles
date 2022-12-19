@@ -33,6 +33,8 @@
   mgb = !git merge `git branch | fzf`
   st  = status -s
   ps  = !git push origin `git rev-parse --abbrev-ref HEAD`
+  psf  = !git ps --force-if-includes
+  pst = !git push origin --tags
   pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
   psh = push heroku master
   rb  = rebase

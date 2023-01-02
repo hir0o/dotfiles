@@ -11,7 +11,7 @@
   sl  = !"git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'"
   sp  = !"git stash pop `git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'`"
   spc = !"git stash list | grep `git rev-parse --abbrev-ref HEAD | cut -d  "/" -f 2` | fzf --preview 'git stash show -p --color=always' | xargs git stash pop"
-  sd  = !"git stash drop `git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'`"
+  sd  = !"git stash drop `git stash list | cut -d ":" -f 1 | fzf -m --preview 'git stash show -p --color=always {}'`"
   rmc = rm -r --cached .
   rmc = !"git checkout -- . && git clean -df ."
   br  = branch

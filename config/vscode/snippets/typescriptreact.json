@@ -11,6 +11,28 @@
       "};"
     ]
   },
+  "function component with props": {
+    "prefix": "fc",
+    "body": [
+      "import { FC } from 'react';",
+      "",
+      "type Props = {",
+      "\t$2",
+      "}",
+      "",
+      "export const ${1:${TM_FILENAME_BASE:ComponentName}}: FC<Props> = ({$3}) => {",
+      "\treturn (",
+      "\t\t$4",
+      "\t)",
+      "};"
+    ]
+  },
+  "create a useState block": {
+    "prefix": ["useState", "us"],
+    "body": [
+      "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState${3:<${4:Type}>}(${2:initialState})"
+    ]
+  },
   "next page component": {
     "prefix": "page",
     "body": [
@@ -51,5 +73,9 @@
       "})",
       ""
     ]
+  },
+  "props type": {
+    "prefix": "props type",
+    "body": ["type Props = {", "\t$1", "}"]
   }
 }

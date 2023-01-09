@@ -59,8 +59,12 @@
     "body": ["const $1 = useCallback(() => {", "\t$2", "}, [])"],
     "description": "use callback"
   },
-  "test": {
-    "prefix": "test",
+  "props type": {
+    "prefix": "props type",
+    "body": ["type Props = {", "\t$1", "}"]
+  },
+  "jest": {
+    "prefix": "jest",
     "body": [
       "import { screen, render } from '@testing-library/react'",
       "import userEvent from '@testing-library/user-event'",
@@ -74,8 +78,22 @@
       ""
     ]
   },
-  "props type": {
-    "prefix": "props type",
-    "body": ["type Props = {", "\t$1", "}"]
+
+  "jest render": {
+    "prefix": "jest render",
+    "body": ["render({$3:<ComponentName />})"]
+  },
+
+  "jest user event": {
+    "prefix": "jest user event ",
+    "body": [
+      "userEvent.click(screen.getByText('Check'))",
+      "",
+      "expect(screen.getByLabelText('Check')).toBeChecked()"
+    ]
+  },
+  "jest it": {
+    "prefix": ["jest it", "ji"],
+    "body": ["it('$1', () => {", "  $2", "})"]
   }
 }

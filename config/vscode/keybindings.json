@@ -235,7 +235,7 @@
     "when": "suggestWidgetVisible && textInputFocus"
   },
   {
-    "key": "[Semicolon] c",
+    "key": "m r n",
     "command": "editor.action.rename",
     "when": "editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
   },
@@ -260,7 +260,7 @@
     "when": "editorTextFocus"
   },
   {
-    "key": "[Semicolon] a",
+    "key": "m a",
     "command": "editor.action.quickFix",
     "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
   },
@@ -411,7 +411,7 @@
     "when": "editorTextFocus && foldingEnabled"
   },
   {
-     "key": "cmd+alt+w",
-      "command": "workbench.action.closeAllEditors"
+    "key": "cmd+alt+w",
+    "command": "workbench.action.closeAllEditors"
   }
 ]

@@ -15,3 +15,4 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 ### rust ###
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
+. "/Users/h_shibuya/.local/share/cargo/env"

@@ -31,23 +31,24 @@
     "javascript": "javascriptreact",
     "typescriptreact": "javascriptreact"
   },
-
   // 自動保存
   "files.autoSave": false,
   // 保存時のアクション
   "editor.codeActionsOnSave": {
-    "source.fixAll.prettier": false,
+    // "source.fixAll.prettier": true,
     "source.fixAll.eslint": true
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  // 自動保存
+  "editor.formatOnSave": true,
   // 拡張機能のESlintのフォーマットを行う
   "eslint.format.enable": false,
   // 入力行をフォーマットする
   "editor.formatOnType": false,
   // ペースト時にフォーマットを行う
   "editor.formatOnPaste": false,
+  // prettierをデフォルトのフォーマッタにする
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // 言語ごとの設定
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
@@ -59,6 +60,10 @@
       "strings": "on",
       "other": "on"
     }
+  },
+  "[makefile]": {
+    // NOTE: Makefileはtab文字じゃないとエラーになる
+    "editor.insertSpaces": false
   },
   // 引数名とか表示するやつ
   // "javascript.inlayHints.parameterNames.enabled": "all",
@@ -72,7 +77,10 @@
   // ========== Vim ==========
   // ノーマルモード
   "vim.normalModeKeyBindingsNonRecursive": [
-    { "before": ["<C-d>"], "after": ["g", "b"] } // マルチカーソル,
+    {
+      "before": ["<C-d>"],
+      "after": ["g", "b"]
+    } // マルチカーソル,
   ],
   "vim.surround": true,
   // 補完
@@ -110,7 +118,7 @@
   // エディタのカーソル
   "editor.cursorStyle": "line",
   // 行数の表示
-  "editor.lineNumbers": "off",
+  "editor.lineNumbers": "on",
   // 文字の折り返し
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?",
   // タブサイズ
@@ -130,10 +138,8 @@
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
   "editor.inlineSuggest.enabled": true,
   "workbench.startupEditor": "none",
-  "codestream.serverUrl": "https://api.codestream.com",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "editor.formatOnSave": true,
   // "workbench.editor.tabSizing": "shrink",
   "workbench.editor.titleScrollbarSizing": "large",
   // ファイルのプレビュー
@@ -161,6 +167,6 @@
   "workbench.editor.showTabs": false,
   "redhat.telemetry.enabled": true,
   "emmet.excludeLanguages": [],
-  "workbench.activityBar.visible": false,
-  "window.zoomLevel": 1
+  "cSpell.userWords": ["esbenp"],
+  "workbench.activityBar.visible": false
 }

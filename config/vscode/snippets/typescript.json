@@ -1,44 +1,66 @@
 {
-  "n回繰り返す": {
-    "prefix": "narr",
-    "body": ["[...Array(${1:n}).keys()]${2:.map((i) => i + 1)}"],
-    "description": "配列作る"
-  },
-  "for": {
-    "prefix": "for",
+  "jest": {
+    "prefix": "jest",
+    "scope": "typescript,typescriptreact",
     "body": [
-			"for (let ${1:i} = ${2:0}; ${1:i} ${3:<} ${4:n}; ${1:i}++) {",
-			"\t$5",
-			"}"
-		],
-    "description": "for"
+      "import { screen, render } from '@testing-library/react'",
+      "import userEvent from '@testing-library/user-event'",
+      "import '@testing-library/jest-dom'",
+      "",
+      "describe('$1', () => {",
+      "  it('$2', () => {",
+      "    $3",
+      "  })",
+      "})",
+      ""
+    ]
   },
-  "findSumOfDigits": {
-    "prefix": "SumOfDigits",
-    "body": [
-      "let sum = 0;",
-      "while (num > 0) {",
-      "\tsum += Math.floor(num % 10);",
-      "\tnum = Math.floor(num / 10);",
-      "}"
-    ],
-    "description": "各桁の合計を返す"
+
+  "jest render": {
+    "prefix": "jest render",
+    "scope": "typescript,typescriptreact",
+    "body": ["render(${$3:<ComponentName />})"]
   },
-  "objectBuket": {
-    "prefix": "objectBuket",
+  "jest user event": {
+    "prefix": "jest user event ",
+    "scope": "typescript,typescriptreact",
     "body": [
-      "const buket = {}",
-      "nums.forEach((num) => {",
-      "\tbuket[num] = (buket[num] || 0) + 1;",
-      "});"
-    ],
-    "description": "オブジェクトを使ったバケット"
+      "userEvent.click(screen.getByText('Check'))",
+      "",
+      "expect(screen.getByLabelText('Check')).toBeChecked()"
+    ]
   },
-  "arrauyInit": {
-    "prefix": "arrauyInit",
+  "jest it": {
+    "prefix": ["jest it", "ji"],
+    "scope": "typescript,typescriptreact",
+    "body": ["it('$1', () => {", "  $2", "})"]
+  },
+  "useState": {
+    "prefix": ["useState", "us"],
+    "scope": "typescript,typescriptreact",
     "body": [
-      "const ${1:arr}: number[] = Array(${2:len}).fill(0)"
-    ],
-    "description": "配列の初期化"
+      "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState${3:<${4:Type}>}(${2:initialState})"
+    ]
+  },
+  "useEffect": {
+    "prefix": ["useEffect", "ue"],
+    "scope": "typescript,typescriptreact",
+    "body": ["useEffect(() => {", "\t$0", "}, []);"]
+  },
+  "useCallback": {
+    "prefix": ["useCallback", "uc"],
+    "scope": "typescript,typescriptreact",
+    "body": ["const $1 = useCallback(() => {", "\t$2", "}, [])"],
+    "description": "use callback"
+  },
+  "state action type": {
+    "prefix": "set state type",
+    "scope": "typescript,typescriptreact",
+    "body": ["Dispatch<SetStateAction<${0:type}>>"]
+  },
+  "props type": {
+    "prefix": ["props type", "pt"],
+    "scope": "typescript,typescriptreact",
+    "body": ["type Props = {", "\t$1", "}"]
   }
 }

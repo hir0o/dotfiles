@@ -1,4 +1,13 @@
 {
+  "file name function": {
+    "prefix": "hooks",
+    "scope": "typescript",
+    "body": [
+      "export const ${1:${TM_FILENAME_BASE:HooksName}} = () => {",
+      "\t$2",
+      "}"
+    ]
+  },
   "jest": {
     "prefix": "jest",
     "scope": "typescript,typescriptreact",
@@ -36,19 +45,19 @@
     "body": ["it('$1', () => {", "  $2", "})"]
   },
   "useState": {
-    "prefix": ["useState", "us"],
+    "prefix": "us",
     "scope": "typescript,typescriptreact",
     "body": [
       "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState${3:<${4:Type}>}(${2:initialState})"
     ]
   },
   "useEffect": {
-    "prefix": ["useEffect", "ue"],
+    "prefix": ["ue"],
     "scope": "typescript,typescriptreact",
     "body": ["useEffect(() => {", "\t$0", "}, []);"]
   },
   "useCallback": {
-    "prefix": ["useCallback", "uc"],
+    "prefix": ["uc"],
     "scope": "typescript,typescriptreact",
     "body": ["const $1 = useCallback(() => {", "\t$2", "}, [])"],
     "description": "use callback"

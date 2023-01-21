@@ -70,9 +70,6 @@ local on_attach = function(client, bufnr)
 
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>")
-  vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
-
   -- lsp-saga
   vim.keymap.set("n", "K",  "<cmd>Lspsaga hover_doc<CR>")
   vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>')
@@ -82,6 +79,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "mr", "<cmd>Lspsaga rename<CR>")
   vim.keymap.set('n', 'mf', vim.lsp.buf.format)
   vim.keymap.set('n', 'gp', '<C-o>')
+  vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>")
+  vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+
 end
 
 local lsp_flags = {

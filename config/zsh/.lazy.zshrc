@@ -27,14 +27,15 @@ source "$ZSH_PATH/aliases/node.zsh"
 # source "$ZSH_PATH/aliases/go.zsh"
 # source "$ZSH_PATH/aliases/heroku.zsh"
 # source "$ZSH_PATH/aliases/mysql.zsh"
-# source "$ZSH_PATH/aliases/npm.zsh"
+source "$ZSH_PATH/aliases/npm.zsh"
 # source "$ZSH_PATH/aliases/rails.zsh"
 # source "$ZSH_PATH/aliases/system.zsh"
 source "$ZSH_PATH/aliases/vscode.zsh"
 source "$ZSH_PATH/aliases/yarn.zsh"
+source "$ZSH_PATH/aliases/cd.zsh"
 
 # anyenv
-eval "$(anyenv init -)"
+# eval "$(anyenv init -)"
 export PATH="$HOME/.anyenv/bin:$PATH"
 
 # Fuzzy

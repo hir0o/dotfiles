@@ -39,5 +39,36 @@
       "export default Page",
       ""
     ]
+  },
+  "fc with emotion": {
+    "prefix": "em fc",
+    "body": [
+      "import { FC } from 'react'",
+      "import styled from '@emotion/styled'",
+      "import { IconType } from 'react-icons'",
+      "import { colors } from '~/styles/variables'",
+      "",
+      "type ContainerProps = {",
+      "",
+      "}",
+      "",
+      "type Props = {",
+      "  className?: string",
+      "} & ContainerProps",
+      "",
+      "const Component: FC<Props> = ({ className, Icon, label, text }) => (",
+      "",
+      ")",
+      "",
+      "const StyledComponent = styled(Component)`",
+      "",
+      "`",
+      "",
+      "const Container: FC<ContainerProps> = (props) => <StyledComponent {...props} />",
+      "",
+      "/** @package */",
+      "export const ${1:${TM_FILENAME_BASE:ComponentName}} = Container"
+    ],
+    "description": "fc with emotion"
   }
 }

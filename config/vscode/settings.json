@@ -69,7 +69,7 @@
   // "javascript.inlayHints.parameterNames.enabled": "all",
   // "typescript.inlayHints.parameterNames.enabled": "all",
   "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": false,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
   "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
@@ -80,9 +80,31 @@
     {
       "before": ["<C-d>"],
       "after": ["g", "b"]
-    } // マルチカーソル,
+    }, // マルチカーソル,
+    {
+      "before": ["<C-n>"],
+      "after": ["leader", "leader", "leader", "b", "d", "w"]
+    }
   ],
-  "vim.surround": true,
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.leader": "\\",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  "vim.foldfix": true,
+
+  // yankをクリップボードに
+  "vim.useSystemClipboard": false,
   // 補完
   "editor.detectIndentation": false, // editor.tabSizeを開いてるファイルに合わせる
   "editor.quickSuggestions": {
@@ -118,7 +140,7 @@
   // エディタのカーソル
   "editor.cursorStyle": "line",
   // 行数の表示
-  "editor.lineNumbers": "on",
+  "editor.lineNumbers": "off",
   // 文字の折り返し
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?",
   // タブサイズ
@@ -162,11 +184,38 @@
   "[c]": {
     "clang-format.executable": "/absolute/path/to/clang-format"
   },
-  "diffEditor.ignoreTrimWhitespace": false,
   "breadcrumbs.enabled": false,
   "workbench.editor.showTabs": false,
   "redhat.telemetry.enabled": true,
   "emmet.excludeLanguages": [],
-  "cSpell.userWords": ["esbenp"],
+  "cSpell.userWords": [
+    "Alertbar",
+    "clsx",
+    "esbenp",
+    "Firestore",
+    "Igalia",
+    "igaria",
+    "mizch",
+    "Qiita",
+    "Rankpdf",
+    "Signiant",
+    "textrank",
+    "tldraw",
+    "Topik",
+    "zenn",
+    "zenshot"
+  ],
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "console-ninja.featureSet": "Pro",
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "terminal.integrated.env.osx": {},
   "workbench.activityBar.visible": false
 }

@@ -235,7 +235,7 @@
     "when": "suggestWidgetVisible && textInputFocus"
   },
   {
-    "key": "m r n",
+    "key": "m r",
     "command": "editor.action.rename",
     "when": "editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
   },
@@ -313,7 +313,7 @@
     "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
   },
   {
-    "key": "g shift+a",
+    "key": "g b",
     "command": "editor.action.marker.prevInFiles",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
@@ -374,24 +374,24 @@
     "command": "workbench.action.toggleActivityBarVisibility",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
+  // {
+  //   "key": "s v",
+  //   "command": "extension.multiCommand.execute",
+  //   "args":
+  //     "sequence": [
+  //       "workbench.action.editorLayoutTwoColumns",
+  //       "workbench.action.focusRightGroup"
+  //     ]
+  //   },
+  //   "when": "editorTextFocus && vim.mode == 'Normal'"
+  // },
   {
-    "key": "s v",
-    "command": "extension.multiCommand.execute",
-    "args": {
-      "sequence": [
-        "workbench.action.editorLayoutTwoColumns",
-        "workbench.action.focusRightGroup"
-      ]
-    },
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
-  {
-    "key": "s l",
+    "key": "g l",
     "command": "workbench.action.focusRightGroup",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
   {
-    "key": "s h",
+    "key": "g h",
     "command": "workbench.action.focusLeftGroup",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
@@ -413,5 +413,23 @@
   {
     "key": "cmd+alt+w",
     "command": "workbench.action.closeAllEditors"
+  },
+  {
+    "when": "editorTextFocus && vim.active && !inDebugRepl &&  vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible",
+    "key": "k",
+    "command": "cursorUp"
+  },
+  {
+    "key": "j",
+    "command": "cursorDown",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+  },
+  {
+    "key": "alt+cmd+b",
+    "command": "workbench.action.toggleSidebarVisibility"
+  },
+  {
+    "key": "cmd+b",
+    "command": "-workbench.action.toggleSidebarVisibility"
   }
 ]

@@ -1,0 +1,180 @@
+{
+  "file name function": {
+    "prefix": "hooks",
+    "scope": "typescript",
+    "body": [
+      "export const ${1:${TM_FILENAME_BASE:HooksName}} = () => {",
+      "\t$2",
+      "}"
+    ]
+  },
+  "jest": {
+    "prefix": "jest",
+    "scope": "typescript,typescriptreact",
+    "body": [
+      "import { screen, render } from '@testing-library/react'",
+      "import userEvent from '@testing-library/user-event'",
+      "import '@testing-library/jest-dom'",
+      "",
+      "describe('$1', () => {",
+      "  it('$2', () => {",
+      "    $3",
+      "  })",
+      "})",
+      ""
+    ]
+  },
+
+  "jest render": {
+    "prefix": "jest render",
+    "scope": "typescript,typescriptreact",
+    "body": ["render(${$3:<ComponentName />})"]
+  },
+  "jest user event": {
+    "prefix": "jest user event ",
+    "scope": "typescript,typescriptreact",
+    "body": [
+      "userEvent.click(screen.getByText('Check'))",
+      "",
+      "expect(screen.getByLabelText('Check')).toBeChecked()"
+    ]
+  },
+  "it": {
+    "prefix": ["jest it", "ji", "it"],
+    "scope": "typescript,typescriptreact",
+    "body": ["it('$1', () => {", "  $2", "})"]
+  },
+  "test": {
+    "prefix": ["jest it", "test"],
+    "scope": "typescript,typescriptreact",
+    "body": ["test('$1', () => {", "  $2", "})"]
+  },
+  "describe": {
+    "prefix": "describe",
+    "body": ["describe(\"$1\", () => {", "  $2", "})"]
+  },
+  "useState": {
+    "prefix": "us",
+    "scope": "typescript,typescriptreact",
+    "body": [
+      "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState${3:<${4:Type}>}(${2:initialState})"
+    ]
+  },
+  "useEffect": {
+    "prefix": ["ue"],
+    "scope": "typescript,typescriptreact",
+    "body": ["useEffect(() => {", "\t$0", "}, []);"]
+  },
+  "useCallback": {
+    "prefix": ["uc"],
+    "scope": "typescript,typescriptreact",
+    "body": ["const $1 = useCallback(() => {", "\t$2", "}, [])"],
+    "description": "use callback"
+  },
+  "state action type": {
+    "prefix": "set state type",
+    "scope": "typescript,typescriptreact",
+    "body": ["Dispatch<SetStateAction<${0:type}>>"]
+  },
+  "props type": {
+    "prefix": ["props type", "pt"],
+    "scope": "typescript,typescriptreact",
+    "body": ["type Props = {", "\t$1", "}"]
+  },
+  "stichies css": {
+    "prefix": "css",
+    "body": ["const styles =({", "\t$1", "})"],
+    "description": ""
+  },
+  "tag": {
+    "prefix": "tag",
+    "scope": "typescript,typescriptreact",
+    "body": ["<$1>", "\t$CLIPBOARD", "</$1>"]
+  },
+  "function component": {
+    "prefix": "fc",
+    "scope": "typescriptreact",
+    "body": [
+      "import { FC } from 'react';",
+      "",
+      "export const ${1:${TM_FILENAME_BASE:ComponentName}}: FC = () => {",
+      "\treturn (",
+      "\t\t$2",
+      "\t)",
+      "};"
+    ]
+  },
+  "function component with props": {
+    "prefix": "fc",
+    "scope": "typescriptreact",
+    "body": [
+      "import { FC } from 'react';",
+      "",
+      "type Props = {",
+      "\t$2",
+      "}",
+      "",
+      "export const ${1:${TM_FILENAME_BASE:ComponentName}}: FC<Props> = ({$3}) => {",
+      "\treturn (",
+      "\t\t$4",
+      "\t)",
+      "};"
+    ]
+  },
+  "next page component": {
+    "prefix": "page",
+    "scope": "typescriptreact",
+    "body": [
+      "import type { NextPage } from 'next'",
+      "",
+      "const Page: NextPage = () => {",
+      "  return <div></div>",
+      "}",
+      "",
+      "export default Page",
+      ""
+    ]
+  },
+  "fc with emotion": {
+    "prefix": "em fc",
+    "scope": "typescriptreact",
+    "body": [
+      "import { FC } from 'react'",
+      "import styled from '@emotion/styled'",
+      "import { IconType } from 'react-icons'",
+      "import { colors } from '~/styles/variables'",
+      "",
+      "type ContainerProps = {",
+      "",
+      "}",
+      "",
+      "type Props = {",
+      "  className?: string",
+      "} & ContainerProps",
+      "",
+      "const Component: FC<Props> = ({ className }) => (",
+      "",
+      ")",
+      "",
+      "const StyledComponent = styled(Component)`",
+      "",
+      "`",
+      "",
+      "const Container: FC<ContainerProps> = (props) => <StyledComponent {...props} />",
+      "",
+      "/** @package */",
+      "export const ${1:${TM_FILENAME_BASE:ComponentName}} = Container"
+    ],
+    "description": "fc with emotion"
+  },
+  "sleep": {
+    "prefix": "sleep",
+    "scope": "typescript,typescriptreact",
+    "body": ["new Promise(resolve => setTimeout(resolve, $1))"]
+  },
+  "vanilla-extract-style": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "vst",
+    "body": ["export const $1 = style({$2});"]
+  }
+}

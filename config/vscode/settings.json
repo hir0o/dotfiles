@@ -187,35 +187,6 @@
   "breadcrumbs.enabled": false,
   "workbench.editor.showTabs": false,
   "redhat.telemetry.enabled": true,
-  "emmet.excludeLanguages": [],
-  "cSpell.userWords": [
-    "Alertbar",
-    "clsx",
-    "esbenp",
-    "Firestore",
-    "Igalia",
-    "igaria",
-    "mizch",
-    "Qiita",
-    "Rankpdf",
-    "Signiant",
-    "textrank",
-    "tldraw",
-    "Topik",
-    "zenn",
-    "zenshot"
-  ],
-  "github.copilot.enable": {
-    "*": true,
-    "yaml": false,
-    "plaintext": false,
-    "markdown": true,
-    "scminput": false
-  },
   "console-ninja.featureSet": "Pro",
-  "[python]": {
-    "editor.formatOnType": true
-  },
-  "terminal.integrated.env.osx": {},
   "workbench.activityBar.visible": false
 }

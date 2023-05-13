@@ -45,21 +45,3 @@ export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 export PATH=$PATH:$CARGO_HOME/bin
-
-# function
-zshaddhistory() {
-    local line="${1%%$'\n'}"
-    [[ ! "$line" =~ "^(cd|jj?|lazygit|la|ll|ls|rm|rmdir)($| )" ]]
-}
-
-# Issueとブランチを切る
-function start(){
-  gh issue create
-  local issueUrl=$(gh issue list --limit 1 --json url --jq ".[0].url")
-  gh issue develop --checkout "${issueUrl}"
-}
-
-# PRをマージしてmainへ
-function end(){
-  gh pr merge --delete-branch --squash
-}

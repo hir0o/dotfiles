@@ -1,0 +1,6 @@
+{
+  "print": {
+    "prefix": ["print"],
+    "body": ["println!(\"$1: {}\",$1);$2"]
+  }
+}

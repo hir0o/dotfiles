@@ -1,90 +1,37 @@
 [
+  // 検索
   {
     "key": "[Semicolon] r",
     "command": "workbench.action.terminal.searchWorkspace",
-    "when": "vim.mode != 'Insert' && !terminalFocus"
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible"
   },
   {
     "key": "shift+cmd+f",
-    "command": "-workbench.action.terminal.searchWorkspace",
-    "when": "terminalFocus && terminalProcessSupported && terminalTextSelected"
+    "command": "-workbench.action.terminal.searchWorkspace"
   },
+  // ファイル検索
   {
     "key": "[Semicolon] f",
     "command": "workbench.action.quickOpen",
-    "when": "vim.mode != 'Insert'"
+    "when": "vim.mode != 'Insert' && !findWidgetVisible"
   },
   {
     "key": "cmd+p",
     "command": "-workbench.action.quickOpen"
   },
-  {
-    "key": "[Semicolon] t",
-    "command": "workbench.action.closePanel",
-    "when": "terminalFocus && vim.mode != 'Insert'"
-  },
-  {
-    "key": "[Semicolon] t",
-    "command": "workbench.action.toggleMaximizedPanel",
-    "when": "!terminalFocus && vim.mode != 'Insert'"
-  },
+  // ファイル作成
   {
     "key": "cmd+n",
     "command": "explorer.newFile",
     "when": "filesExplorerFocus"
   },
+  // フォルダ作成
   {
     "key": "cmd+f",
     "command": "explorer.newFolder",
     "when": "filesExplorerFocus"
   },
-
-  {
-    "key": "ctrl+s s",
-    "command": "workbench.action.splitEditorOrthogonal",
-    "when": "editorFocus"
-  },
-  {
-    "key": "ctrl+s h",
-    "command": "workbench.action.focusLeftGroup",
-    "when": "editorFocus"
-  },
-  {
-    "key": "cmd+k cmd+left",
-    "command": "-workbench.action.focusLeftGroup"
-  },
-  {
-    "key": "cmd+k cmd+right",
-    "command": "-workbench.action.focusRightGroup"
-  },
-  {
-    "key": "ctrl+s j",
-    "command": "workbench.action.focusBelowGroup",
-    "when": "editorFocus"
-  },
-  {
-    "key": "cmd+k cmd+down",
-    "command": "-workbench.action.focusBelowGroup"
-  },
-  {
-    "key": "ctrl+k",
-    "command": "workbench.action.focusAboveGroup",
-    "when": "editorFocus"
-  },
-  {
-    "key": "cmd+k cmd+up",
-    "command": "-workbench.action.focusAboveGroup"
-  },
-  {
-    "key": "ctrl+s shift+l",
-    "command": "workbench.action.increaseViewWidth",
-    "when": "editorFocus"
-  },
-  {
-    "key": "ctrl+s shift+m",
-    "command": "workbench.action.decreaseViewWidth",
-    "when": "editorFocus"
-  },
+  // 保存
   {
     "key": "ctrl+s",
     "command": "workbench.action.files.save",
@@ -94,6 +41,7 @@
     "key": "cmd+s",
     "command": "-workbench.action.files.save"
   },
+  // 矢印禁止
   {
     "key": "up",
     "command": "-extension.vim_up"
@@ -134,16 +82,18 @@
     "key": "ctrl+n",
     "command": "-cursorDown"
   },
+  // コマンド
   {
     "key": "ctrl+shift+p",
     "command": "workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
     "when": "!activeEditorGroupEmpty"
   },
-  {
-    "key": "ctrl+shift+tab",
-    "command": "workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
-    "when": "!activeEditorGroupEmpty"
-  },
+  // 開いているファイルへの移動
+  // {
+  //   "key": "ctrl+shift+tab",
+  //   "command": "workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
+  //   "when": "!activeEditorGroupEmpty"
+  // },
   {
     "key": "ctrl+shift+n",
     "command": "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
@@ -151,10 +101,10 @@
   },
   {
     "key": "ctrl+tab",
-    "command": "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+    "command": "workbench.action.quickOpenNextRecentlyUsedEditorInGroup",
     "when": "!activeEditorGroupEmpty"
   },
-  // タブ移動
+  // ナビゲーションの移動
   {
     "key": "ctrl+shift+n",
     "command": "workbench.action.quickOpenNavigateNextInEditorPicker",
@@ -175,6 +125,7 @@
     "command": "-workbench.action.quickOpenNavigatePreviousInEditorPicker",
     "when": "inEditorsPicker && inQuickOpen"
   },
+  // タブの移動
   {
     "key": "ctrl+cmd+[",
     "command": "workbench.action.moveEditorLeftInGroup"
@@ -215,10 +166,7 @@
   //   "key": "cmd+f",
   //   "command": "-actions.find"
   // }
-  {
-    "key": "ctrl+shift+p",
-    "command": "workbench.action.openSnippets"
-  },
+  // suggestionの選択
   {
     "key": "ctrl+enter",
     "command": "-github.copilot.generate",
@@ -234,6 +182,7 @@
     "command": "-acceptAlternativeSelectedSuggestion",
     "when": "suggestWidgetVisible && textInputFocus"
   },
+  // rename
   {
     "key": "m r",
     "command": "editor.action.rename",
@@ -244,11 +193,13 @@
     "command": "-editor.action.rename",
     "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
   },
+  // mdのtodo
   {
     "key": "ctrl+Enter",
     "command": "markdown.todo.toggleDone",
     "when": "editorTextFocus && resourceExtname == .md"
   },
+  // hover情報の表示
   {
     "key": "shift+k",
     "command": "editor.action.showHover",
@@ -259,16 +210,19 @@
     "command": "-editor.action.showHover",
     "when": "editorTextFocus"
   },
+  // quickFix
   {
     "key": "m a",
     "command": "editor.action.quickFix",
     "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
   },
+  // copilotの切り替え
   {
     "key": "[Semicolon] shift+c",
     "command": "github.copilot.toggleCopilot",
-    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert' && !findWidgetVisible"
   },
+  // 戻る
   {
     "key": "g p",
     "command": "workbench.action.navigateBack",
@@ -278,6 +232,7 @@
     "key": "ctrl+-",
     "command": "-workbench.action.navigateBack"
   },
+  // すすむ
   {
     "key": "g n",
     "command": "workbench.action.navigateForward",
@@ -287,11 +242,13 @@
     "key": "ctrl+shift+-",
     "command": "-workbench.action.navigateForward"
   },
+  // quickFix
   {
     "key": "cmd+.",
     "command": "-editor.action.quickFix",
     "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
   },
+  // 定義ジャンプ
   {
     "key": "g d",
     "command": "editor.action.revealDefinition",
@@ -302,6 +259,7 @@
     "command": "-editor.action.revealDefinition",
     "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
   },
+  // 実装ジャンプ
   {
     "key": "g shift+d",
     "command": "editor.action.goToImplementation",
@@ -312,6 +270,7 @@
     "command": "-editor.action.goToImplementation",
     "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
   },
+  // エラー箇所へのジャンプ
   {
     "key": "g b",
     "command": "editor.action.marker.prevInFiles",
@@ -320,11 +279,6 @@
   {
     "key": "g a",
     "command": "editor.action.marker.nextInFiles",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
-  {
-    "key": "g l",
-    "command": "workbench.action.gotoLine",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
 
@@ -338,17 +292,29 @@
     "command": "-filesExplorer.openFilePreserveFocus",
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder && !inputFocus"
   },
+  // explorerからファイルへ移動
   {
     "key": "g e",
     "command": "workbench.action.focusFirstEditorGroup",
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder && !inputFocus && vim.mode == 'Normal'"
   },
-
+  // explorerに移動
   {
     "key": "g shift+e",
     "command": "workbench.view.explorer",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
+  // explorerの開閉
+  {
+    "key": "space e",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "cmd+b",
+    "command": "-workbench.action.toggleSidebarVisibility"
+  },
+  // Go to References
   {
     "key": "g r",
     "command": "editor.action.goToReferences",
@@ -359,16 +325,7 @@
     "command": "-editor.action.goToReferences",
     "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
   },
-  {
-    "key": "space e",
-    "command": "workbench.action.focusFirstEditorGroup",
-    "when": "explorerViewletFocus"
-  },
-  {
-    "key": "space t",
-    "command": "workbench.view.focusFirstEditorGroup",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
+  // サイドバーの開閉
   {
     "key": "space a",
     "command": "workbench.action.toggleActivityBarVisibility",
@@ -385,9 +342,15 @@
   //   },
   //   "when": "editorTextFocus && vim.mode == 'Normal'"
   // },
+  // 右のエディタに移動
   {
     "key": "g l",
     "command": "workbench.action.focusRightGroup",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "g l",
+    "command": "workbench.action.gotoLine",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
   {
@@ -395,25 +358,24 @@
     "command": "workbench.action.focusLeftGroup",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
+  // 新しいターミナル
   {
     "key": "cmd+n",
     "command": "workbench.action.terminal.newInActiveWorkspace",
     "when": "terminalFocus"
   },
-  {
-    "key": "; k",
-    "command": "editor.toggleFold",
-    "when": "editorTextFocus && foldingEnabled && vim.mode == 'Normal'"
-  },
-  {
-    "key": "cmd+k cmd+l",
-    "command": "-editor.toggleFold",
-    "when": "editorTextFocus && foldingEnabled"
-  },
+  // TODO: 横に新しいターミナル
+  // {
+  //   "key": "cmd+n",
+  //   "command": "workbench.action.terminal.newWithProfile",
+  //   "when": "terminalFocus"
+  // },
+  // windowを全て閉じる
   {
     "key": "cmd+alt+w",
     "command": "workbench.action.closeAllEditors"
   },
+  // 移動
   {
     "when": "editorTextFocus && vim.active && !inDebugRepl &&  vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible",
     "key": "k",
@@ -423,13 +385,5 @@
     "key": "j",
     "command": "cursorDown",
     "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
-  },
-  {
-    "key": "alt+cmd+b",
-    "command": "workbench.action.toggleSidebarVisibility"
-  },
-  {
-    "key": "cmd+b",
-    "command": "-workbench.action.toggleSidebarVisibility"
   }
 ]

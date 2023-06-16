@@ -349,11 +349,6 @@
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
   {
-    "key": "g l",
-    "command": "workbench.action.gotoLine",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
-  },
-  {
     "key": "g h",
     "command": "workbench.action.focusLeftGroup",
     "when": "editorTextFocus && vim.mode == 'Normal'"
@@ -366,8 +361,8 @@
   },
   // TODO: 横に新しいターミナル
   // {
-  //   "key": "cmd+n",
-  //   "command": "workbench.action.terminal.newWithProfile",
+  //   "key": "cmd+e",
+  //   "command": "workbench.action.terminal.newInActiveWorkspace",
   //   "when": "terminalFocus"
   // },
   // windowを全て閉じる

@@ -90,12 +90,6 @@
   "vim.incsearch": true,
   "vim.useCtrlKeys": true,
   "vim.hlsearch": true,
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
-    }
-  ],
   "vim.leader": "\\",
   "vim.handleKeys": {
     "<C-a>": false,
@@ -105,6 +99,7 @@
 
   // yankをクリップボードに
   "vim.useSystemClipboard": false,
+
   // 補完
   "editor.detectIndentation": false, // editor.tabSizeを開いてるファイルに合わせる
   "editor.quickSuggestions": {
@@ -188,5 +183,13 @@
   "workbench.editor.showTabs": false,
   "redhat.telemetry.enabled": true,
   "console-ninja.featureSet": "Pro",
+  "terminal.integrated.env.osx": {},
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "workbench.statusBar.visible": false,
   "workbench.activityBar.visible": false
 }

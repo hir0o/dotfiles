@@ -173,8 +173,8 @@
     "body": ["new Promise(resolve => setTimeout(resolve, $1))"]
   },
   "vanilla-extract-style": {
-    "scope": "typescript,typescriptreact",
     "prefix": "vst",
+    "scope": "typescript,typescriptreact",
     "body": ["export const $1 = style({$2});"]
   }
 }

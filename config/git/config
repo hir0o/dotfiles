@@ -21,6 +21,7 @@
   cmm = !"git add -A && git status && git commit -m"
   coa = !"git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git checkout"
   co  = !git branch | fzf | xargs git checkout
+  pco = !"gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout"
   cob = checkout -b
   df  = diff
   dfh = diff HEAD

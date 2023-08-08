@@ -3,15 +3,15 @@
   email = mk.9.q.kyu@gmail.com
 
 [alias]
-  ad  = add
+  ad = !"git diff --name-only | fzf -m | xargs git add"
+  sr = !"git diff --staged --name-only | fzf -m | xargs git reset HEAD"
   ada = add -A
   amd  = commit --amend
   st  = status
-  ss  = stash -u
-  sl  = !"git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'"
-  sp  = !"git stash pop `git stash list | cut -d ":" -f 1 | fzf --preview 'git stash show -p --color=always {}'`"
-  spc = !"git stash list | grep `git rev-parse --abbrev-ref HEAD | cut -d  "/" -f 2` | fzf --preview 'git stash show -p --color=always' | xargs git stash pop"
-  sd  = !"git stash drop `git stash list | cut -d ":" -f 1 | fzf -m --preview 'git stash show -p --color=always {}'`"
+  ss  = stash save -u
+  sd = stash clear
+  sl  = !"git stash list | cut -d ":" -f 2 | fzf --preview 'git stash show -p --color=always {}'"
+  sp = !"git stash list | fzf | cut -d ":" -f 1 | xargs git stash pop"
   rmc = rm -r --cached .
   rmc = !"git checkout -- . && git clean -df ."
   br  = branch
@@ -19,8 +19,8 @@
   brda= !git branch -D `git branch | sed '/*/d' | tr '\n' ' '`
   cm  = commit --verbose
   cmm = !"git add -A && git status && git commit -m"
-  coa = !"git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git checkout"
-  co  = !git branch | fzf | xargs git checkout
+  swa = !"git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch"
+  s  = !git branch | fzf | xargs git switch
   pco = !"gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout"
   swc = switch -c
   df  = diff
@@ -44,7 +44,7 @@
   rsh = reset --hard
   bk  = reset --soft HEAD^
   cre = !"git init && git add -A && git commit -m init && gh repo create && git push origin `git rev-parse --abbrev-ref HEAD` && gh repo view --web"
-  pr  = !gh pr create -B $(git branch | fzf)
+  pr  = !gh pr create -B $(git branch | fzf) -a @me
   pdf = !gh pr diff `gh pr list | fzf | cut -f 1`
   pmg = !gh pr merge
   op  = !gh repo view --web

@@ -45,3 +45,6 @@ export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 export PATH=$PATH:$CARGO_HOME/bin
+
+# bun completions
+[ -s "/Users/h_shibuya/.bun/_bun" ] && source "/Users/h_shibuya/.bun/_bun"

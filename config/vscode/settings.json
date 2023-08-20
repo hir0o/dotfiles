@@ -90,7 +90,7 @@
   "vim.incsearch": true,
   "vim.useCtrlKeys": true,
   "vim.hlsearch": true,
-  "vim.leader": "\\",
+  "vim.leader": "<space>",
   "vim.handleKeys": {
     "<C-a>": false,
     "<C-f>": false
@@ -166,7 +166,7 @@
   // memo: 将来デフォルトでtrueになる
   "git.mergeEditor": true,
   "git.ignoreRebaseWarning": true, // rebaseの警告を表示しない
-  "editor.folding": false, // パスを表示する
+  "editor.folding": true, // 折りたたみ
   "window.title": "${activeEditorMedium}${separator}${activeEditorShort}",
   "notebook.lineNumbers": "on",
   "typescript.referencesCodeLens.enabled": true,
@@ -190,6 +190,5 @@
     "markdown": true,
     "scminput": false
   },
-  "workbench.statusBar.visible": false,
   "workbench.activityBar.visible": false
 }

@@ -1,6 +1,7 @@
 [user]
   name = hir0o
   email = mk.9.q.kyu@gmail.com
+	signingkey = 8EF613704409A59C
 
 [alias]
   ad = !"git diff --name-only | fzf -m | xargs git add"
@@ -92,6 +93,7 @@
 
 [commit]
   template = ~/.config/git/template/commit-template
+	gpgsign = true
 
 [delta]
   line-numbers = true

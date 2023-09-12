@@ -3,7 +3,7 @@
   {
     "key": "[Semicolon] r",
     "command": "workbench.action.terminal.searchWorkspace",
-    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible"
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible && !terminalFocus"
   },
   {
     "key": "shift+cmd+f",
@@ -13,7 +13,7 @@
   {
     "key": "[Semicolon] f",
     "command": "workbench.action.quickOpen",
-    "when": "vim.mode != 'Insert' && !findWidgetVisible"
+    "when": "vim.mode != 'Insert' && !findWidgetVisible && !terminalFocus"
   },
   {
     "key": "cmd+p",
@@ -220,7 +220,7 @@
   {
     "key": "[Semicolon] shift+c",
     "command": "github.copilot.toggleCopilot",
-    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert' && !findWidgetVisible"
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.mode != 'Insert' && !findWidgetVisible && !terminalFocus"
   },
   // 戻る
   {

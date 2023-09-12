@@ -48,3 +48,5 @@ export PATH=$PATH:$CARGO_HOME/bin
 
 # bun completions
 [ -s "/Users/h_shibuya/.bun/_bun" ] && source "/Users/h_shibuya/.bun/_bun"
+
+export GPG_TTY=$(tty)

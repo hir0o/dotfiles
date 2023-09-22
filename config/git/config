@@ -4,32 +4,33 @@
 	signingkey = 8EF613704409A59C
 
 [alias]
-  ad = !"git diff --name-only | fzf -m | xargs git add"
-  sr = !"git diff --staged --name-only | fzf -m | xargs git reset HEAD"
+  ad = !git diff --name-only | fzf -m | xargs git add
+  sr = !git diff --staged --name-only | fzf -m | xargs git reset HEAD
   ada = add -A
   amd  = commit --amend
   st  = status
   ss  = stash save -u
   sd = stash clear
-  sl  = !"git stash list | cut -d ":" -f 2 | fzf --preview 'git stash show -p --color=always {}'"
-  sp = !"git stash list | fzf | cut -d ":" -f 1 | xargs git stash pop"
+  sl  = !git stash list | cut -d :" -f 2 | fzf --preview 'git stash show -p --color=always {}'"
+  sp = !git stash list | fzf | cut -d :" -f 1 | xargs git stash pop"
   rmc = rm -r --cached .
-  rmc = !"git checkout -- . && git clean -df ."
+  rmc = !git checkout -- . && git clean -df .
   br  = branch
   brd = !git branch -D `git branch | fzf -m`
   brda= !git branch -D `git branch | sed '/*/d' | tr '\n' ' '`
   cm  = commit --verbose
-  cmm = !"git add -A && git status && git commit -m"
-  swa = !"git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch"
-  s  = !git branch | fzf | xargs git switch
-  pco = !"gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout"
+  cmm = !git add -A && git status && git commit -m
+  swa = !git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch
+  s  = switch
+  sb  = !git branch | fzf | xargs git switch
+  pco = !gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout
   swc = switch -c
   df  = diff
   dfh = diff HEAD
   lg  = log
   lgp = log -p
   lgs = log --stat
-  lgg = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lgg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   mg  = merge
   mgab= merge --abort
   mgb = !git merge `git branch | fzf`
@@ -44,7 +45,7 @@
   rs  = reset
   rsh = reset --hard
   bk  = reset --soft HEAD^
-  cre = !"git init && git add -A && git commit -m init && gh repo create && git push origin `git rev-parse --abbrev-ref HEAD` && gh repo view --web"
+  cre = !git init && git add -A && git commit -m init && gh repo create && git push origin `git rev-parse --abbrev-ref HEAD` && gh repo view --web
   pr  = !gh pr create -B $(git branch | fzf) -a @me -d
   pdf = !gh pr diff `gh pr list | fzf | cut -f 1`
   pmg = !gh pr merge
@@ -61,7 +62,7 @@
   fss = fuzzy stash
   fh = fetch
   reb = rebase -i
-  cin = !"gibo dump $(gibo list | fzf) >> .gitignore"
+  cin = !gibo dump $(gibo list | fzf) >> .gitignore
   cmdl= git reset --soft HEAD^
 
 [core]

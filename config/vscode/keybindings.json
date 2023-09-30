@@ -127,21 +127,14 @@
   },
   // タブの移動
   {
-    "key": "ctrl+cmd+[",
-    "command": "workbench.action.moveEditorLeftInGroup"
-  },
-  {
-    "key": "ctrl+cmd+]",
-    "command": "workbench.action.moveEditorRightInGroup"
-  },
-  {
     "key": "shift+cmd+[",
     "command": "workbench.action.terminal.focusPrevious",
     "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
   },
   {
     "key": "shift+cmd+[",
-    "command": "workbench.action.previousEditor"
+    "command": "workbench.action.previousEditor",
+    "when": "!terminalFocus"
   },
   {
     "key": "shift+cmd+]",
@@ -150,7 +143,8 @@
   },
   {
     "key": "shift+cmd+]",
-    "command": "workbench.action.nextEditor"
+    "command": "workbench.action.nextEditor",
+    "when": "!terminalFocus"
   },
   // 階層リンク
   {

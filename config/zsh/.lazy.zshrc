@@ -20,19 +20,9 @@ alias vim='nvim'
 alias opap='ls /Applications | fzf | xargs open -a'
 
 source "$ZSH_PATH/aliases/aliase.zsh"
-# source "$ZSH_PATH/aliases/docker.zsh"
-# source "$ZSH_PATH/aliases/ffmpg.zsh"
-source "$ZSH_PATH/aliases/git.zsh"
-source "$ZSH_PATH/aliases/node.zsh"
-# source "$ZSH_PATH/aliases/go.zsh"
-# source "$ZSH_PATH/aliases/heroku.zsh"
-# source "$ZSH_PATH/aliases/mysql.zsh"
-source "$ZSH_PATH/aliases/npm.zsh"
-# source "$ZSH_PATH/aliases/rails.zsh"
-# source "$ZSH_PATH/aliases/system.zsh"
-source "$ZSH_PATH/aliases/vscode.zsh"
-source "$ZSH_PATH/aliases/yarn.zsh"
 source "$ZSH_PATH/aliases/cd.zsh"
+source "$ZSH_PATH/aliases/git.zsh"
+source "$ZSH_PATH/aliases/vscode.zsh"
 
 # anyenv
 # eval "$(anyenv init -)"

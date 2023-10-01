@@ -60,18 +60,18 @@
   },
   {
     "key": "left",
-    "command": "-extens-cursorLeftion.vim_left"
+    "command": "-extension.vim_left"
   },
   {
-    "ke": "left",
+    "key": "left",
     "command": "-cursorLeft"
   },
   {
-    "ke": "right",
+    "key": "right",
     "command": "-extension.vim_right"
   },
   {
-    "ke": "right",
+    "key": "right",
     "command": "-cursorRight"
   },
   {
@@ -300,9 +300,8 @@
   },
   // explorerの開閉
   {
-    "key": "space e",
-    "command": "workbench.action.toggleSidebarVisibility",
-    "when": "editorTextFocus && vim.mode == 'Normal' || filesExplorerFocus"
+    "key": "cmd+s",
+    "command": "workbench.action.toggleSidebarVisibility"
   },
   {
     "key": "cmd+b",

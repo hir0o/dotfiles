@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Ayu Dark",
+  "workbench.colorTheme": "Ayu Mirage Bordered",
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.folders.color": "#224249",
   "material-icon-theme.folders.theme": "classic",
@@ -18,8 +18,8 @@
     "editorBracketHighlight.foreground4": "#D08770",
     "editorBracketHighlight.foreground5": "#BF616A",
     "editorBracketHighlight.foreground6": "#abb2c0",
-    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165",
-    "quickInput.background": "#0C0E13dd"
+    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165"
+    // "quickInput.background": "#0C0E13dd"
   },
   // emmetを有効にする言語
   "emmet.includeLanguages": {
@@ -190,5 +190,7 @@
     "markdown": true,
     "scminput": false
   },
-  "workbench.activityBar.visible": false
+  "workbench.activityBar.visible": false,
+  "workbench.statusBar.visible": false,
+  "terminal.integrated.defaultProfile.osx": "zsh"
 }

@@ -26,11 +26,13 @@
   pco = !gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout
   swc = switch -c
   df  = diff
+  dfb = !git branch | fzf | xargs git diff
   dfh = diff HEAD
   lg  = log
   lgp = log -p
   lgs = log --stat
-  lgg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lgg = log -G
+  lgpg= log -p -G
   mg  = merge
   mgab= merge --abort
   mgb = !git merge `git branch | fzf`
@@ -40,7 +42,7 @@
   pst = !git push origin --tags
   pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
   psh = push heroku master
-  rb  = rebase
+  rbc = !git log --oneline | fzf --preview 'echo {} | awk "{print $1}" | xargs -I @ git diff @~ @' | awk '{print $1}' | xargs -I @ git rebase -i @~
   rf  = reflog --date=iso
   rs  = reset
   rsh = reset --hard

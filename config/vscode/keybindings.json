@@ -288,13 +288,13 @@
   },
   // explorerからファイルへ移動
   {
-    "key": "g e",
+    "key": "cmd+e",
     "command": "workbench.action.focusFirstEditorGroup",
-    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder && !inputFocus && vim.mode == 'Normal'"
+    "when": "!terminalFocus && !editorTextFocus && vim.mode == 'Normal'"
   },
   // explorerに移動
   {
-    "key": "g shift+e",
+    "key": "cmd+e",
     "command": "workbench.view.explorer",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
@@ -373,5 +373,10 @@
     "key": "j",
     "command": "cursorDown",
     "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+  },
+  {
+    "key": "cmd+p",
+    "command": "editor.action.surroundWithSnippet",
+    "when": "vim.active && (vim.mode == 'VisualLine' || vim.mode == 'VisualBlock' || vim.mode == 'Visual)"
   }
 ]

@@ -7,6 +7,8 @@
   ad = !git diff --name-only | fzf -m | xargs git add
   sr = !git diff --staged --name-only | fzf -m | xargs git reset HEAD
   ada = add -A
+  am = :
+  checkout = !echo "git switch/restore をつかってね！"
   amd  = commit --amend
   st  = status
   ss  = stash save -u
@@ -68,7 +70,7 @@
   cmdl= git reset --soft HEAD^
 
 [core]
-  editor = nvim
+	editor = code --wait
   pager = delta
 
 [color]

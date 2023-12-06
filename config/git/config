@@ -7,24 +7,21 @@
   ad = !git diff --name-only | fzf -m | xargs git add
   sr = !git diff --staged --name-only | fzf -m | xargs git reset HEAD
   ada = add -A
-  am = :
-  checkout = !echo "git switch/restore をつかってね！"
   amd  = commit --amend
   st  = status
   ss  = stash save -u
   sd = stash clear
   sl  = !git stash list | cut -d :" -f 2 | fzf --preview 'git stash show -p --color=always {}'"
   sp = !git stash list | fzf | cut -d :" -f 1 | xargs git stash pop"
-  rmc = rm -r --cached .
-  rmc = !git checkout -- . && git clean -df .
+  rmc = !git restore -- . && git clean -df .
   br  = branch
   brd = !git branch -D `git branch | fzf -m`
   brda= !git branch -D `git branch | sed '/*/d' | tr '\n' ' '`
   cm  = commit --verbose
   cmm = !git add -A && git status && git commit -m
-  swa = !git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch
   s  = switch
   sb  = !git branch | fzf | xargs git switch
+  sba = !git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch
   pco = !gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout
   swc = switch -c
   df  = diff

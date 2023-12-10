@@ -23,7 +23,7 @@
   sb  = !git branch | fzf | xargs git switch
   sba = !git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch
   pco = !gh pr list | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout
-  swc = switch -c
+  sc = switch -c
   df  = diff
   dfb = !git branch | fzf | xargs git diff
   dfh = diff HEAD

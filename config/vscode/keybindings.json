@@ -13,7 +13,7 @@
   {
     "key": "[Semicolon] f",
     "command": "workbench.action.quickOpen",
-    "when": "vim.mode != 'Insert' && !findWidgetVisible && !terminalFocus"
+    "when": "vim.mode != 'Insert' && !terminalFocus"
   },
   {
     "key": "cmd+p",

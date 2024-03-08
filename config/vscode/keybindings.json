@@ -296,7 +296,7 @@
   {
     "key": "cmd+e",
     "command": "workbench.view.explorer",
-    "when": "editorTextFocus && vim.mode == 'Normal'"
+    "when": "vim.mode == 'Normal'"
   },
   // explorerの開閉
   {
@@ -378,5 +378,49 @@
     "key": "cmd+p",
     "command": "editor.action.surroundWithSnippet",
     "when": "vim.active && (vim.mode == 'VisualLine' || vim.mode == 'VisualBlock' || vim.mode == 'Visual)"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "gotoNextPreviousMember.nextMember"
+  },
+  {
+    "key": "ctrl+down",
+    "command": "-gotoNextPreviousMember.nextMember"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "gotoNextPreviousMember.previousMember"
+  },
+  {
+    "key": "ctrl+up",
+    "command": "-gotoNextPreviousMember.previousMember"
+  },
+  {
+    "key": "cmd+k w",
+    "command": "workbench.action.closeEditorsAndGroup"
+  },
+  {
+    "key": "cmd+k w",
+    "command": "-workbench.action.closeEditorsInGroup"
+  },
+  {
+    "key": "ctrl+cmd+p",
+    "command": "extension.js-debug.npmScript"
+  },
+  {
+    "key": "m s",
+    "command": "git.stageSelectedRanges",
+    "when": "editorTextFocus && vim.mode != 'Insert' && !operationInProgress"
+  },
+  {
+    "key": "cmd+k alt+cmd+s",
+    "command": "-git.stageSelectedRanges",
+    "when": "isInDiffEditor && !operationInProgress"
+  },
+
+  {
+    "key": "m shift+s",
+    "command": "git.unstage",
+    "when": "editorTextFocus && vim.mode != 'Insert' && !operationInProgress"
   }
 ]

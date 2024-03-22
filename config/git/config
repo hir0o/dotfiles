@@ -42,7 +42,7 @@
   pst = !git push origin --tags
   pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
   psh = push heroku master
-  rbc = !git log --oneline | fzf | awk '{print $1}' | xargs -I @ git rebase -i @~
+  rbc = !git log --oneline | fzf | awk '{print $1}' | xargs -I @ git rebase -i -p @~
   rf  = reflog --date=iso
   rs  = reset
   rsh = reset --hard
@@ -63,7 +63,6 @@
   flg = fuzzy log
   fss = fuzzy stash
   fh = fetch
-  reb = rebase -i
   cin = !gibo dump $(gibo list | fzf) >> .gitignore
   cmdl= git reset --soft HEAD^
   empty = !git commit --allow-empty -m 'empty' && git push

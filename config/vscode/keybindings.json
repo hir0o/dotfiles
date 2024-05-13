@@ -420,7 +420,17 @@
 
   {
     "key": "m shift+s",
-    "command": "git.unstage",
+    "command": "git.unstageAll",
     "when": "editorTextFocus && vim.mode != 'Insert' && !operationInProgress"
+  },
+  {
+    "key": "m shift+r",
+    "command": "git.revertSelectedRanges",
+    "when": "editorTextFocus && vim.mode != 'Insert' && !operationInProgress"
+  },
+  {
+    "key": "cmd+k cmd+r",
+    "command": "-git.revertSelectedRanges",
+    "when": "isInDiffEditor && !operationInProgress"
   }
 ]

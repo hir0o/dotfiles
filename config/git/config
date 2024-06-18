@@ -42,7 +42,10 @@
   pst = !git push origin --tags
   pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
   psh = push heroku master
-  rbc = !git log --oneline | fzf | awk '{print $1}' | xargs -I @ git rebase -i -p @~
+  rbp = !git log --oneline | fzf | awk '{print $1}' | xargs -I @ git rebase -i @~
+  rbc = rebase --continue
+  rba = rebase --abort
+  rbb = !git branch -r | fzf | xargs git rebase
   rf  = reflog --date=iso
   rs  = reset
   rsh = reset --hard

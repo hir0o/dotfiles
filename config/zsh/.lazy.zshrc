@@ -9,7 +9,7 @@ alias ...='cd ../../'
 alias op='open ./'
 alias oplg='open https://github.com/hir0o/log/issues'
 alias rmds='find . -name '.DS_Store' -type f -ls -delete'
-alias ll='exa -alhF --icons --group-directories-first --time-style=long-iso'
+alias ll='eza -alhF --icons --group-directories-first --time-style=long-iso'
 alias bat='bat --color=always --style=header,grid'
 alias cl='cd $(ls -d */ | fzf)'
 alias edd='vim $(ghq root)/github.com/hir0o/dotfiles'
@@ -18,6 +18,7 @@ alias py='python3'
 alias b='bat'
 alias vim='nvim'
 alias opap='ls /Applications | fzf | xargs open -a'
+alias pn='pnpm'
 
 source "$ZSH_PATH/aliases/aliase.zsh"
 source "$ZSH_PATH/aliases/cd.zsh"
@@ -41,3 +42,6 @@ export FZF_DEFAULT_OPTS='--reverse --color fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:
 # ban
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

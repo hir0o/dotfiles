@@ -45,8 +45,29 @@ export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 export PATH=$PATH:$CARGO_HOME/bin
+export PATH="$(go env GOPATH)/bin:$PATH"
 
 # bun completions
 [ -s "/Users/h_shibuya/.bun/_bun" ] && source "/Users/h_shibuya/.bun/_bun"
 
 export GPG_TTY=$(tty)
+
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# 案件用
+source "$XDG_CONFIG_HOME/zsh/.shm.zshrc"
+source "$XDG_CONFIG_HOME/zsh/completion-for-pnpm.zsh"
+
+# proto
+export PROTO_HOME="$XDG_DATA_HOME/proto";
+export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH";
+
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
+export PATH="$HOME/.console-ninja/.bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

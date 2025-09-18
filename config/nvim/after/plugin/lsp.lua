@@ -1,8 +1,42 @@
-local lsp_config = require('lspconfig')
+require('neo-tree').setup({
+  close_if_last_window = true,
+  enable_git_status = true,
+  enable_diagnostics = true,
+  window = {
+    width = 30,
+  },
+  filesystem = {
+    filtered_items = {
+      hide_dotfiles = false,
+      hide_gitignored = false,
+    },
+    window = {
+      position = "float",
+      popup = {
+        size      = { width = "60%", height = "80%" }, --% か行数/列数
+        position  = "50%",        -- 画面中央（数値や table も可）
+        border    = "rounded",    -- or "single", "double", …
+      }
+    },
+    follow_current_file = true,
+    use_libuv_file_watcher = true,
+  },
+  default_component_configs = {
+    indent = {
+      indent_size = 2,
+      padding = 1,
+    },
+  },
+})
+
+vim.keymap.set('n', 'ge', ':Neotree filesystem<CR>')
+
+require("lsp-file-operations").setup()
+
+local lspconfig = require('lspconfig')
 local mason = require('mason')
 local mason_lspconfig = require('mason-lspconfig')
-local mason_null_ls = require('mason-null-ls')
-local null_ls = require('null-ls')
+
 
 require('dressing').setup()
 require('lspsaga').setup()
@@ -10,95 +44,76 @@ require('lsp_signature').setup({ hint_enable = false })
 require('fidget').setup()
 
 mason.setup()
-mason_null_ls.setup({
-  ensure_installed = { 'prettier' },
-  automatic_installation = true,
-})
-null_ls.setup({
-  sources = { null_ls.builtins.formatting.prettier },
-})
 
 mason_lspconfig.setup({
   ensure_installed = {
-    'tsserver',
+    'vtsls',
     'eslint',
   },
   automatic_installation = true,
 })
 
+local on_attach = function(client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", bufopts)
+  vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>', bufopts)
+  vim.keymap.set('n', 'ga', '<cmd>Lspsaga diagnostic_jump_next<CR>', bufopts)
+  vim.keymap.set('n', 'gA', '<cmd>Lspsaga diagnostic_jump_prev<CR>', bufopts)
+  vim.keymap.set('n', 'ma', '<cmd>Lspsaga code_action<CR>', bufopts)
+  vim.keymap.set("n", "mr", "<cmd>Lspsaga rename<CR>", bufopts)
+  vim.keymap.set('n', 'mf', function() require("conform").format() end, bufopts)
+  vim.keymap.set('n', 'gp', '<C-o>', bufopts)
+  vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
+  vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", bufopts)
+end
+
+local capabilities = vim.tbl_deep_extend(
+  "force",
+  require("cmp_nvim_lsp").default_capabilities(),
+  require("lsp-file-operations").default_capabilities()
+)
+
+
 mason_lspconfig.setup_handlers({
   function(server_name)
     local opts = {
-      capabilities = require('cmp_nvim_lsp').default_capabilities(),
+      capabilities = capabilities,
+      on_attach = on_attach,
+      flags = {
+        debounce_text_changes = 150,
+      },
     }
 
-    lsp_config[server_name].setup(opts)
+    -- vtsls
+    if server_name == "vtsls" then
+      opts.settings = {
+        typescript = {
+          updateImportsOnFileMove = { enabled = "always" },
+        },
+        javascript = {
+          updateImportsOnFileMove = { enabled = "always" },
+        },
+      }
+    end
+
+    lspconfig[server_name].setup(opts)
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'CursorHold' }, {
-  pattern = { '*' },
+vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
-    require('lspsaga.diagnostic').show_cursor_diagnostics()
+    vim.diagnostic.open_float(nil, { focusable = false })
   end,
 })
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'typescript', 'typescriptreact', 'typescript.tsx' },
+  pattern = { 'typescript', 'typescriptreact',},
   callback = function()
     vim.keymap.set({ 'n' }, '<Plug>(lsp)f', function()
-      vim.cmd([[EslintFixAll]])
-      vim.lsp.buf.format({ name = 'null-ls' })
-    end)
+      vim.cmd("EslintFixAll")
+      require("conform").format()
+    end, { buffer = true })
   end,
 })
-
-local function show_documentation()
-  local ft = vim.opt.filetype._value
-  if ft == 'vim' or ft == 'help' then
-    vim.cmd([[execute 'h ' . expand('<cword>') ]])
-  else
-    require('lspsaga.hover').render_hover_doc()
-  end
-end
-
-
-
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  -- lsp-saga
-  vim.keymap.set("n", "K",  "<cmd>Lspsaga hover_doc<CR>")
-  vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>')
-  vim.keymap.set('n', 'ga', require('lspsaga.diagnostic').navigate('next'))
-  vim.keymap.set('n', 'gA', require('lspsaga.diagnostic').navigate('prev'))
-  vim.keymap.set('n', 'ma', '<cmd>Lspsaga code_action<CR>')
-  vim.keymap.set("n", "mr", "<cmd>Lspsaga rename<CR>")
-  vim.keymap.set('n', 'mf', vim.lsp.buf.format)
-  vim.keymap.set('n', 'gp', '<C-o>')
-  vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>")
-  vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
-
-end
-
-local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
-}
-
-require('lspconfig')['tsserver'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-require('lspconfig')['rust_analyzer'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    -- Server-specific settings...
-    settings = {
-      ["rust-analyzer"] = {}
-    }
-}
-

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 vim.cmd("autocmd!")
 
 -- 文字コード
@@ -30,6 +31,7 @@ vim.opt.path:append { '**' } -- ファイル検索時のパス
 vim.opt.wildignore:append { '*/node_modules/*' } -- ファイル検索時の除外パス
 vim.opt.clipboard = 'unnamed' -- ヤンクをクリップボードに
 vim.opt.termguicolors = true
+vim.opt.signcolumn = "yes"
 
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
@@ -57,13 +59,12 @@ vim.keymap.set('n', 'te', ':tabedit<Return>')
 vim.keymap.set('n', 'ss', ':split<Return><C-w>w')
 vim.keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
 vim.keymap.set('n', '<Space>', '<C-w>w')
-vim.keymap.set('', 'sh', '<C-w>h')
-vim.keymap.set('', 'sk', '<C-w>k')
-vim.keymap.set('', 'sj', '<C-w>j')
-vim.keymap.set('', 'sl', '<C-w>l')
-vim.keymap.set('n', '<tab>', ':tabprevious<CR>')
-vim.keymap.set('n', '<Shift+tab>', ':tabprevious<CR>')
-
+vim.keymap.set('', 'gh', '<C-w>h')
+vim.keymap.set('', 'gk', '<C-w>k')
+vim.keymap.set('', 'gj', '<C-w>j')
+vim.keymap.set('', 'gl', '<C-w>l')
+vim.keymap.set('n', '<Tab>', ':tabnext<CR>')
+vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>')
 vim.keymap.set('', 'gp', '<C-o>')
 
 -- plugin
@@ -85,15 +86,13 @@ require("lazy").setup({
   'nvim-lualine/lualine.nvim',
   'kyazdani42/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
-  { 'nvim-telescope/telescope.nvim', tag = '0.1.1' },
+  'nvim-telescope/telescope.nvim',
   'nvim-telescope/telescope-file-browser.nvim',
   'neovim/nvim-lspconfig',
   'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig',
-  'jose-elias-alvarez/null-ls.nvim',
-  'jayp0521/mason-null-ls.nvim',
+  'williamboman/mason-lspconfig.nvim',
   'stevearc/dressing.nvim',
-  'tami5/lspsaga.nvim',
+  'nvimdev/lspsaga.nvim',
   'ray-x/lsp_signature.nvim',
   'onsails/lspkind-nvim',
   'j-hui/fidget.nvim',
@@ -103,13 +102,21 @@ require("lazy").setup({
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'lambdalisue/fern.vim',
-  'nvim-lua/plenary.nvim',
   'sainnhe/gruvbox-material',
   'nvim-treesitter/nvim-treesitter',
   'hrsh7th/vim-vsnip',
   'hrsh7th/cmp-vsnip',
+  'github/copilot.vim',
+  'stevearc/conform.nvim',
+  'mfussenegger/nvim-lint',
+  'nvim-neo-tree/neo-tree.nvim',
+  'MunifTanjim/nui.nvim',
+  'akinsho/toggleterm.nvim',
+  'kylechui/nvim-surround',
+  'numToStr/Comment.nvim',
+  'antosha417/nvim-lsp-file-operations',
+  'akinsho/git-conflict.nvim',
+  'mikavilpas/yazi.nvim',
+  'lewis6991/gitsigns.nvim',
 })
-
-
-require('ayu').colorscheme()
 

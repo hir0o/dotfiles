@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "workbench.colorTheme": "Ayu Dark",
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.folders.color": "#224249",
   "material-icon-theme.folders.theme": "classic",
@@ -19,6 +19,10 @@
     "editorBracketHighlight.foreground5": "#BF616A",
     "editorBracketHighlight.foreground6": "#abb2c0",
     "editorBracketHighlight.unexpectedBracket.foreground": "#db6165"
+    // "titleBar.activeBackground": "#1E1E1E", // アクティブなタイトルバーの背景色
+    // "titleBar.activeForeground": "#FFFFFF", // アクティブなタイトルバーの文字色
+    // "titleBar.inactiveBackground": "#2D2D2D", // 非アクティブ時の背景色
+    // "titleBar.inactiveForeground": "#BBBBBB" // 非アクティブ時の文字色
     // "quickInput.background": "#0C0E13dd"
   },
   // emmetを有効にする言語
@@ -31,75 +35,58 @@
     "javascript": "javascriptreact",
     "typescriptreact": "javascriptreact"
   },
-  // 自動保存
-  "files.autoSave": false,
   // 保存時のアクション
   "editor.codeActionsOnSave": {
-    // "source.fixAll.prettier": true,
-    "source.fixAll.eslint": true
+    "source.fixAll.biome": "never",
+    "quickfix.biome": "never",
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
-  // 自動保存
-  "editor.formatOnSave": true,
   // 拡張機能のESlintのフォーマットを行う
   "eslint.format.enable": false,
   // 入力行をフォーマットする
   "editor.formatOnType": false,
   // ペースト時にフォーマットを行う
   "editor.formatOnPaste": false,
-  // prettierをデフォルトのフォーマッタにする
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  // 言語ごとの設定
-  "[rust]": {
-    "editor.defaultFormatter": "rust-lang.rust-analyzer"
-  },
-  "[markdown]": {
-    "editor.formatOnSave": false,
-    "editor.wordWrap": "on",
-    "editor.quickSuggestions": {
-      "comments": "on",
-      "strings": "on",
-      "other": "on"
-    }
-  },
-  "[makefile]": {
-    // NOTE: Makefileはtab文字じゃないとエラーになる
-    "editor.insertSpaces": false
-  },
-  // 引数名とか表示するやつ
-  // "javascript.inlayHints.parameterNames.enabled": "all",
-  // "typescript.inlayHints.parameterNames.enabled": "all",
-  "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "editor.formatOnSave": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterNames.enabled": "literals",
   "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
-  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": false,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": false,
   // ========== Vim ==========
-  // ノーマルモード
   "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      "before": ["<C-d>"],
-      "after": ["g", "b"]
-    }, // マルチカーソル,
     {
       "before": ["<C-n>"],
       "after": ["leader", "leader", "leader", "b", "d", "w"]
+    },
+    {
+      "before": ["<C-p>"],
+      // <leader><leader> / <char>... <CR>
+      "after": ["leader", "leader", "/"]
+    },
+    {
+      //
     }
   ],
+  "vim.easymotionKeys": "abcdefghijklmnopqrstuvwxyz",
   "vim.easymotion": true,
   "vim.incsearch": true,
   "vim.useCtrlKeys": true,
   "vim.hlsearch": true,
-  "vim.leader": "<space>",
+  "vim.leader": "\\",
   "vim.handleKeys": {
     "<C-a>": false,
     "<C-f>": false
   },
   "vim.foldfix": true,
-
   // yankをクリップボードに
   "vim.useSystemClipboard": false,
-
   // 補完
   "editor.detectIndentation": false, // editor.tabSizeを開いてるファイルに合わせる
   "editor.quickSuggestions": {
@@ -114,8 +101,6 @@
   "editor.linkedEditing": true,
   // 対応するカッコを強調する
   "editor.matchBrackets": "always",
-  // ミニマップの表示
-  "editor.minimap.enabled": false,
   // ファイルを削除するときに確認する
   "explorer.confirmDelete": false,
   // ファイルを移動するときに確認する
@@ -160,14 +145,12 @@
   // "workbench.editor.tabSizing": "shrink",
   "workbench.editor.titleScrollbarSizing": "large",
   // ファイルのプレビュー
-  "workbench.editor.enablePreview": true,
-  // ファイルのプレビュー
   "workbench.editor.enablePreviewFromQuickOpen": true,
   // memo: 将来デフォルトでtrueになる
   "git.mergeEditor": true,
   "git.ignoreRebaseWarning": true, // rebaseの警告を表示しない
   "editor.folding": true, // 折りたたみ
-  "window.title": "${activeEditorMedium}${separator}${activeEditorShort}",
+  "window.title": "${folderName} - ${activeEditorMedium}${separator}",
   "notebook.lineNumbers": "on",
   "typescript.referencesCodeLens.enabled": true,
   "editor.stickyScroll.enabled": false,
@@ -176,21 +159,89 @@
   "editor.stickyScroll.maxLineCount": 5,
   "window.commandCenter": true,
   // "workbench.activityBar.visible": false
-  "[c]": {
-    "clang-format.executable": "/absolute/path/to/clang-format"
+  "formatOnSave": true,
+  "[markdown]": {
+    "formatOnSave": false
   },
-  "breadcrumbs.enabled": false,
-  "workbench.editor.showTabs": false,
+  "workbench.editor.showTabs": "multiple",
   "redhat.telemetry.enabled": true,
-  "console-ninja.featureSet": "Pro",
+  "console-ninja.featureSet": "Community",
   "terminal.integrated.env.osx": {},
   "github.copilot.enable": {
-    "*": true,
+    "*": false,
     "plaintext": false,
     "markdown": true,
-    "scminput": false
+    "scminput": false,
+    "typescript": true,
+    "typescriptreact": true,
+    "javascript": true,
+    "javascriptreact": true,
+    "json": true,
+    "jsonc": true
   },
-  "workbench.activityBar.visible": false,
-  "workbench.statusBar.visible": false,
-  "terminal.integrated.defaultProfile.osx": "zsh"
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "cSpell.userWords": [
+    "AFEELA",
+    "codegen",
+    "debouncer",
+    "Hasura",
+    "hoge",
+    "openapi",
+    "pathpida",
+    "remeda",
+    "Shmob",
+    "signout",
+    "stylelint",
+    "tolgee",
+    "topbar"
+  ],
+  "window.titleBarStyle": "custom",
+  "gotoNextPreviousMember.symbolKinds": ["function", "strings", "constant"],
+  "terminal.integrated.scrollback": 10000,
+  "prisma.showPrismaDataPlatformNotification": false,
+  "github.copilot.editor.enableAutoCompletions": true,
+  "git.enableCommitSigning": true,
+  "liveshare.accessibility.soundVolume": 0,
+  "liveshare.accessibility.voiceVolume": 0,
+  "editor.accessibilitySupport": "off",
+  "workbench.editor.customLabels.patterns": {
+    "**/index.*": "${dirname} .../${dirname(1)}",
+    "**/{page,actions,hooks,components,utils,types,functions}.{js,ts,jsx,tsx}": "${dirname}/${filename}.${extname} .../${dirname(1)}"
+  },
+  "find-it-faster.general.useTerminalInEditor": true,
+  "javascript.preferences.useAliasesForRenames": false,
+  "typescript.preferences.useAliasesForRenames": false,
+  "editor.minimap.enabled": false,
+  "cursor.cpp.enablePartialAccepts": true,
+  "roo-cline.allowedCommands": [
+    "npm test",
+    "npm install",
+    "tsc",
+    "git log",
+    "git diff",
+    "git show"
+  ],
+  "github.copilot.chat.editor.temporalContext.enabled": true,
+  "github.copilot.chat.edits.temporalContext.enabled": true,
+  "githubPullRequests.pullBranch": "never",
+  "hediet.vscode-drawio.resizeImages": null,
+  "cursor.composer.shouldAllowCustomModes": true,
+  "go.toolsManagement.autoUpdate": true,
+  "update.releaseTrack": "prerelease",
+  "haskell.manageHLS": "PATH",
+  "cursor.general.enableShadowWorkspace": true,
+  "cSpell.enabledNotifications": {
+    "Average Word Length too Long": false,
+    "Lines too Long": false,
+    "Maximum Word Length Exceeded": false
+  },
+  "git-worktree-manager.worktreeCopyPatterns": [
+    "**/.env",
+    "**/.env.*",
+    ".vscode/**",
+    "**/*.local"
+  ],
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "cursor.composer.shouldChimeAfterChatFinishes": true,
+  "workbench.statusBar.visible": false
 }

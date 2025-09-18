@@ -3,7 +3,7 @@
     "prefix": "hooks",
     "scope": "typescript",
     "body": [
-      "export const ${1:${TM_FILENAME_BASE:HooksName}} = () => {",
+      "export const ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}} = () => {",
       "\t$2",
       "}"
     ]
@@ -97,7 +97,7 @@
     "body": [
       "import { FC } from 'react';",
       "",
-      "export const ${1:${TM_FILENAME_BASE:ComponentName}}: FC = () => {",
+      "export const ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}}: FC = () => {",
       "\treturn (",
       "\t\t$2",
       "\t)",
@@ -114,7 +114,7 @@
       "\t$2",
       "}",
       "",
-      "export const ${1:${TM_FILENAME_BASE:ComponentName}}: FC<Props> = ({$3}) => {",
+      "export const ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}}: FC<Props> = ({$3}) => {",
       "\treturn (",
       "\t\t$4",
       "\t)",
@@ -135,46 +135,54 @@
       ""
     ]
   },
-  "fc with emotion": {
-    "prefix": "em fc",
-    "scope": "typescriptreact",
-    "body": [
-      "import { FC } from 'react'",
-      "import styled from '@emotion/styled'",
-      "import { IconType } from 'react-icons'",
-      "import { colors } from '~/styles/variables'",
-      "",
-      "type ContainerProps = {",
-      "",
-      "}",
-      "",
-      "type Props = {",
-      "  className?: string",
-      "} & ContainerProps",
-      "",
-      "const Component: FC<Props> = ({ className }) => (",
-      "",
-      ")",
-      "",
-      "const StyledComponent = styled(Component)`",
-      "",
-      "`",
-      "",
-      "const Container: FC<ContainerProps> = (props) => <StyledComponent {...props} />",
-      "",
-      "/** @package */",
-      "export const ${1:${TM_FILENAME_BASE:ComponentName}} = Container"
-    ],
-    "description": "fc with emotion"
-  },
   "sleep": {
     "prefix": "sleep",
     "scope": "typescript,typescriptreact",
     "body": ["new Promise(resolve => setTimeout(resolve, $1))"]
   },
-  "vanilla-extract-style": {
-    "prefix": "vst",
-    "scope": "typescript,typescriptreact",
-    "body": ["export const $1 = style({$2});"]
+  "Storybook Component Template": {
+    "prefix": "sb",
+    "body": [
+      "import type { Meta, StoryObj } from \"@storybook/react-vite\";",
+      "",
+      "import { ${1:${TM_FILENAME_BASE/(.*?)\\.?stories$/${1:/pascalcase}/}} } from './${TM_FILENAME_BASE/(.*?)\\.?stories$/$1/}';",
+      "",
+      "const meta = {",
+      "  component: ${1:${TM_FILENAME_BASE/(.*?)\\.?stories$/${1:/pascalcase}/}},",
+      "} satisfies Meta<typeof ${1:${TM_FILENAME_BASE/(.*?)\\.?stories$/${1:/pascalcase}/}}>",
+      "",
+      "export default meta;",
+      "type Story = StoryObj<typeof meta>;",
+      "",
+      "export const Default: Story = {};",
+      "$0"
+    ],
+    "description": "Template for a Storybook story with dynamic component name based on the file name"
+  },
+  "Storybook Template With Play Function": {
+    "prefix": "sbtest",
+    "body": [
+      "import { expect } from \"@storybook/jest\";",
+      "import type { Meta, StoryObj } from \"@storybook/react\";",
+      "import { userEvent, waitFor, within } from \"@storybook/testing-library\";",
+      "",
+      "import { $1 } from './$1';",
+      "",
+      "const meta = {",
+      "  component: $1,",
+      "} satisfies Meta<typeof Collection>;",
+      "",
+      "export default meta;",
+      "type Story = StoryObj<typeof meta>;",
+      "",
+      "export const Default: Story = {",
+      "  play: async ({ canvasElement }) => {",
+      "    const canvas = within(canvasElement);",
+      "  },",
+      "  args: {},",
+      "};",
+      "$0"
+    ],
+    "description": "Template for a Storybook story with dynamic component name based on the file name"
   }
 }

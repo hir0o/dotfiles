@@ -1,10 +1,4 @@
 [
-  // 検索
-  {
-    "key": "[Semicolon] r",
-    "command": "workbench.action.terminal.searchWorkspace",
-    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible && !terminalFocus"
-  },
   {
     "key": "shift+cmd+f",
     "command": "-workbench.action.terminal.searchWorkspace"
@@ -13,7 +7,37 @@
   {
     "key": "[Semicolon] f",
     "command": "workbench.action.quickOpen",
-    "when": "vim.mode != 'Insert' && !terminalFocus"
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible"
+  },
+  {
+    "key": "[Semicolon] shift+f",
+    "command": "workbench.action.quickOpen",
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible"
+  },
+  {
+    "key": "[Semicolon] r",
+    "command": "search.action.openNewEditor",
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible"
+  },
+  {
+    "key": "[Semicolon] shift+r",
+    "command": "search.action.focusQueryEditorWidget",
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible"
+  },
+  {
+    "key": "[Semicolon] b",
+    "command": "breadcrumbs.focus",
+    "when": "vim.mode != 'Insert' && !terminalFocus && !findWidgetVisible &&  breadcrumbsPossible && breadcrumbsVisible"
+  },
+  {
+    "key": "shift+cmd+;",
+    "command": "-breadcrumbs.focus",
+    "when": "breadcrumbsPossible && breadcrumbsVisible"
+  },
+  {
+    "key": "m w",
+    "command": "editor.emmet.action.wrapWithAbbreviation",
+    "when": "editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
   },
   {
     "key": "cmd+p",
@@ -42,46 +66,46 @@
     "command": "-workbench.action.files.save"
   },
   // 矢印禁止
-  {
-    "key": "up",
-    "command": "-extension.vim_up"
-  },
-  {
-    "key": "up",
-    "command": "-cursorUp"
-  },
-  {
-    "key": "down",
-    "command": "-extension.vim_down"
-  },
-  {
-    "key": "down",
-    "command": "-cursorDown"
-  },
-  {
-    "key": "left",
-    "command": "-extension.vim_left"
-  },
-  {
-    "key": "left",
-    "command": "-cursorLeft"
-  },
-  {
-    "key": "right",
-    "command": "-extension.vim_right"
-  },
-  {
-    "key": "right",
-    "command": "-cursorRight"
-  },
-  {
-    "key": "ctrl+p",
-    "command": "-cursorUp"
-  },
-  {
-    "key": "ctrl+n",
-    "command": "-cursorDown"
-  },
+  // {
+  //   "key": "up",
+  //   "command": "-extension.vim_up"
+  // },
+  // {
+  //   "key": "up",
+  //   "command": "-cursorUp"
+  // },
+  // {
+  //   "key": "down",
+  //   "command": "-extension.vim_down"
+  // },
+  // {
+  //   "key": "down",
+  //   "command": "-cursorDown"
+  // },
+  // {
+  //   "key": "left",
+  //   "command": "-extension.vim_left"
+  // },
+  // {
+  //   "key": "left",
+  //   "command": "-cursorLeft"
+  // },
+  // {
+  //   "key": "right",
+  //   "command": "-extension.vim_right"
+  // },
+  // {
+  //   "key": "right",
+  //   "command": "-cursorRight"
+  // },
+  // {
+  //   "key": "ctrl+p",
+  //   "command": "-cursorUp"
+  // },
+  // {
+  //   "key": "ctrl+n",
+  //   "command": "-cursorDown"
+  // },
   // コマンド
   {
     "key": "ctrl+shift+p",
@@ -265,15 +289,37 @@
     "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
   },
   // エラー箇所へのジャンプ
+  // {
+  //   "key": "g b",
+  //   "command": "editor.action.marker.prevInFiles",
+  //   "when": "editorTextFocus && vim.mode == 'Normal'"
+  // },
+
+  // {
+  //   "key": "g a",
+  //   "command": "editor.action.marker.nextInFiles",
+  //   "when": "editorTextFocus && vim.mode == 'Normal'"
+  // },
+
   {
-    "key": "g b",
-    "command": "editor.action.marker.prevInFiles",
+    "key": "g a",
+    "command": "editor.action.marker.next",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
   {
-    "key": "g a",
-    "command": "editor.action.marker.nextInFiles",
+    "key": "alt+f8",
+    "command": "-editor.action.marker.next",
+    "when": "editorFocus"
+  },
+  {
+    "key": "g b",
+    "command": "editor.action.marker.prev",
     "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "shift+alt+f8",
+    "command": "-editor.action.marker.prev",
+    "when": "editorFocus"
   },
 
   {
@@ -352,13 +398,12 @@
     "command": "workbench.action.terminal.newInActiveWorkspace",
     "when": "terminalFocus"
   },
-  // TODO: 横に新しいターミナル
+  // 横に新しいターミナル
   // {
   //   "key": "cmd+e",
   //   "command": "workbench.action.terminal.newInActiveWorkspace",
   //   "when": "terminalFocus"
   // },
-  // windowを全て閉じる
   {
     "key": "cmd+alt+w",
     "command": "workbench.action.closeAllEditors"
@@ -379,30 +424,30 @@
     "command": "editor.action.surroundWithSnippet",
     "when": "vim.active && (vim.mode == 'VisualLine' || vim.mode == 'VisualBlock' || vim.mode == 'Visual)"
   },
-  {
-    "key": "ctrl+j",
-    "command": "gotoNextPreviousMember.nextMember"
-  },
-  {
-    "key": "ctrl+down",
-    "command": "-gotoNextPreviousMember.nextMember"
-  },
-  {
-    "key": "ctrl+k",
-    "command": "gotoNextPreviousMember.previousMember"
-  },
-  {
-    "key": "ctrl+up",
-    "command": "-gotoNextPreviousMember.previousMember"
-  },
-  {
-    "key": "cmd+k w",
-    "command": "workbench.action.closeEditorsAndGroup"
-  },
-  {
-    "key": "cmd+k w",
-    "command": "-workbench.action.closeEditorsInGroup"
-  },
+  // {
+  //   "key": "ctrl+j",
+  //   "command": "gotoNextPreviousMember.nextMember"
+  // },
+  // {
+  //   "key": "ctrl+down",
+  //   "command": "-gotoNextPreviousMember.nextMember"
+  // },
+  // {
+  //   "key": "ctrl+"ctrl+k",
+  //   "command": "gotoNextPreviousMember.previousMember"
+  // },
+  // {
+  //   "key": "ctrl+up",
+  //   "command": "-gotoNextPreviousMember.previousMember"
+  // },
+  // {
+  //   "key": "cmd+k w",
+  //   "command": "workbench.action.closeEditorsAndGroup"
+  // },
+  // {
+  //   "key": "cmd+k w",
+  //   "command": "-workbench.action.closeEditorsInGroup"
+  // },
   {
     "key": "ctrl+cmd+p",
     "command": "extension.js-debug.npmScript"
@@ -432,5 +477,56 @@
     "key": "cmd+k cmd+r",
     "command": "-git.revertSelectedRanges",
     "when": "isInDiffEditor && !operationInProgress"
+  },
+  {
+    "key": "ctrl+s",
+    "command": "searchEditorApplyChanges.apply",
+    "when": "inSearchEditor"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "search.action.focusNextSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "f4",
+    "command": "-search.action.focusNextSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "search.action.focusPreviousSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "shift+f4",
+    "command": "-search.action.focusPreviousSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "ctrl+s ctrl+a",
+    "command": "searchEditorApplyChanges.apply",
+    "when": "editorLangId == 'search-result'"
+  },
+  {
+    "key": "escape",
+    "command": "-search.action.focusQueryEditorWidget",
+    "when": "inSearchEditor"
+  },
+  {
+    "key": "ctrl+w",
+    "command": "-workbench.action.switchWindow"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
+  },
+  {
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\\\r\n"
+    },
+    "when": "terminalFocus"
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "file name function": {
+  "hooks": {
     "prefix": "hooks",
     "scope": "typescript",
     "body": [
@@ -7,42 +7,6 @@
       "\t$2",
       "}"
     ]
-  },
-  "jest": {
-    "prefix": "jest",
-    "scope": "typescript,typescriptreact",
-    "body": [
-      "import { screen, render } from '@testing-library/react'",
-      "import userEvent from '@testing-library/user-event'",
-      "import '@testing-library/jest-dom'",
-      "",
-      "describe('$1', () => {",
-      "  it('$2', () => {",
-      "    $3",
-      "  })",
-      "})",
-      ""
-    ]
-  },
-
-  "jest render": {
-    "prefix": "jest render",
-    "scope": "typescript,typescriptreact",
-    "body": ["render(${$3:<ComponentName />})"]
-  },
-  "jest user event": {
-    "prefix": "jest user event ",
-    "scope": "typescript,typescriptreact",
-    "body": [
-      "userEvent.click(screen.getByText('Check'))",
-      "",
-      "expect(screen.getByLabelText('Check')).toBeChecked()"
-    ]
-  },
-  "jest it": {
-    "prefix": ["jest it", "ji"],
-    "scope": "typescript,typescriptreact",
-    "body": ["it('$1', () => {", "  $2", "})"]
   },
   "useState": {
     "prefix": "us",
@@ -61,15 +25,5 @@
     "scope": "typescript,typescriptreact",
     "body": ["const $1 = useCallback(() => {", "\t$2", "}, [])"],
     "description": "use callback"
-  },
-  "state action type": {
-    "prefix": "set state type",
-    "scope": "typescript,typescriptreact",
-    "body": ["Dispatch<SetStateAction<${0:type}>>"]
-  },
-  "props type": {
-    "prefix": ["props type", "pt"],
-    "scope": "typescript,typescriptreact",
-    "body": ["type Props = {", "\t$1", "}"]
   }
 }

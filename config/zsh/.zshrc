@@ -37,7 +37,6 @@ if [ -f "$P10K_PATH" ]; then
     source "$P10K_PATH"
 fi
 
-# defer
 zsh-defer source "$XDG_CONFIG_HOME/zsh/.lazy.zshrc"
 
 # PATH
@@ -71,3 +70,6 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 
 export PATH="$HOME/.console-ninja/.bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# FZF key-bindings (プラグインの後に読み込む必要がある)
+source /opt/homebrew/opt/fzf/shell/key-bindings.zsh

@@ -24,4 +24,4 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.deno/bin:$PATH"
-. "/Users/h_shibuya/.local/share/cargo/env"
+[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env"

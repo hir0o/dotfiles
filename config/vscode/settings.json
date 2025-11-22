@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Ayu Dark",
+  "workbench.colorTheme": "Ayu Dark Bordered",
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.folders.color": "#224249",
   "material-icon-theme.folders.theme": "classic",
@@ -243,5 +243,7 @@
   ],
   "github.copilot.nextEditSuggestions.enabled": true,
   "cursor.composer.shouldChimeAfterChatFinishes": true,
-  "workbench.statusBar.visible": false
+  "workbench.statusBar.visible": false,
+  "gitlens.ai.model": "gitkraken",
+  "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash"
 }

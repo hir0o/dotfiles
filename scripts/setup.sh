@@ -27,6 +27,7 @@ PACKAGES=(
     "karabiner"
     "p10k"
     "sheldon"
+    "wezterm"
 )
 
 echo "Stowing packages..."

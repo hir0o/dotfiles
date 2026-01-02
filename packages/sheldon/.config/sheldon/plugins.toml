@@ -14,24 +14,43 @@ shell = "zsh"
 
 [plugins]
 
+# --- 基本ツール ---
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
-
-[plugins.zsh-syntax-highlighting]
-github = 'zsh-users/zsh-syntax-highlighting'
-apply = ["defer"]
-
-[plugins.zsh-autosuggestions]
-github = 'zsh-users/zsh-autosuggestions'
-apply = ["defer"]
 
 [plugins.powerlevel10k]
 github = 'romkatv/powerlevel10k'
 
-# For example:
-#
-# [plugins.base16]
-# github = "chriskempson/base16-shell"
+# --- 補完・入力支援 ---
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+# compinit初期化（zsh-completionsの後に実行）
+[plugins.compinit]
+inline = 'autoload -Uz compinit && compinit'
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+apply = ["defer"]
+
+# --- ナビゲーション ---
+[plugins.zsh-z]
+github = 'agkozak/zsh-z'
+
+# ↑↓キーで履歴検索
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+apply = ["defer"]
+
+# --- ビジュアル・フィードバック（最後推奨） ---
+[plugins.zsh-autosuggestions]
+github = 'zsh-users/zsh-autosuggestions'
+apply = ["defer"]
+
+# 必ず最後に読み込む（他のプラグインが定義したエイリアス等に色を付けるため）
+[plugins.zsh-syntax-highlighting]
+github = 'zsh-users/zsh-syntax-highlighting'
+apply = ["defer"]
 
 [templates]
 defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"

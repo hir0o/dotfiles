@@ -24,16 +24,18 @@ github = 'romkatv/powerlevel10k'
 # --- 補完・入力支援 ---
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
-apply = ["defer"]
+
+# compinit初期化（zsh-completionsの後、fzf-tabの前に実行）
+[plugins.compinit]
+inline = 'autoload -Uz compinit && compinit'
+
+# Tab補完をfzf化（compinitの後、widget wrapプラグインの前に読み込む）
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
 
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 apply = ["defer"]
-
-# Tab補完をfzf化（fzfコマンドのインストールが必要）
-# NOTE: 一旦無効化 - compinitの初期化タイミングの問題で補完が壊れるため
-# [plugins.fzf-tab]
-# github = "Aloxaf/fzf-tab"
 
 # --- ナビゲーション ---
 [plugins.zsh-z]

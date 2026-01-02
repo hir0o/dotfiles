@@ -25,13 +25,9 @@ github = 'romkatv/powerlevel10k'
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
 
-# compinit初期化（zsh-completionsの後、fzf-tabの前に実行）
+# compinit初期化（zsh-completionsの後に実行）
 [plugins.compinit]
 inline = 'autoload -Uz compinit && compinit'
-
-# Tab補完をfzf化（compinitの後、widget wrapプラグインの前に読み込む）
-[plugins.fzf-tab]
-github = "Aloxaf/fzf-tab"
 
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"

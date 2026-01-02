@@ -28,6 +28,14 @@ egc(){
 # Plugins
 export SHELDON_CONFIG_DIR="$XDG_CONFIG_HOME/sheldon"
 export SHELDON_DATA_DIR="$XDG_STATE_HOME/sheldon"
+
+# zsh-completions用にfpathを設定（compinitの前に必要）
+fpath=($XDG_STATE_HOME/sheldon/repos/github.com/zsh-users/zsh-completions/src $fpath)
+
+# 補完システムの初期化
+autoload -Uz compinit
+compinit
+
 eval "$(sheldon source)"
 
 P10K_PATH="$XDG_CONFIG_HOME/p10k/.p10k.zsh"

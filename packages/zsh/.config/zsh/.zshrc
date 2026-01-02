@@ -84,3 +84,11 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # FZF key-bindings (プラグインの後に読み込む必要がある) - lazy load for faster startup
 zsh-defer source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+
+# zsh-history-substring-search のキーバインド設定
+# ↑↓キーで履歴の前方一致検索
+bindkey '^[[A' history-substring-search-up    # ↑キー
+bindkey '^[[B' history-substring-search-down  # ↓キー
+# Emacs モード用
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down

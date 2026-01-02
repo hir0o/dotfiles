@@ -31,7 +31,7 @@ github = "hlissner/zsh-autopair"
 apply = ["defer"]
 
 # Tab補完をfzf化（fzfコマンドのインストールが必要）
-# 一旦コメントアウト - compinitとの読み込み順序を調整する必要がある
+# NOTE: 一旦無効化 - compinitの初期化タイミングの問題で補完が壊れるため
 # [plugins.fzf-tab]
 # github = "Aloxaf/fzf-tab"
 

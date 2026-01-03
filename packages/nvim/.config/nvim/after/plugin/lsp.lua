@@ -34,11 +34,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", vim.tbl_extend('force', bufopts, { desc = '定義へジャンプ' }))
 end
 
-local capabilities = vim.tbl_deep_extend(
-  "force",
-  require("cmp_nvim_lsp").default_capabilities(),
-  require("lsp-file-operations").default_capabilities()
-)
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 
 mason_lspconfig.setup_handlers({

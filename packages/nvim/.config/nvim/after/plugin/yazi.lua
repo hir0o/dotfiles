@@ -2,7 +2,7 @@ local status, yazi = pcall(require, "yazi")
 if (not status) then return end
 
 yazi.setup({
-  open_for_directories = false,
+  open_for_directories = true,
   floating_window_scaling_factor = 0.9,
   keymaps = {
     show_help = "<f1>",

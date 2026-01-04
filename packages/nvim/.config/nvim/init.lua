@@ -104,6 +104,10 @@ require("lazy").setup({
   },
   'nvim-treesitter/nvim-treesitter',
   'zbirenbaum/copilot.lua',
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+  },
   'stevearc/conform.nvim',
   'mfussenegger/nvim-lint',
   'akinsho/toggleterm.nvim',

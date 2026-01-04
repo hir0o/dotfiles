@@ -46,3 +46,6 @@ cgp() {
     cd $dir
   fi
 }
+
+alias cd='z'
+alias cdi='zi'

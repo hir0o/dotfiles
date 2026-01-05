@@ -47,5 +47,6 @@ cgp() {
   fi
 }
 
-alias cd='z'
+alias cdz='z'
 alias cdi='zi'
+

@@ -20,7 +20,7 @@ sh -c "`curl -fsSL https://raw.githubusercontent.com/hir0o/dotfiles/master/insta
 brew bundle install --file ~/.config/homebrew/Brewfile
 
 # Create symbolic links using GNU Stow
-bash scripts/setup-stow.sh
+bash scripts/setup.sh
 ```
 
 ## Architecture & Key Components
@@ -28,7 +28,7 @@ bash scripts/setup-stow.sh
 ### Directory Structure
 - `packages/` - GNU Stow packages, each containing configurations in their target directory structure
 - `scripts/` - Setup scripts for initial environment setup
-  - `setup-stow.sh` - Main setup script using GNU Stow
+  - `setup.sh` - Main setup script using GNU Stow
   - `archive/` - Archived legacy setup scripts
 - Configurations are organized by tool name under `packages/`
 
@@ -57,6 +57,11 @@ bash scripts/setup-stow.sh
 - Vim mode enabled with custom bindings
 - Integration with various extensions
 
+**Yazi (`packages/yazi/`)**
+- Modern terminal file manager
+- Configuration in `yazi.toml` with XDG-compliant paths
+- `show_hidden = true` enabled for displaying hidden files by default
+
 ### Key Environment Variables
 The setup relies on XDG Base Directory specification:
 - `XDG_CONFIG_HOME` - Configuration files (default: `~/.config`)
@@ -68,13 +73,13 @@ The setup relies on XDG Base Directory specification:
 - Package managers: Homebrew, pnpm, cargo, proto, bun, deno
 - Version managers: proto (for Node.js, pnpm, bun)
 - Terminal emulators: iTerm2, Alacritty
-- Shell utilities: fzf, ripgrep, gh, ghq, delta
+- Shell utilities: fzf, ripgrep, gh, ghq, delta, yazi
 - Development: Node.js ecosystem, Rust, Go, Android SDK
 
 ## Important Notes
 
 1. This repository uses **GNU Stow** for symlink management - a standard tool for managing dotfiles
-2. The setup script (`scripts/setup-stow.sh`) creates symbolic links from `packages/` to their target locations
+2. The setup script (`scripts/setup.sh`) creates symbolic links from `packages/` to their target locations
 3. Avoid editing files directly in system locations (e.g., `~/.config/nvim`) - edit files in this repository instead
 4. VSCode settings are managed by Stow and linked to `~/Library/Application Support/Code/User/`
 5. Cursor settings are linked to VSCode settings for consistency

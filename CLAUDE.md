@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 重要
+
+ユーザーには日本語で対応すること
+
 ## Overview
 
 This is a dotfiles repository for macOS development environment setup. It manages configurations for various development tools including Neovim, VSCode, Zsh, Git, and more.

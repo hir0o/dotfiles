@@ -1,7 +1,7 @@
 [user]
 	name = Hiroyuki Shibuya
   email = mk.9.q.kyu@gmail.com
-	signingkey = 2CD89EF97734CA9FE06B20BA6F738D73D38F0D76
+	signingkey = 8EF613704409A59C
 
 [alias]
   pr  = !gh pr create -B $(git branch --sort=-committerdate | fzf) -a @me
@@ -42,6 +42,7 @@
   ps  = !git push origin `git rev-parse --abbrev-ref HEAD`
   psf  = !git ps --force-if-includes
   pst = !git push origin --tags
+  psa = "!f() { git push origin $(git rev-parse --abbrev-ref HEAD) \"$@\" && [ -x ./.local-hooks/after-push ] && ./.local-hooks/after-push; }; f"
   pl  = !git pull origin `git rev-parse --abbrev-ref HEAD`
   psh = push heroku master
   rbp = !git log --oneline | fzf | awk '{print $1}' | xargs -I @ git rebase -i @~

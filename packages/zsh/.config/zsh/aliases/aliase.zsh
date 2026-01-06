@@ -5,3 +5,4 @@ alias fmv='fzf --multi | xargs -I{} mv {}'
 alias c="cursor"
 alias v="code"
 alias zj="zellij"
+alias nr="ni run"

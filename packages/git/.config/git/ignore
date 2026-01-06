@@ -2,5 +2,6 @@
 
 **/CLAUDE.local.md
 
-**/*/__resources
-**/*/__resource
+**/__resources
+
+.local-hooks/

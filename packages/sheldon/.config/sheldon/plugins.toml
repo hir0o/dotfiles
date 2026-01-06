@@ -29,6 +29,11 @@ github = "zsh-users/zsh-completions"
 [plugins.compinit]
 inline = 'autoload -Uz compinit && compinit'
 
+# --- パッケージマネージャー抽象化 ---
+[plugins.ni-zsh]
+github = "azu/ni.zsh"
+apply = ["defer"]
+
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 apply = ["defer"]

@@ -3,3 +3,4 @@
 .zsh_history
 .zsh_sessions/
 .shm.zshrc
+packages/zsh/.config/zsh/local/*.zsh

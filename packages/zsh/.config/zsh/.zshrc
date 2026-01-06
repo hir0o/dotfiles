@@ -69,8 +69,12 @@ sdk() {
   sdk "$@"
 }
 
-# 案件用
-source "$XDG_CONFIG_HOME/zsh/.shm.zshrc"
+# Load local configurations (not tracked by git)
+# Place your private settings in ~/.config/zsh/local/*.zsh
+for config_file in "$XDG_CONFIG_HOME/zsh/local"/*.zsh(N); do
+  source "$config_file"
+done
+
 source "$XDG_CONFIG_HOME/zsh/completion-for-pnpm.zsh"
 
 # proto

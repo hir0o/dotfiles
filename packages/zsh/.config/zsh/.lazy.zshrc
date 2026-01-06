@@ -24,6 +24,7 @@ source "$ZSH_PATH/aliases/aliase.zsh"
 source "$ZSH_PATH/aliases/cd.zsh"
 source "$ZSH_PATH/aliases/git.zsh"
 source "$ZSH_PATH/aliases/vscode.zsh"
+source "$ZSH_PATH/aliases/chpwd.zsh"
 
 # anyenv
 # eval "$(anyenv init -)"

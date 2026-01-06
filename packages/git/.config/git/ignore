@@ -5,3 +5,5 @@
 **/__resources
 
 .local-hooks/
+
+.localrc

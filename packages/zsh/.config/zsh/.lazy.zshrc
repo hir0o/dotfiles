@@ -20,11 +20,10 @@ alias vim='nvim'
 alias opap='ls /Applications | fzf | xargs open -a'
 alias pn='pnpm'
 
-source "$ZSH_PATH/aliases/aliase.zsh"
-source "$ZSH_PATH/aliases/cd.zsh"
-source "$ZSH_PATH/aliases/git.zsh"
-source "$ZSH_PATH/aliases/vscode.zsh"
-source "$ZSH_PATH/aliases/chpwd.zsh"
+# Load all alias files
+for alias_file in "$ZSH_PATH/aliases"/*.zsh(N); do
+  source "$alias_file"
+done
 
 # anyenv
 # eval "$(anyenv init -)"

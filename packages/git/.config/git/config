@@ -1,8 +1,3 @@
-[user]
-	name = Hiroyuki Shibuya
-  email = mk.9.q.kyu@gmail.com
-	signingkey = 8EF613704409A59C
-
 [alias]
   pr  = !gh pr create -B $(git branch --sort=-committerdate | fzf) -a @me
   ad = !git diff --name-only | fzf -m | xargs git add
@@ -188,3 +183,6 @@
 	program = gpg
 [credential]
 	helper = osxkeychain
+
+[include]
+  path = config.local

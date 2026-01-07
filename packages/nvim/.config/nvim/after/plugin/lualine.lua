@@ -21,7 +21,37 @@ require('lualine').setup {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_x = {
+      -- Copilotステータス
+      {
+        function()
+          return " "
+        end,
+        color = function()
+          local status = require("sidekick.status").get()
+          if not status then
+            return nil
+          end
+          return status.busy and "DiagnosticWarn" or "Special"
+        end,
+        cond = function()
+          return require("sidekick.status").get() ~= nil
+        end,
+      },
+      -- sidekick CLIセッション数
+      {
+        function()
+          local sessions = require("sidekick.status").cli()
+          return " " .. #sessions
+        end,
+        cond = function()
+          return #require("sidekick.status").cli() > 0
+        end,
+      },
+      'encoding',
+      'fileformat',
+      'filetype'
+    },
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },

@@ -116,5 +116,9 @@ require("lazy").setup({
   'akinsho/git-conflict.nvim',
   'mikavilpas/yazi.nvim',
   'lewis6991/gitsigns.nvim',
+  {
+    'folke/sidekick.nvim',
+    event = 'VeryLazy',
+  },
 })
 

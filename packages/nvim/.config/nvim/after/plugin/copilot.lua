@@ -3,11 +3,11 @@ if (not status) then return end
 
 copilot.setup({
   suggestion = {
-    enabled = true,
+    enabled = true, -- インライン補完を有効化（sidekick.nvimと併用）
     auto_trigger = true,
     debounce = 75,
     keymap = {
-      accept = "<M-l>",
+      accept = "<Tab>", -- Tabキーで受け入れる（Cursor風）
       accept_word = "<M-w>",
       accept_line = "<M-j>",
       next = "<M-]>",

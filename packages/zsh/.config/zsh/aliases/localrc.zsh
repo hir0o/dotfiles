@@ -32,6 +32,27 @@ localrc() {
       echo "✅ Dumped preset '$name' to .localrc"
       source .localrc
       ;;
+    link)
+      # プリセットへのシンボリックリンクを作成
+      if [[ -z "$name" ]]; then
+        # 引数なしならfzfで選択
+        name=$(ls -1 "$LOCALRC_PRESETS_DIR" 2>/dev/null | grep -v "^\.gitkeep$" | fzf --prompt="Select preset to link: ")
+        [[ -z "$name" ]] && return 1
+      fi
+      local preset_file="$LOCALRC_PRESETS_DIR/$name"
+      if [[ ! -f "$preset_file" ]]; then
+        echo "❌ Preset '$name' not found"
+        localrc list
+        return 1
+      fi
+      if [[ -e .localrc ]]; then
+        echo "❌ .localrc already exists. Remove it first or use 'localrc dump' to overwrite."
+        return 1
+      fi
+      ln -s "$preset_file" .localrc
+      echo "✅ Linked preset '$name' to .localrc"
+      source .localrc
+      ;;
     edit)
       # プリセットを編集
       if [[ -z "$name" ]]; then
@@ -73,6 +94,7 @@ localrc() {
       echo "Commands:"
       echo "  list        Show available presets"
       echo "  dump        Select preset and dump to .localrc (fzf)"
+      echo "  link        Create symlink from preset to .localrc (fzf)"
       echo "  edit        Edit a preset (fzf)"
       echo "  new <name>  Create a new preset"
       echo "  rm          Remove a preset (fzf)"
@@ -85,7 +107,7 @@ localrc() {
 # 補完設定
 _localrc() {
   local presets=($(ls -1 "$LOCALRC_PRESETS_DIR" 2>/dev/null | grep -v "^\.gitkeep$"))
-  local commands=(list dump edit new rm cat)
+  local commands=(list dump link edit new rm cat)
 
   if [[ $CURRENT -eq 2 ]]; then
     _describe 'command' commands

@@ -1,3 +1,4 @@
+killPort() { kill -9 $(lsof -ti :$1); }
 cdapp() { [[ ${PWD##*/} != "app" ]] && cd app && echo "\033[36m→ moved to app/\033[0m"; }
-alias d='cdapp; pnpm run:dev'
+alias d='cdapp;killPort 5173;pnpm run:dev'
 

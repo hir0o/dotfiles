@@ -1,0 +1,3 @@
+cdapp() { [[ ${PWD##*/} != "app" ]] && cd app && echo "\033[36m→ moved to app/\033[0m"; }
+alias d='cdapp; pnpm run:dev'
+

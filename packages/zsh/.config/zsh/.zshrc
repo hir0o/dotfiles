@@ -96,3 +96,6 @@ bindkey '^[[B' history-substring-search-down  # ↓キー
 # Emacs モード用
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
+
+# ターミナル起動時にカレントディレクトリの .localrc があれば読み込む
+[[ -f .localrc ]] && source .localrc

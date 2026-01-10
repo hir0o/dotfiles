@@ -56,6 +56,7 @@
   opg = !gh repo view `ghq list | fzf | cut -d "/" -f 2,3` --web
   opi = !gh issue view `gh issue list | fzf | cut -f 1` --web
   opp = !gh pr view `gh pr list | fzf | cut -f 1` --web
+  prc = !gh api "repos/{owner}/{repo}/pulls/$(gh pr view --json number -q .number)/comments" --jq ".[] | select(.user.login != \"$(gh api user -q .login)\") | {id: .id, file: .path, line: .line, user: .user.login, comment: .body}"
   fps = ftp push
   g   = !ghq get
   rmg = !rm -rf `ghq list -p | fzf`

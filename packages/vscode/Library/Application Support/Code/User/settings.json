@@ -243,7 +243,10 @@
   ],
   "github.copilot.nextEditSuggestions.enabled": true,
   "cursor.composer.shouldChimeAfterChatFinishes": true,
-  "workbench.statusBar.visible": false,
   "gitlens.ai.model": "gitkraken",
-  "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash"
+  "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash",
+  "cursor.cpp.disabledLanguages": [
+    "plaintext",
+    "scminput"
+  ]
 }

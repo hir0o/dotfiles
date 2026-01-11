@@ -1,4 +1,4 @@
-keybinds clear-defaults=true {
+keybinds clear-defaults=false {
     normal {
         // Alt + h/l でタブ切り替え、Alt + j/k でペイン移動
         bind "Alt h" { MoveFocusOrTab "Left"; }

@@ -76,6 +76,7 @@ for config_file in "$XDG_CONFIG_HOME/zsh/local"/*.zsh(N); do
 done
 
 source "$XDG_CONFIG_HOME/zsh/completion-for-pnpm.zsh"
+zsh-defer source "$XDG_CONFIG_HOME/zsh/completion-for-zellij.zsh"
 
 # proto
 export PROTO_HOME="$XDG_DATA_HOME/proto";

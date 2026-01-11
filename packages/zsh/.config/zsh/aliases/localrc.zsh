@@ -10,10 +10,13 @@ localrc() {
   [[ ! -d "$LOCALRC_PRESETS_DIR" ]] && mkdir -p "$LOCALRC_PRESETS_DIR"
 
   case "$cmd" in
-    ""|list|ls)
+    list|ls)
       # プリセット一覧
       echo "📁 Available presets:"
       ls -1 "$LOCALRC_PRESETS_DIR" 2>/dev/null | grep -v "^\.gitkeep$" | sed 's/^/  - /' || echo "  (none)"
+      ;;
+    help)
+      localrc ""
       ;;
     dump)
       # プリセットを選択して.localrcに書き出す

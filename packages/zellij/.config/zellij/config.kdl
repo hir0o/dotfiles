@@ -1,3 +1,22 @@
+// カスタムテーマ - ビビッドなシアンの枠
+themes {
+    custom {
+        fg "#d4d4d4"
+        bg "#1e1e1e"
+        black "#000000"
+        red "#ff5555"
+        green "#00ffff"
+        yellow "#f1fa8c"
+        blue "#6272a4"
+        magenta "#ff79c6"
+        cyan "#8be9fd"
+        white "#f8f8f2"
+        orange "#ffb86c"
+    }
+}
+
+theme "custom"
+
 keybinds clear-defaults=false {
     normal {
         // Alt + h/l でタブ切り替え、Alt + j/k でペイン移動

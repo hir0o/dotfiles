@@ -13,6 +13,9 @@ window-padding-y = 5
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
 
+# リンク
+link-url = true
+
 # カーソル
 cursor-style = block
 cursor-style-blink = false

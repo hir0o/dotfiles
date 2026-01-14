@@ -57,5 +57,8 @@ apply = ["defer"]
 github = 'zsh-users/zsh-syntax-highlighting'
 apply = ["defer"]
 
+[plugins.alias-tips]
+github = "djui/alias-tips"
+
 [templates]
 defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"

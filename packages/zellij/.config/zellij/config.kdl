@@ -30,6 +30,10 @@ keybinds clear-defaults=false {
 
         // Alt + t で新規タブ
         bind "Alt t" { NewTab; }
+
+        // Alt + [/] でタブ移動
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
     }
 
     locked {
@@ -172,8 +176,8 @@ keybinds clear-defaults=false {
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt =" { Resize "Increase"; }
-        bind "Alt [" { MoveFocusOrTab "left"; }
-        bind "Alt ]" { MoveFocusOrTab "right"; }
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Alt h" { MoveFocusOrTab "left"; }

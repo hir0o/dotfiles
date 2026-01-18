@@ -14,6 +14,7 @@ mason_lspconfig.setup({
   ensure_installed = {
     'vtsls',
     'eslint',
+    'tailwindcss',
   },
   automatic_installation = true,
 })

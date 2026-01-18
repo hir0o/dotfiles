@@ -120,5 +120,15 @@ require("lazy").setup({
     'folke/sidekick.nvim',
     event = 'VeryLazy',
   },
+  {
+    'luckasRanarison/tailwind-tools.nvim',
+    name = 'tailwind-tools',
+    build = ':UpdateRemotePlugins',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'neovim/nvim-lspconfig',
+    },
+    opts = {},
+  },
 })
 

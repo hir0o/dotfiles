@@ -10,14 +10,14 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
-    file_ignore_patterns = { "node%_modules/.*", ".git/.*" }
+    file_ignore_patterns = { "node%_modules/.*", ".git/.*", ".next/.*" }
   },
 }
 
 vim.keymap.set('n', ';f',
   function()
     builtin.find_files({
-      no_ignore = false,
+      no_ignore = true,
       hidden = true
     })
   end, { desc = 'ファイルを検索' })

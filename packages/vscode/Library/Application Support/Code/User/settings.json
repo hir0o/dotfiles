@@ -248,5 +248,7 @@
   "cursor.cpp.disabledLanguages": [
     "plaintext",
     "scminput"
-  ]
+  ],
+  "cursor.general.disableHttp1SSE": true,
+  "workbench.statusBar.visible": false
 }

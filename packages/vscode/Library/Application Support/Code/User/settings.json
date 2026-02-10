@@ -18,7 +18,7 @@
     "editorBracketHighlight.foreground4": "#D08770",
     "editorBracketHighlight.foreground5": "#BF616A",
     "editorBracketHighlight.foreground6": "#abb2c0",
-    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165"
+    "editorBracketHighlight.unexpectedBracket.foreground": "#db6165",
     // "titleBar.activeBackground": "#1E1E1E", // アクティブなタイトルバーの背景色
     // "titleBar.activeForeground": "#FFFFFF", // アクティブなタイトルバーの文字色
     // "titleBar.inactiveBackground": "#2D2D2D", // 非アクティブ時の背景色
@@ -33,7 +33,7 @@
     "markdown": "html",
     "scss": "css",
     "javascript": "javascriptreact",
-    "typescriptreact": "javascriptreact"
+    "typescriptreact": "javascriptreact",
   },
   // 保存時のアクション
   "editor.codeActionsOnSave": {
@@ -41,7 +41,7 @@
     "quickfix.biome": "never",
     "source.organizeImports.biome": "explicit",
     "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit"
+    "source.fixAll.stylelint": "explicit",
   },
   // 拡張機能のESlintのフォーマットを行う
   "eslint.format.enable": false,
@@ -63,16 +63,16 @@
   "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": ["<C-n>"],
-      "after": ["leader", "leader", "leader", "b", "d", "w"]
+      "after": ["leader", "leader", "leader", "b", "d", "w"],
     },
     {
       "before": ["<C-p>"],
       // <leader><leader> / <char>... <CR>
-      "after": ["leader", "leader", "/"]
+      "after": ["leader", "leader", "/"],
     },
     {
       //
-    }
+    },
   ],
   "vim.easymotionKeys": "abcdefghijklmnopqrstuvwxyz",
   "vim.easymotion": true,
@@ -82,7 +82,7 @@
   "vim.leader": "\\",
   "vim.handleKeys": {
     "<C-a>": false,
-    "<C-f>": false
+    "<C-f>": false,
   },
   "vim.foldfix": true,
   // yankをクリップボードに
@@ -93,7 +93,7 @@
     // 補完候補を出す場所
     "other": true,
     "strings": true,
-    "comments": true
+    "comments": true,
   }, // ペーストしたテキストをフォーマットする
   // インデントをスペースにする
   "editor.insertSpaces": true,
@@ -127,7 +127,7 @@
   "editor.tabSize": 2,
   // 対応してない拡張子の言語を指定
   "files.associations": {
-    "*.gs": "javascript"
+    "*.gs": "javascript",
   },
   // サジェストのどの位置から選択するか。
   "editor.suggestSelection": "first",
@@ -161,7 +161,7 @@
   // "workbench.activityBar.visible": false
   "formatOnSave": true,
   "[markdown]": {
-    "formatOnSave": false
+    "formatOnSave": false,
   },
   "workbench.editor.showTabs": "multiple",
   "redhat.telemetry.enabled": true,
@@ -177,7 +177,7 @@
     "javascript": true,
     "javascriptreact": true,
     "json": true,
-    "jsonc": true
+    "jsonc": true,
   },
   "terminal.integrated.defaultProfile.osx": "zsh",
   "cSpell.userWords": [
@@ -193,7 +193,7 @@
     "signout",
     "stylelint",
     "tolgee",
-    "topbar"
+    "topbar",
   ],
   "window.titleBarStyle": "custom",
   "gotoNextPreviousMember.symbolKinds": ["function", "strings", "constant"],
@@ -206,7 +206,7 @@
   "editor.accessibilitySupport": "off",
   "workbench.editor.customLabels.patterns": {
     "**/index.*": "${dirname} .../${dirname(1)}",
-    "**/{page,actions,hooks,components,utils,types,functions}.{js,ts,jsx,tsx}": "${dirname}/${filename}.${extname} .../${dirname(1)}"
+    "**/{page,actions,hooks,components,utils,types,functions}.{js,ts,jsx,tsx}": "${dirname}/${filename}.${extname} .../${dirname(1)}",
   },
   "find-it-faster.general.useTerminalInEditor": true,
   "javascript.preferences.useAliasesForRenames": false,
@@ -219,7 +219,7 @@
     "tsc",
     "git log",
     "git diff",
-    "git show"
+    "git show",
   ],
   "github.copilot.chat.editor.temporalContext.enabled": true,
   "github.copilot.chat.edits.temporalContext.enabled": true,
@@ -233,22 +233,20 @@
   "cSpell.enabledNotifications": {
     "Average Word Length too Long": false,
     "Lines too Long": false,
-    "Maximum Word Length Exceeded": false
+    "Maximum Word Length Exceeded": false,
   },
   "git-worktree-manager.worktreeCopyPatterns": [
     "**/.env",
     "**/.env.*",
     ".vscode/**",
-    "**/*.local"
+    "**/*.local",
   ],
   "github.copilot.nextEditSuggestions.enabled": true,
   "cursor.composer.shouldChimeAfterChatFinishes": true,
   "gitlens.ai.model": "gitkraken",
   "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash",
-  "cursor.cpp.disabledLanguages": [
-    "plaintext",
-    "scminput"
-  ],
+  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
   "cursor.general.disableHttp1SSE": true,
-  "workbench.statusBar.visible": false
+  "claudeCode.preferredLocation": "panel",
+  "workbench.statusBar.visible": false,
 }

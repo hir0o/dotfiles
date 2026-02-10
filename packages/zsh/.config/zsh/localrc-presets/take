@@ -3,7 +3,7 @@ cdapp() { [[ ${PWD##*/} != "app" ]] && cd app && echo "\033[36m→ moved to app/
 
 alias d='cdapp;killPort 5173;pnpm run:dev'
 
-alias s='cdapp;killPort 6006;pnpm story'
+alias s='cdapp;killPort 6006;pnpm story --no-open'
 
 alias l='cdapp;pnpm lint'
 

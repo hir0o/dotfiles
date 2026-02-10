@@ -5,4 +5,3 @@
 .shm.zshrc
 packages/zsh/.config/zsh/local/*.zsh
 packages/git/.config/git/config.local
-.worktrees/

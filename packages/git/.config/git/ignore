@@ -9,3 +9,5 @@
 .localrc
 
 .worktrees/
+
+.worktree-purpose

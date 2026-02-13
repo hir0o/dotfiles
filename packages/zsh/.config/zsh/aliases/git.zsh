@@ -1,6 +1,31 @@
 alias g=git
 alias lg=lazygit
 
+# .worktrees/ 配下のworktreeをfzfで選んでcd
+cw() {
+  local git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -z "$git_root" ]]; then
+    echo "Not a git repository"
+    return 1
+  fi
+
+  local wt_dir="$git_root/.worktrees"
+  if [[ ! -d "$wt_dir" ]]; then
+    echo "No .worktrees directory found"
+    return 1
+  fi
+
+  local selected=$(
+    find "$wt_dir" -mindepth 2 -maxdepth 2 -type d | \
+    sed "s|$wt_dir/||" | \
+    fzf --preview "cat $wt_dir/{}/.worktree-purpose 2>/dev/null || echo '(no purpose file)'"
+  )
+
+  if [[ -n "$selected" ]]; then
+    cd "$wt_dir/$selected"
+  fi
+}
+
 # after-pushフックを実行
 afp() {
   [ -f ./.local-hooks/after-push ] && bash ./.local-hooks/after-push || true

@@ -43,8 +43,8 @@
   rbp = !git log --oneline | fzf | awk '{print $1}' | xargs -I @ git rebase -i @~
   rbc = rebase --continue
   rba = rebase --abort
-  rbb = !git branch -r | fzf | xargs git rebase
-  rbl = !git branch --sort=-committerdate | fzf | xargs git rebase
+  rbr = !git branch -r | fzf | xargs git rebase
+  rbb = !git branch --sort=-committerdate | fzf | xargs git rebase
   rf  = reflog --date=iso
   rs  = reset
   rsh = reset --hard

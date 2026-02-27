@@ -30,6 +30,7 @@ PACKAGES=(
     "wezterm"
     "yazi"
     "ghostty"
+    "octorus"
 )
 
 echo "Stowing packages..."

@@ -188,3 +188,5 @@
 
 [include]
   path = config.local
+[url "https://github.com/"]
+	insteadOf = git@github.com:

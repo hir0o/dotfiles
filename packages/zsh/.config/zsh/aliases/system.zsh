@@ -12,3 +12,11 @@ function sys-alfl-f() {
   defaults write com.apple.finder AppleShowAllFiles FALSE
   killall Finder
 }
+
+function pbcopy() {
+    if [ $# -eq 0 ]; then
+        tee >(command pbcopy)
+    else
+        command pbcopy "$@"
+    fi
+}

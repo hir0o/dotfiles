@@ -11,12 +11,12 @@
   sp = !git stash list | fzf | cut -d :" -f 1 | xargs git stash pop"
   rmc = !git restore -- . && git clean -df .
   br  = branch
-  brd = !git rbr | fzf --ansi -m | awk '{print $1}' | xargs git branch -D
+  brd = !git brl | fzf --ansi -m | awk '{print $1}' | xargs git branch -D
   brda= !git branch -D `git branch | sed '/*/d' | tr '\n' ' '`
   cm  = commit --verbose --no-verify
   cmm = !git add -A && git status && git commit -m
   s  = switch
-  sb  = !git rbr | fzf --ansi | awk '{print $1}' | xargs git switch
+  sb  = !git brl | fzf --ansi | awk '{print $1}' | xargs git switch
   sba = !git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch
   pco = !gh pr list --limit 1000 | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout
   sc = switch -c
@@ -69,8 +69,8 @@
   cin = !gibo dump $(gibo list | fzf) >> .gitignore
   cmdl= git reset --soft HEAD^
   empty = !git commit --allow-empty -m 'empty' && git push
-  rbr = !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) - %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/heads/
-  rbrr= !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/remotes/
+  brl = !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) - %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/heads/
+  brla= !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/remotes/
   ui = gitui
 
 [core]

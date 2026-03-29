@@ -31,6 +31,7 @@ PACKAGES=(
     "yazi"
     "ghostty"
     "octorus"
+    "aerospace"
 )
 
 echo "Stowing packages..."

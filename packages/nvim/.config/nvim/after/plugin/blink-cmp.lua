@@ -35,9 +35,29 @@ blink.setup({
     nerd_font_variant = 'mono',
   },
 
-  -- ソース設定（全て内蔵）
+  -- ソース設定
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'buffer' },
+    default = { 'lsp', 'path', 'snippets', 'buffer', 'avante_commands', 'avante_mentions', 'avante_files' },
+    providers = {
+      avante_commands = {
+        name = "avante_commands",
+        module = "blink.compat.source",
+        score_offset = 90,
+        opts = {},
+      },
+      avante_files = {
+        name = "avante_files",
+        module = "blink.compat.source",
+        score_offset = 100,
+        opts = {},
+      },
+      avante_mentions = {
+        name = "avante_mentions",
+        module = "blink.compat.source",
+        score_offset = 1000,
+        opts = {},
+      },
+    },
   },
 
   -- 補完設定

@@ -15,7 +15,7 @@ vim.opt.hlsearch = true -- 検索時にハイライト
 vim.opt.backup = false -- バックアップファイルを作らない
 vim.opt.showcmd = true -- コマンド入力中にコマンドを表示
 vim.opt.cmdheight = 1 -- コマンドラインの高さ
-vim.opt.laststatus = 2 -- ステータスラインを常に表示
+vim.opt.laststatus = 3 -- グローバルステータスライン（avante.nvim推奨）
 vim.opt.expandtab = true -- タブをスペースに変換
 vim.opt.scrolloff = 10 -- スクロール時のカーソル位置
 vim.opt.shell = 'zsh' -- シェルの指
@@ -98,6 +98,7 @@ require("lazy").setup({
     'saghen/blink.cmp',
     dependencies = {
       'rafamadriz/friendly-snippets',
+      'saghen/blink.compat',
     },
     version = '1.*',
     build = 'cargo build --release',
@@ -137,6 +138,49 @@ require("lazy").setup({
       'neovim/nvim-lspconfig',
     },
     opts = {},
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    ft = { 'markdown', 'Avante' },
+  },
+  {
+    'HakonHarnes/img-clip.nvim',
+    event = 'VeryLazy',
+    opts = {
+      default = {
+        embed_image_as_base64 = false,
+        prompt_for_file_name = false,
+        drag_and_drop = {
+          insert_mode = true,
+        },
+        use_absolute_path = true,
+      },
+    },
+  },
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    event = 'VeryLazy',
+  },
+  {
+    'yetone/avante.nvim',
+    event = 'VeryLazy',
+    version = false,
+    build = 'make',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      'nvim-telescope/telescope.nvim',
+      'stevearc/dressing.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'zbirenbaum/copilot.lua',
+      'HakonHarnes/img-clip.nvim',
+      'MeanderingProgrammer/render-markdown.nvim',
+    },
   },
 })
 

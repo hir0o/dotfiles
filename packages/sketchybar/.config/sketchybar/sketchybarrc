@@ -17,7 +17,7 @@ export ICON_ITEM_WIDTH=22
 export ICON_IMAGE_SCALE=0.65
 
 ##### Bar Appearance #####
-sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000
+sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000 topmost=window
 
 ##### Changing Defaults #####
 default=(
@@ -159,6 +159,11 @@ sketchybar --add item clock right \
              label.font="Hack Nerd Font Mono:Semibold:13.0" \
              label.align=center \
              label.y_offset=0 \
+  --add item date right \
+  --set date update_freq=60 script="$PLUGIN_DIR/date.sh" \
+             padding_left=0 \
+             padding_right=0 \
+             label.font="Hack Nerd Font Mono:Semibold:13.0" \
   --add item volume right \
   --set volume script="$PLUGIN_DIR/volume.sh" \
              padding_left=1 \
@@ -205,3 +210,6 @@ done
 
 ##### Force all scripts to run the first time #####
 sketchybar --update
+
+##### Auto-toggle with macOS menu bar #####
+pkill -x sketchybar-toggle; sketchybar-toggle &

@@ -1,0 +1,207 @@
+#!/bin/bash
+# SketchyBar メイン設定
+# AeroSpace連携のワークスペース表示 + 基本ステータス表示
+
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+export MIN_WORKSPACE=1
+export MAX_WORKSPACE=9
+export EXTRA_WORKSPACES=""
+VISIBLE_ICON_SLOTS="${VISIBLE_ICON_SLOTS:-4}"
+export VISIBLE_ICON_SLOTS
+
+export ICON_WIDTH=14
+export ICON_HEIGHT=14
+export ICON_ITEM_WIDTH=22
+export ICON_IMAGE_SCALE=0.65
+
+##### Bar Appearance #####
+sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000
+
+##### Changing Defaults #####
+default=(
+  padding_left=5
+  padding_right=5
+  icon.font="Hack Nerd Font:Bold:13.0"
+  label.font="Hack Nerd Font:Semibold:13.0"
+  icon.color=0xffffffff
+  label.color=0xffffffff
+  icon.padding_left=2
+  icon.padding_right=2
+  label.padding_left=2
+  label.padding_right=2
+  updates=on
+)
+sketchybar --default "${default[@]}"
+
+##### AeroSpace Workspace Items (Left) #####
+
+sketchybar --add event aerospace_workspace_change
+sketchybar --add event volume_change
+
+for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
+  sketchybar --add item space.$sid left \
+    --set space.$sid \
+      drawing=on \
+      background.drawing=off \
+      padding_left=6 \
+      padding_right=6 \
+      icon="$sid" \
+      icon.font="Hack Nerd Font:Semibold:16.0" \
+      icon.color=0xffffffff \
+      icon.padding_left=0 \
+      icon.padding_right=4 \
+      label="" \
+      label.drawing=off \
+      click_script="aerospace workspace $sid"
+
+  icon_items=()
+  for icon_slot in $(seq 1 "$VISIBLE_ICON_SLOTS"); do
+    icon_items+=("space.$sid.icon${icon_slot}")
+    sketchybar --add item space.$sid.icon${icon_slot} left \
+      --set space.$sid.icon${icon_slot} \
+        drawing=off \
+        background.drawing=off \
+        padding_left=2 \
+        padding_right=2 \
+        width=24 \
+        icon.drawing=off \
+        icon.width=16 \
+        icon.background.drawing=off \
+        icon.background.height=16 \
+        icon.background.y_offset=0 \
+        icon.background.corner_radius=3 \
+        icon.background.image.scale=0.8 \
+        label="" \
+        label.drawing=off \
+        click_script="aerospace workspace $sid"
+  done
+
+  # more を先に作成（bracketで参照するため）
+  sketchybar --add item space.$sid.more left \
+    --set space.$sid.more \
+      drawing=off \
+      padding_left=2 \
+      padding_right=2 \
+      background.drawing=off \
+      width=24 \
+      icon.drawing=off \
+      label="" \
+      label.drawing=off \
+      label.font="Hack Nerd Font:Semibold:12.0" \
+      label.color=0x99FFFFFF \
+      label.padding_left=2 \
+      label.padding_right=2 \
+      click_script="aerospace workspace $sid"
+
+  # フォーカス中ワークスペースの下線インジケーター
+  sketchybar --add bracket space.$sid.underline \
+    space.$sid \
+    "${icon_items[@]}" \
+    space.$sid.more \
+    --set space.$sid.underline \
+      drawing=off \
+      background.drawing=off \
+      background.color=0xCCFFFFFF \
+      background.height=2 \
+      background.corner_radius=0 \
+      background.padding_left=0 \
+      background.padding_right=0 \
+      background.y_offset=-12
+
+  if [ "$sid" -lt $MAX_WORKSPACE ]; then
+    sketchybar --add item space.$sid.separator left \
+      --set space.$sid.separator \
+        drawing=on \
+        background.drawing=off \
+        padding_left=8 \
+        padding_right=8 \
+        icon.drawing=off \
+        label="|" \
+        label.drawing=on \
+        label.font="Hack Nerd Font:Semibold:13.0" \
+        label.color=0x66FFFFFF
+  fi
+done
+
+# 不可視アイテム: フォーカス表示を集約更新
+sketchybar --add item workspace.focus center \
+  --set workspace.focus \
+    drawing=off \
+    script="$PLUGIN_DIR/aerospace.sh" \
+  --subscribe workspace.focus \
+    aerospace_workspace_change \
+    front_app_switched
+
+# 不可視アイテム: イベント＋ポーリングでアイコンを更新
+sketchybar --add item workspace.refresh center \
+  --set workspace.refresh \
+    drawing=off \
+    script="$PLUGIN_DIR/workspace_events.sh" \
+    update_freq=${WORKSPACE_POLL_SECS:-1} \
+  --subscribe workspace.refresh \
+    front_app_switched \
+    aerospace_workspace_change
+
+# 起動時にワークスペースアイコンとフォーカスを初期化
+"$PLUGIN_DIR/update_workspace_icons.sh"
+"$PLUGIN_DIR/aerospace.sh"
+
+##### Right Items #####
+
+sketchybar --add item clock right \
+  --set clock update_freq=1 script="$PLUGIN_DIR/clock.sh" \
+             width=56 \
+             padding_left=0 \
+             padding_right=0 \
+             label.width=56 \
+             label.font="Hack Nerd Font Mono:Semibold:13.0" \
+             label.align=center \
+             label.y_offset=0 \
+  --add item volume right \
+  --set volume script="$PLUGIN_DIR/volume.sh" \
+             padding_left=1 \
+             padding_right=1 \
+  --subscribe volume volume_change \
+  --add item battery right \
+  --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+             padding_left=1 \
+             padding_right=1 \
+  --subscribe battery system_woke power_source_change
+
+# 疑似ミニマイズ中のウィンドウ表示
+sketchybar --add item hidden right \
+  --set hidden \
+    script="$PLUGIN_DIR/hidden_windows.sh" \
+    update_freq=3 \
+    icon="󰘚" \
+    icon.font="Hack Nerd Font:Semibold:13.0" \
+    icon.color=0x99FFFFFF \
+    label="" \
+    padding_left=4 \
+    padding_right=2 \
+    drawing=off \
+  --subscribe hidden \
+    aerospace_workspace_change \
+    front_app_switched
+
+for i in $(seq 1 4); do
+  sketchybar --add item hidden.icon${i} right \
+    --set hidden.icon${i} \
+      drawing=off \
+      width=24 \
+      icon=" " \
+      icon.drawing=on \
+      icon.width=16 \
+      icon.background.drawing=off \
+      icon.background.height=16 \
+      icon.background.corner_radius=3 \
+      icon.background.color=0x00000000 \
+      icon.background.y_offset=0 \
+      padding_left=2 \
+      padding_right=2
+done
+
+##### Force all scripts to run the first time #####
+sketchybar --update

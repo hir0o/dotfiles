@@ -26,4 +26,3 @@ export PATH="$HOME/.deno/bin:$PATH"
 
 ### mise ###
 export PATH="$HOME/.local/share/mise/shims:$PATH"
-. "/Users/h.shibuya/.local/share/cargo/env"

@@ -2,7 +2,7 @@
   ad = !git diff --name-only | fzf -m | xargs git add
   sr = !git diff --staged --name-only | fzf -m | xargs git reset HEAD
   ada = add -A
-  amd  = commit --amend --no-verify
+  amd  = commit --amend
   ss  = stash save -u
   sd = stash clear
   sl  = !git stash list | cut -d :" -f 2 | fzf --preview 'git stash show -p --color=always {}'"
@@ -11,7 +11,7 @@
   br  = branch
   brd = !git brl | fzf --ansi -m | awk '{print $1}' | xargs git branch -D
   brda= !git branch -D `git branch | sed '/*/d' | tr '\n' ' '`
-  cm  = commit --verbose --no-verify
+  cm  = commit --verbose
   cmm = !git add -A && git status && git commit -m
   s  = switch
   sb  = !git brl | fzf --ansi | awk '{print $1}' | xargs git switch

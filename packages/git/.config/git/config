@@ -1,10 +1,8 @@
 [alias]
-  pr  = !gh pr create -B $(git branch --sort=-committerdate | fzf) -a @me
   ad = !git diff --name-only | fzf -m | xargs git add
   sr = !git diff --staged --name-only | fzf -m | xargs git reset HEAD
   ada = add -A
   amd  = commit --amend --no-verify
-  st  = status
   ss  = stash save -u
   sd = stash clear
   sl  = !git stash list | cut -d :" -f 2 | fzf --preview 'git stash show -p --color=always {}'"

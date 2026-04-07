@@ -53,7 +53,7 @@ export PATH=$PATH:$CARGO_HOME/bin
 export PATH="$(go env GOPATH)/bin:$PATH"
 
 # bun completions
-[ -s "/Users/h_shibuya/.bun/_bun" ] && source "/Users/h_shibuya/.bun/_bun"
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
 export GPG_TTY=$(tty)
 

@@ -175,6 +175,22 @@ sketchybar --add item clock right \
              padding_right=1 \
   --subscribe battery system_woke power_source_change
 
+# GitHub PR レビュー待ち数
+sketchybar --add item github_prs right \
+  --set github_prs \
+    update_freq=60 \
+    script="$PLUGIN_DIR/github_prs.sh" \
+    icon="" \
+    icon.font="Hack Nerd Font:Bold:16.0" \
+    icon.color=0xffffffff \
+    label="0" \
+    label.font="Hack Nerd Font:Semibold:13.0" \
+    label.color=0xffffffff \
+    padding_left=4 \
+    padding_right=4 \
+    drawing=on \
+    click_script="open 'https://github.com/pulls/review-requested'"
+
 # 疑似ミニマイズ中のウィンドウ表示
 sketchybar --add item hidden right \
   --set hidden \

@@ -33,6 +33,7 @@ PACKAGES=(
     "octorus"
     "aerospace"
     "sketchybar"
+    "hammerspoon"
 )
 
 echo "Stowing packages..."

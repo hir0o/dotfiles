@@ -105,6 +105,7 @@ cask "font-hack-nerd-font", args: { appdir: "/Applications" }
 cask "font-hackgen"
 cask "font-hackgen-nerd"
 cask "ghostty"
+cask "hammerspoon"
 cask "github"
 cask "gitify"
 cask "google-chrome"

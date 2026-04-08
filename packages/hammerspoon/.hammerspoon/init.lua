@@ -75,6 +75,22 @@ FocusMouseWatcher = hs.eventtap.new({ hs.eventtap.event.types.mouseMoved }, func
 end)
 FocusMouseWatcher:start()
 
+-- 設定ファイルの変更を検知して自動リロード
+ConfigWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", function(files)
+    local doReload = false
+    for _, file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+            break
+        end
+    end
+    if doReload then
+        hs.reload()
+    end
+end)
+ConfigWatcher:start()
+hs.alert.show("Hammerspoon config loaded")
+
 -- フォーカスが手動で変わった場合に追従
 FocusWindowFilter = hs.window.filter.default
 FocusWindowFilter:subscribe(

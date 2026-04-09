@@ -19,7 +19,7 @@ for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
   if [ "$sid" = "$FOCUSED_WORKSPACE" ]; then
     sketchybar --set "space.$sid" \
       icon.color=0xFFFFFFFF \
-      icon.font="Hack Nerd Font:Bold:16.0" \
+      icon.font="HackGen Console NF:Bold:16.0" \
       background.drawing=off
     sketchybar --set "space.$sid.underline" \
       drawing=on \
@@ -27,7 +27,7 @@ for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
   else
     sketchybar --set "space.$sid" \
       icon.color=0x88FFFFFF \
-      icon.font="Hack Nerd Font:Semibold:16.0" \
+      icon.font="HackGen Console NF:Semibold:16.0" \
       background.drawing=off
     sketchybar --set "space.$sid.underline" \
       drawing=off \

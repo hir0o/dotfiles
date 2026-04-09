@@ -23,8 +23,8 @@ sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000 topmost=
 default=(
   padding_left=5
   padding_right=5
-  icon.font="Hack Nerd Font:Bold:13.0"
-  label.font="Hack Nerd Font:Semibold:13.0"
+  icon.font="HackGen Console NF:Bold:13.0"
+  label.font="HackGen Console NF:Semibold:13.0"
   icon.color=0xffffffff
   label.color=0xffffffff
   icon.padding_left=2
@@ -48,7 +48,7 @@ for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
       padding_left=6 \
       padding_right=6 \
       icon="$sid" \
-      icon.font="Hack Nerd Font:Semibold:16.0" \
+      icon.font="HackGen Console NF:Semibold:16.0" \
       icon.color=0xffffffff \
       icon.padding_left=0 \
       icon.padding_right=4 \
@@ -89,7 +89,7 @@ for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
       icon.drawing=off \
       label="" \
       label.drawing=off \
-      label.font="Hack Nerd Font:Semibold:12.0" \
+      label.font="HackGen Console NF:Semibold:12.0" \
       label.color=0x99FFFFFF \
       label.padding_left=2 \
       label.padding_right=2 \
@@ -120,7 +120,7 @@ for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
         icon.drawing=off \
         label="|" \
         label.drawing=on \
-        label.font="Hack Nerd Font:Semibold:13.0" \
+        label.font="HackGen Console NF:Semibold:13.0" \
         label.color=0x66FFFFFF
   fi
 done
@@ -156,14 +156,14 @@ sketchybar --add item clock right \
              padding_left=0 \
              padding_right=0 \
              label.width=56 \
-             label.font="Hack Nerd Font Mono:Semibold:13.0" \
+             label.font="HackGen Console NF:Semibold:13.0" \
              label.align=center \
              label.y_offset=0 \
   --add item date right \
   --set date update_freq=60 script="$PLUGIN_DIR/date.sh" \
              padding_left=0 \
              padding_right=0 \
-             label.font="Hack Nerd Font Mono:Semibold:13.0" \
+             label.font="HackGen Console NF:Semibold:13.0" \
   --add item volume right \
   --set volume script="$PLUGIN_DIR/volume.sh" \
              padding_left=1 \
@@ -181,10 +181,10 @@ sketchybar --add item github_prs right \
     update_freq=60 \
     script="$PLUGIN_DIR/github_prs.sh" \
     icon="" \
-    icon.font="Hack Nerd Font:Bold:16.0" \
+    icon.font="HackGen Console NF:Bold:16.0" \
     icon.color=0xffffffff \
     label="0" \
-    label.font="Hack Nerd Font:Semibold:13.0" \
+    label.font="HackGen Console NF:Semibold:13.0" \
     label.color=0xffffffff \
     padding_left=4 \
     padding_right=4 \
@@ -197,7 +197,7 @@ sketchybar --add item hidden right \
     script="$PLUGIN_DIR/hidden_windows.sh" \
     update_freq=3 \
     icon="󰘚" \
-    icon.font="Hack Nerd Font:Semibold:13.0" \
+    icon.font="HackGen Console NF:Semibold:13.0" \
     icon.color=0x99FFFFFF \
     label="" \
     padding_left=4 \

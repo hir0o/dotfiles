@@ -27,3 +27,8 @@ gh-watch-merge() {
 
 # PRのチェックを監視し、結果を音声で通知する
 alias acw='gh pr checks --watch && afplay ${XDG_DATA_HOME:-~/.local/share}/sounds/ci-success.wav || afplay ${XDG_DATA_HOME:-~/.local/share}/sounds/ci-fail.wav'
+
+# GitHubユーザー名からCo-Authored-Byトレーラーを生成
+co-authored-by() {
+  gh api /users/$1 -q '"Co-Authored-By: \(.name) <\(.id)+\(.login)@users.noreply.github.com>"'
+}

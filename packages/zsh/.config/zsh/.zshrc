@@ -90,6 +90,19 @@ export PATH="$HOME/.local/bin:$PATH"
 # FZF key-bindings (プラグインの後に読み込む必要がある) - lazy load for faster startup
 zsh-defer source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
 
+# fancy-ctrl-z: バッファが空なら fg、入力中なら push-input
+fancy-ctrl-z() {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER=" fg"
+    zle accept-line
+  else
+    zle push-input
+  fi
+  zle clear-screen
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
 # zsh-history-substring-search のキーバインド設定
 # ↑↓キーで履歴の前方一致検索
 bindkey '^[[A' history-substring-search-up    # ↑キー

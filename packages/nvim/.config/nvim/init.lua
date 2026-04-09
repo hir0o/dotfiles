@@ -67,6 +67,34 @@ vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = '次のタブに移動' })
 vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = '前のタブに移動' })
 vim.keymap.set('', 'gp', '<C-o>', { desc = '前のジャンプ位置に戻る' })
 
+-- zz -> z -> z cycle: center -> top -> bottom -> center ...
+local zz_state = { pos = 0, last_time = 0 }
+
+vim.keymap.set('n', 'zz', function()
+  zz_state.pos = 1
+  zz_state.last_time = vim.loop.now()
+  vim.cmd('normal! zz')
+end, { desc = 'Scroll center (then z to cycle)' })
+
+vim.keymap.set('n', 'z', function()
+  local now = vim.loop.now()
+  if zz_state.pos > 0 and (now - zz_state.last_time) < 1000 then
+    zz_state.last_time = now
+    zz_state.pos = (zz_state.pos % 3) + 1
+    if zz_state.pos == 1 then
+      vim.cmd('normal! zz')
+    elseif zz_state.pos == 2 then
+      vim.cmd('normal! zt')
+    else
+      vim.cmd('normal! zb')
+    end
+  else
+    zz_state.pos = 0
+    local char = vim.fn.getcharstr()
+    vim.cmd('normal! z' .. char)
+  end
+end, { desc = 'Cycle scroll after zz / normal z commands' })
+
 -- plugin
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

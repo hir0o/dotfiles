@@ -5,6 +5,6 @@ alias fmv='fzf --multi | xargs -I{} mv {}'
 
 alias c="cursor"
 alias v="code"
-alias cc="claude --dangerously-skip-permissions"
+alias cl="claude --dangerously-skip-permissions"
 alias oc="opencode"
 alias nr="ni run"

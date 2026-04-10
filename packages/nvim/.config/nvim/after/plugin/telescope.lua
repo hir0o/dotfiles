@@ -10,7 +10,7 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
-    file_ignore_patterns = { "node%_modules/.*", ".git/.*", ".next/.*" }
+    file_ignore_patterns = { "node%_modules/.*", ".git/.*", ".next/.*", "__resources/.*" }
   },
 }
 

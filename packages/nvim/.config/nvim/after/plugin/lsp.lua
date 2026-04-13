@@ -16,7 +16,7 @@ mason_lspconfig.setup({
     'eslint',
     'tailwindcss',
   },
-  automatic_installation = true,
+  automatic_enable = false,
 })
 
 local on_attach = function(client, bufnr)
@@ -37,32 +37,51 @@ end
 
 local capabilities = require('blink.cmp').get_lsp_capabilities()
 
+local function make_server_opts(server_name)
+  local opts = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
+  }
 
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    local opts = {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      flags = {
-        debounce_text_changes = 150,
+  if server_name == 'vtsls' then
+    opts.settings = {
+      typescript = {
+        updateImportsOnFileMove = { enabled = 'always' },
+      },
+      javascript = {
+        updateImportsOnFileMove = { enabled = 'always' },
       },
     }
+  end
 
-    -- vtsls
-    if server_name == "vtsls" then
-      opts.settings = {
-        typescript = {
-          updateImportsOnFileMove = { enabled = "always" },
-        },
-        javascript = {
-          updateImportsOnFileMove = { enabled = "always" },
-        },
-      }
-    end
+  return opts
+end
 
-    lspconfig[server_name].setup(opts)
-  end,
-})
+local servers = {
+  'vtsls',
+  'eslint',
+  'tailwindcss',
+}
+
+if mason_lspconfig.setup_handlers then
+  mason_lspconfig.setup_handlers({
+    function(server_name)
+      lspconfig[server_name].setup(make_server_opts(server_name))
+    end,
+  })
+elseif vim.lsp and vim.lsp.config and vim.lsp.enable then
+  for _, server_name in ipairs(servers) do
+    vim.lsp.config(server_name, make_server_opts(server_name))
+    vim.lsp.enable(server_name)
+  end
+else
+  for _, server_name in ipairs(servers) do
+    lspconfig[server_name].setup(make_server_opts(server_name))
+  end
+end
 
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
@@ -79,4 +98,3 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     end, { buffer = true })
   end,
 })
-

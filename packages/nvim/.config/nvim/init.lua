@@ -109,6 +109,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local cargo_build = nil
+if vim.fn.executable('cargo') == 1 then
+  cargo_build = 'cargo build --release'
+end
+
 require("lazy").setup({
   'Shatur/neovim-ayu',
   'nvim-lualine/lualine.nvim',
@@ -129,9 +134,25 @@ require("lazy").setup({
       'saghen/blink.compat',
     },
     version = '1.*',
-    build = 'cargo build --release',
+    build = cargo_build,
   },
-  'nvim-treesitter/nvim-treesitter',
+  {
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    build = ':TSUpdate typescript tsx css',
+    config = function()
+      local treesitter = require('nvim-treesitter')
+
+      treesitter.setup({})
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'typescript', 'typescriptreact', 'css' },
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
+      })
+    end,
+  },
   'zbirenbaum/copilot.lua',
   {
     'folke/flash.nvim',
@@ -254,4 +275,3 @@ require("lazy").setup({
     },
   },
 })
-

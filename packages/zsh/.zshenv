@@ -10,6 +10,9 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
 
+### Homebrew ###
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 ### zsh ###
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 

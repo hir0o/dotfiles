@@ -55,6 +55,24 @@ on-mode-changed = []
 # SketchyBar連携: ワークスペース切替時にバーを更新
 exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE && ~/.config/sketchybar/plugins/update_workspace_icons.sh']
 
+# Per-app window rules
+# See https://nikitabobko.github.io/AeroSpace/guide#on-window-detected
+[[on-window-detected]]
+    if.app-id = 'jp.naver.line.mac'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.ActivityMonitor'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Preview'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Music'
+    run = 'layout floating'
+
 # Possible values: (qwerty|dvorak|colemak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]

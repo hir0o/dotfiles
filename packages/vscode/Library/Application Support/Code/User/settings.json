@@ -248,5 +248,4 @@
   "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
   "cursor.general.disableHttp1SSE": true,
   "claudeCode.preferredLocation": "panel",
-  "workbench.statusBar.visible": false,
 }

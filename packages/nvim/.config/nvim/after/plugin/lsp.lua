@@ -22,6 +22,11 @@ mason_lspconfig.setup({
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+  pcall(vim.keymap.del, 'n', 'grr', { buffer = bufnr })
+  pcall(vim.keymap.del, 'n', 'gra', { buffer = bufnr })
+  pcall(vim.keymap.del, 'n', 'grn', { buffer = bufnr })
+  pcall(vim.keymap.del, 'n', 'gri', { buffer = bufnr })
+
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", vim.tbl_extend('force', bufopts, { desc = 'ホバードキュメントを表示' }))
   vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>', vim.tbl_extend('force', bufopts, { desc = '参照箇所を表示' }))

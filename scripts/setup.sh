@@ -64,6 +64,16 @@ ln -s ../../Code/User/snippets snippets
 cd "$REPO_DIR"
 
 echo ""
+echo "Installing APM dependencies..."
+if command -v apm &> /dev/null; then
+    apm install -g
+    echo "  ✓ APM dependencies installed"
+else
+    echo "  Warning: apm is not installed, skipping APM setup..."
+    echo "  Install: npm install -g @anthropic-ai/apm"
+fi
+
+echo ""
 echo "Done! All packages have been stowed."
 echo ""
 echo "Stowed packages:"

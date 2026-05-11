@@ -1,0 +1,26 @@
+lockfile_version: '1'
+generated_at: '2026-05-11T01:08:03.987671+00:00'
+apm_version: 0.12.4
+dependencies:
+- repo_url: mizchi/skills
+  host: github.com
+  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  virtual_path: skill-finder
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/skill-finder
+  - .claude/skills/skill-finder
+  - .codeium/windsurf/skills/skill-finder
+  content_hash: sha256:4dea0243e2146bb2df2a2b9cf6c8810efe1ff90516ab02799aaf380dfca5a049
+- repo_url: mizchi/skills
+  host: github.com
+  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  virtual_path: skill-selector
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/skill-selector
+  - .claude/skills/skill-selector
+  - .codeium/windsurf/skills/skill-selector
+  content_hash: sha256:035c8bf830014512fe2383419ad1dd8f4ec6e8fef74092d42d1dac358b5d0ef7

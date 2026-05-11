@@ -34,6 +34,7 @@ PACKAGES=(
     "aerospace"
     "sketchybar"
     "hammerspoon"
+    "apm"
 )
 
 echo "Stowing packages..."

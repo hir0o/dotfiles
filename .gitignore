@@ -8,3 +8,7 @@ packages/git/.config/git/config.local
 
 # opensrc - source code for packages
 opensrc/
+
+
+# APM dependencies
+apm_modules/

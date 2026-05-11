@@ -1,7 +1,18 @@
 lockfile_version: '1'
-generated_at: '2026-05-11T01:08:03.987671+00:00'
+generated_at: '2026-05-11T01:24:18.604824+00:00'
 apm_version: 0.12.4
 dependencies:
+- repo_url: mizchi/skills
+  host: github.com
+  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  virtual_path: apm-usage
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/apm-usage
+  - .claude/skills/apm-usage
+  - .codeium/windsurf/skills/apm-usage
+  content_hash: sha256:5ca113f215eb4433e6420abbdfbcbbb05166ec9325c810e5cc27bc9acbf7a5d9
 - repo_url: mizchi/skills
   host: github.com
   resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
@@ -24,14 +35,14 @@ dependencies:
   - .claude/skills/skill-selector
   - .codeium/windsurf/skills/skill-selector
   content_hash: sha256:035c8bf830014512fe2383419ad1dd8f4ec6e8fef74092d42d1dac358b5d0ef7
-- repo_url: mizchi/skills
+- repo_url: obra/superpowers
   host: github.com
-  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
-  virtual_path: apm-usage
+  resolved_commit: f2cbfbefebbfef77321e4c9abc9e949826bea9d7
+  virtual_path: skills/writing-skills
   is_virtual: true
   package_type: claude_skill
   deployed_files:
-  - .agents/skills/apm-usage
-  - .claude/skills/apm-usage
-  - .codeium/windsurf/skills/apm-usage
-  content_hash: sha256:5ca113f215eb4433e6420abbdfbcbbb05166ec9325c810e5cc27bc9acbf7a5d9
+  - .agents/skills/writing-skills
+  - .claude/skills/writing-skills
+  - .codeium/windsurf/skills/writing-skills
+  content_hash: sha256:272ccd701f41b94e1119aaa99455a52cdb8e07283cb6a6aab32a7722d96bef45

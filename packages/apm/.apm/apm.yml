@@ -6,6 +6,7 @@ dependencies:
   apm:
   - mizchi/skills/skill-selector
   - mizchi/skills/skill-finder
+  - mizchi/skills/apm-usage
   mcp: []
 includes: auto
 scripts: {}

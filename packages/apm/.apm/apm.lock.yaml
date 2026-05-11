@@ -24,3 +24,14 @@ dependencies:
   - .claude/skills/skill-selector
   - .codeium/windsurf/skills/skill-selector
   content_hash: sha256:035c8bf830014512fe2383419ad1dd8f4ec6e8fef74092d42d1dac358b5d0ef7
+- repo_url: mizchi/skills
+  host: github.com
+  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  virtual_path: apm-usage
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/apm-usage
+  - .claude/skills/apm-usage
+  - .codeium/windsurf/skills/apm-usage
+  content_hash: sha256:5ca113f215eb4433e6420abbdfbcbbb05166ec9325c810e5cc27bc9acbf7a5d9

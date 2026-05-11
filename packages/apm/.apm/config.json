@@ -1,1 +1,1 @@
-{"default_client": "vscode"}
+{"default_client": "claude", "target": ["claude", "codex"]}

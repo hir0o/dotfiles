@@ -1,3 +1,10 @@
 {
-  "marketplaces": []
+  "marketplaces": [
+    {
+      "name": "superpowers-dev",
+      "owner": "obra",
+      "repo": "superpowers",
+      "path": ".claude-plugin/marketplace.json"
+    }
+  ]
 }

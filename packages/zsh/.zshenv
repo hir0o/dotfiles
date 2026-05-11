@@ -31,7 +31,7 @@ export PATH="$HOME/.deno/bin:$PATH"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
+[ -f "$HOME/.vite-plus/env" ] && . "$HOME/.vite-plus/env"
 
 ### local (secrets etc.) ###
 [ -f "$HOME/.zshenv.local" ] && source "$HOME/.zshenv.local"

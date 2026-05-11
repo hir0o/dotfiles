@@ -47,7 +47,7 @@
   rs  = reset
   rsh = reset --hard
   bk  = reset --soft HEAD^
-  cre = !git init && git add -A && git commit -m init && gh repo create && git push origin `git rev-parse --abbrev-ref HEAD` && gh repo view --web
+  cre = !git init && git add -A && git commit -m init && gh repo create \"$(basename $(pwd))\" --private --source=. --remote=origin --push && gh repo view --web
   pr  = !gh pr create -B $(git branch --sort=-committerdate | fzf) -a @me
   pdf = !gh pr diff `gh pr list | fzf | cut -f 1`
   pmg = !gh pr merge

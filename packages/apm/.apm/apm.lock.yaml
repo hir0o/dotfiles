@@ -1,48 +1,73 @@
 lockfile_version: '1'
-generated_at: '2026-05-11T01:24:18.604824+00:00'
+generated_at: '2026-05-12T03:05:45.280717+00:00'
 apm_version: 0.12.4
 dependencies:
 - repo_url: mizchi/skills
   host: github.com
-  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  resolved_commit: c2f2f6d5245717e2f8d5919d836ac68759c27fcc
   virtual_path: apm-usage
   is_virtual: true
   package_type: claude_skill
   deployed_files:
   - .agents/skills/apm-usage
   - .claude/skills/apm-usage
-  - .codeium/windsurf/skills/apm-usage
   content_hash: sha256:5ca113f215eb4433e6420abbdfbcbbb05166ec9325c810e5cc27bc9acbf7a5d9
 - repo_url: mizchi/skills
   host: github.com
-  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  resolved_commit: c2f2f6d5245717e2f8d5919d836ac68759c27fcc
   virtual_path: skill-finder
   is_virtual: true
   package_type: claude_skill
   deployed_files:
   - .agents/skills/skill-finder
   - .claude/skills/skill-finder
-  - .codeium/windsurf/skills/skill-finder
-  content_hash: sha256:4dea0243e2146bb2df2a2b9cf6c8810efe1ff90516ab02799aaf380dfca5a049
+  content_hash: sha256:113a25f51814b68e5d86a377499fc5ca259925b020304ac9a1ba4544a4fd1cc6
 - repo_url: mizchi/skills
   host: github.com
-  resolved_commit: 548f9b7a1ffe83cff467a7836c3fd391c50fc431
+  resolved_commit: c2f2f6d5245717e2f8d5919d836ac68759c27fcc
   virtual_path: skill-selector
   is_virtual: true
   package_type: claude_skill
   deployed_files:
   - .agents/skills/skill-selector
   - .claude/skills/skill-selector
-  - .codeium/windsurf/skills/skill-selector
-  content_hash: sha256:035c8bf830014512fe2383419ad1dd8f4ec6e8fef74092d42d1dac358b5d0ef7
+  content_hash: sha256:aef30cf8427de3fc66660b42e70ef4a5beff95ab12c01d0dddf85b039ed82ab7
 - repo_url: obra/superpowers
   host: github.com
   resolved_commit: f2cbfbefebbfef77321e4c9abc9e949826bea9d7
-  virtual_path: skills/writing-skills
-  is_virtual: true
-  package_type: claude_skill
+  package_type: marketplace_plugin
   deployed_files:
+  - .agents/skills/brainstorming
+  - .agents/skills/dispatching-parallel-agents
+  - .agents/skills/executing-plans
+  - .agents/skills/finishing-a-development-branch
+  - .agents/skills/receiving-code-review
+  - .agents/skills/requesting-code-review
+  - .agents/skills/subagent-driven-development
+  - .agents/skills/systematic-debugging
+  - .agents/skills/test-driven-development
+  - .agents/skills/using-git-worktrees
+  - .agents/skills/using-superpowers
+  - .agents/skills/verification-before-completion
+  - .agents/skills/writing-plans
   - .agents/skills/writing-skills
+  - .claude/skills/brainstorming
+  - .claude/skills/dispatching-parallel-agents
+  - .claude/skills/executing-plans
+  - .claude/skills/finishing-a-development-branch
+  - .claude/skills/receiving-code-review
+  - .claude/skills/requesting-code-review
+  - .claude/skills/subagent-driven-development
+  - .claude/skills/systematic-debugging
+  - .claude/skills/test-driven-development
+  - .claude/skills/using-git-worktrees
+  - .claude/skills/using-superpowers
+  - .claude/skills/verification-before-completion
+  - .claude/skills/writing-plans
   - .claude/skills/writing-skills
-  - .codeium/windsurf/skills/writing-skills
-  content_hash: sha256:272ccd701f41b94e1119aaa99455a52cdb8e07283cb6a6aab32a7722d96bef45
+  - .github/hooks/superpowers-hooks-cursor.json
+  - .github/hooks/superpowers-hooks.json
+  deployed_file_hashes:
+    .github/hooks/superpowers-hooks-cursor.json: sha256:53d8ceb3ff5d8bb1c4f283f238cc868b8c1af22e40a3ac30f6d6e4173effefbd
+    .github/hooks/superpowers-hooks.json: sha256:01616c57b96cc234cc984e77d2fc241dfd0e0bfacda54fe54589cd669a0d998e
+  content_hash: sha256:fb4f87bfef928a6d68f5d5aaa29e3eba011961c5f03bbf171c3c348d8d161abb

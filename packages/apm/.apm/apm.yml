@@ -7,7 +7,10 @@ dependencies:
   - mizchi/skills/skill-selector
   - mizchi/skills/skill-finder
   - mizchi/skills/apm-usage
-  - obra/superpowers/skills/writing-skills
+  - obra/superpowers
   mcp: []
+targets:
+  - claude
+  - codex
 includes: auto
 scripts: {}

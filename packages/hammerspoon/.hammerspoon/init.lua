@@ -1,101 +1,154 @@
--- Focus follows mouse (hover to focus window)
-local log = hs.logger.new("focus-follows-mouse", "info")
+hs.loadSpoon("SpoonInstall")
 
-local DELAY = 0.0
-local THROTTLE = 0.15 -- 最低呼び出し間隔(秒)。体感は即座のまま、CPU負荷を抑える
-local EDGE_BUFFER = 16
-
-local focusTimer = nil
-local lastFocusedId = nil
-local lastCheckTime = 0
-
-local ignoredApps = {
-    ["Raycast"] = true,
-    ["Alfred"] = true,
-    ["Spotlight"] = true,
+spoon.SpoonInstall.repos.jinrai = {
+  url = "https://github.com/tadashi-aikawa/jinrai",
+  desc = "JINRAI Spoon repository",
+  branch = "spoons",
 }
 
-local function focusWindowUnderCursor()
-    local ok, err = pcall(function()
-        local mousePos = hs.mouse.absolutePosition()
-        local mouseScreen = hs.mouse.getCurrentScreen()
-        if not mouseScreen then return end
+spoon.SpoonInstall:andUse("Jinrai", {
+  repo = "jinrai",
+  fn = function(jinrai)
+    jinrai:setup({
+      macosNativeTabs = {},
+      focus_border = {},
+      window_hints = {
+        hotkey = {
+          modifiers = { "alt" },
+          key = "f",
+        },
+        occlusion = {
+          preview = {
+            enabled = false,
+          },
+        },
+        hint = {
+          prefixOverrides = {
+            {
+              match = { bundleID = "md.obsidian" },
+              prefix = "O",
+            },
+            {
+              match = { bundleID = "com.google.Chrome" },
+              prefix = "G",
+            },
+            {
+              match = { bundleID = "com.cmuxterm.app" },
+              prefix = "T",
+            },
+          },
+        },
+        navigation = {
+          direction = {
+            hints = {
+              keys = {
+                left = "h",
+                down = "j",
+                up = "k",
+                right = "l",
+                upLeft = "y",
+                upRight = "u",
+                downLeft = "b",
+                downRight = "n",
+              },
+            },
+          },
+        },
+      },
+      focus_back = {
+        hotkey = {
+          modifiers = { "alt" },
+          key = "tab",
+        },
+      },
+    })
+  end,
+})
 
-        local windows = hs.fnutils.filter(hs.window.orderedWindows(), function(win)
-            if win:screen() ~= mouseScreen then return false end
-            local app = win:application()
-            if not app then return false end
-            return win:isVisible()
-                and not win:isMinimized()
-                and win:isStandard()
-                and not ignoredApps[app:name()]
-        end)
+spoon.SpoonInstall.repos.kokukoku = {
+  url = "https://github.com/tadashi-aikawa/kokukoku",
+  desc = "KOKUKOKU Spoon repository",
+  branch = "spoons",
+}
 
-        for _, win in ipairs(windows) do
-            local f = win:frame()
-            if mousePos.x >= (f.x + EDGE_BUFFER)
-                and mousePos.x <= (f.x + f.w - EDGE_BUFFER)
-                and mousePos.y >= (f.y + EDGE_BUFFER)
-                and mousePos.y <= (f.y + f.h - EDGE_BUFFER) then
-                local id = win:id()
-                if id ~= lastFocusedId then
-                    lastFocusedId = id
-                    win:focus()
-                end
-                return
-            end
-        end
-    end)
+spoon.SpoonInstall:andUse("Kokukoku", {
+  repo = "kokukoku",
+  fn = function(kokukoku)
+    kokukoku:setup({
+      projects = {
+        { id = "dev", name = "開発", icon = "💻" },
+        { id = "input", name = "インプット", icon = "📚" },
+        { id = "setup", name = "環境構築", icon = "🛠" },
+      },
+      breakItem = { name = "休憩", icon = "☕" },
+      hotkey = { modifiers = { "alt" }, key = "t" },
+    })
+  end,
+})
 
-    if not ok then
-        log.e("error: " .. tostring(err))
-    end
+local pinnedWindows = {}
+
+local function makePinBorder(frame)
+  local canvas = hs.canvas.new({ x = frame.x, y = frame.y, w = frame.w, h = frame.h })
+  canvas:level(hs.canvas.windowLevels.overlay)
+  canvas:behavior({ "canJoinAllSpaces" })
+  canvas:appendElements({
+    type = "rectangle",
+    action = "stroke",
+    strokeColor = { red = 0.95, green = 0.25, blue = 0.25, alpha = 0.95 },
+    strokeWidth = 3,
+    roundedRectRadii = { xRadius = 8, yRadius = 8 },
+    frame = { x = 1.5, y = 1.5, w = frame.w - 3, h = frame.h - 3 },
+  })
+  canvas:show()
+  return canvas
 end
 
--- eventtap: マウス移動イベントでフォーカス (DELAY > 0 なら debounce)
-FocusMouseWatcher = hs.eventtap.new({ hs.eventtap.event.types.mouseMoved }, function(e)
-    local flags = e:getFlags()
-    if flags.cmd or flags.alt or flags.ctrl then return false end
+local function syncPinBorder(win)
+  local entry = pinnedWindows[win:id()]
+  if not entry then return end
+  local f = win:frame()
+  entry.canvas:frame({ x = f.x, y = f.y, w = f.w, h = f.h })
+  entry.canvas[1].frame = { x = 1.5, y = 1.5, w = f.w - 3, h = f.h - 3 }
+end
 
-    if DELAY > 0 then
-        if focusTimer then
-            focusTimer:stop()
-            focusTimer:setNextTrigger(DELAY)
-        else
-            focusTimer = hs.timer.doAfter(DELAY, focusWindowUnderCursor)
-        end
-    else
-        local now = hs.timer.secondsSinceEpoch()
-        if now - lastCheckTime >= THROTTLE then
-            lastCheckTime = now
-            focusWindowUnderCursor()
-        end
+local function unpinWindow(id)
+  local entry = pinnedWindows[id]
+  if not entry then return end
+  entry.canvas:delete()
+  pinnedWindows[id] = nil
+end
+
+local function raisePinnedWindows()
+  for _, entry in pairs(pinnedWindows) do
+    if entry.win and entry.win:isStandard() and not entry.win:isMinimized() then
+      pcall(function()
+        entry.win:raise()
+      end)
     end
-    return false
+  end
+end
+
+local pinWindowFilter = hs.window.filter.default
+pinWindowFilter:subscribe(hs.window.filter.windowMoved, syncPinBorder)
+pinWindowFilter:subscribe(hs.window.filter.windowDestroyed, function(win)
+  unpinWindow(win:id())
 end)
-FocusMouseWatcher:start()
-
--- 設定ファイルの変更を検知して自動リロード
-ConfigWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", function(files)
-    local doReload = false
-    for _, file in pairs(files) do
-        if file:sub(-4) == ".lua" then
-            doReload = true
-            break
-        end
-    end
-    if doReload then
-        hs.reload()
-    end
+pinWindowFilter:subscribe(hs.window.filter.windowFocused, function()
+  raisePinnedWindows()
 end)
-ConfigWatcher:start()
-hs.alert.show("Hammerspoon config loaded")
 
--- フォーカスが手動で変わった場合に追従
-FocusWindowFilter = hs.window.filter.default
-FocusWindowFilter:subscribe(
-    hs.window.filter.windowFocused,
-    function(win)
-        if win then lastFocusedId = win:id() end
-    end
-)
+hs.hotkey.bind({ "alt" }, "p", function()
+  local win = hs.window.focusedWindow()
+  if not win then return end
+  local id = win:id()
+
+  if pinnedWindows[id] then
+    unpinWindow(id)
+    hs.alert.show("Unpinned")
+  else
+    pinnedWindows[id] = { win = win, canvas = makePinBorder(win:frame()) }
+    hs.alert.show("Pinned")
+  end
+end)
+

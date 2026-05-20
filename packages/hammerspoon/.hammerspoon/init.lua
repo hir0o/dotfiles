@@ -30,6 +30,10 @@ spoon.SpoonInstall:andUse("Jinrai", {
             },
             {
               match = { bundleID = "com.google.Chrome" },
+              prefix = "C",
+            },
+            {
+              match = { bundleID = "com.mitchellh.ghostty" },
               prefix = "G",
             },
             {

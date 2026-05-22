@@ -138,6 +138,7 @@ require("lazy").setup({
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     lazy = false,
     build = ':TSUpdate typescript tsx css',
     config = function()
@@ -156,6 +157,10 @@ require("lazy").setup({
   'zbirenbaum/copilot.lua',
   {
     'folke/flash.nvim',
+    event = 'VeryLazy',
+  },
+  {
+    'folke/which-key.nvim',
     event = 'VeryLazy',
   },
   'stevearc/conform.nvim',

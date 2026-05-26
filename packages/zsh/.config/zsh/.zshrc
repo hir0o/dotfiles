@@ -114,3 +114,6 @@ bindkey -M emacs '^N' history-substring-search-down
 # ターミナル起動時にカレントディレクトリの .localrc があれば読み込む
 [[ -f .localrc ]] && source .localrc
 source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

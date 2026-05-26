@@ -140,14 +140,14 @@ require("lazy").setup({
     'nvim-treesitter/nvim-treesitter',
     branch = 'main',
     lazy = false,
-    build = ':TSUpdate typescript tsx css',
+    build = ':TSInstall! typescript tsx javascript css',
     config = function()
       local treesitter = require('nvim-treesitter')
 
       treesitter.setup({})
 
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'typescript', 'typescriptreact', 'css' },
+        pattern = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'css' },
         callback = function(args)
           pcall(vim.treesitter.start, args.buf)
         end,

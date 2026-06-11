@@ -196,6 +196,9 @@ require("lazy").setup({
   {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = { 'markdown', 'Avante' },
+    -- nvim-treesitter (main) の query_predicates.lua が Neovim 0.12 の match API
+    -- 変更に未追従で、markdown injection 時に node:range() で落ちるため一時無効化
+    enabled = false,
   },
   {
     'HakonHarnes/img-clip.nvim',

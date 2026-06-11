@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Ayu Dark Bordered",
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.folders.color": "#224249",
   "material-icon-theme.folders.theme": "classic",
@@ -250,4 +249,8 @@
   "claudeCode.preferredLocation": "panel",
   "window.autoDetectColorScheme": false,
   "workbench.statusBar.visible": false,
+  "window.autoDetectColorScheme": false,
+  "workbench.colorTheme": "Ayu Dark",
+  "workbench.editorAssociations": {},
+  "richdown.openMarkdownAsRichEditor": false,
 }

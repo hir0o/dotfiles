@@ -74,6 +74,7 @@
 [core]
 	editor = code --wait
   pager = delta
+	autocrlf = input
 
 [color]
   ui = true

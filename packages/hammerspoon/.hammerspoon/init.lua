@@ -75,20 +75,125 @@ spoon.SpoonInstall.repos.kokukoku = {
   branch = "spoons",
 }
 
+-- Kokukoku のプロジェクト一覧を動的に追加・削除できるようにする
+local kokukokuProjectsPath = os.getenv("HOME") .. "/.kokukoku/projects.json"
+local kokukokuDefaultIcon = "📋"
+local kokukokuDefaultProjects = {
+  { id = "dev", name = "開発", icon = "💻" },
+  { id = "input", name = "インプット", icon = "📚" },
+  { id = "setup", name = "環境構築", icon = "🛠" },
+}
+
+local function loadKokukokuProjects()
+  local file = io.open(kokukokuProjectsPath, "r")
+  if not file then
+    return kokukokuDefaultProjects
+  end
+  local content = file:read("*a")
+  file:close()
+  local ok, data = pcall(hs.json.decode, content)
+  if not ok or type(data) ~= "table" or #data == 0 then
+    return kokukokuDefaultProjects
+  end
+  return data
+end
+
+local function saveKokukokuProjects(projects)
+  local dir = kokukokuProjectsPath:match("(.+)/[^/]+$")
+  if dir then
+    os.execute('mkdir -p "' .. dir .. '"')
+  end
+  local file = io.open(kokukokuProjectsPath, "w")
+  if file then
+    file:write(hs.json.encode(projects, true))
+    file:close()
+  end
+end
+
+local kokukokuProjects = loadKokukokuProjects()
+
+local function setupKokukoku()
+  if not spoon.Kokukoku then
+    return
+  end
+  spoon.Kokukoku:setup({
+    projects = kokukokuProjects,
+    breakItem = { name = "休憩", icon = "☕" },
+    hotkey = { modifiers = { "alt" }, key = "t" },
+  })
+end
+
 spoon.SpoonInstall:andUse("Kokukoku", {
   repo = "kokukoku",
-  fn = function(kokukoku)
-    kokukoku:setup({
-      projects = {
-        { id = "dev", name = "開発", icon = "💻" },
-        { id = "input", name = "インプット", icon = "📚" },
-        { id = "setup", name = "環境構築", icon = "🛠" },
-      },
-      breakItem = { name = "休憩", icon = "☕" },
-      hotkey = { modifiers = { "alt" }, key = "t" },
-    })
+  fn = function()
+    setupKokukoku()
   end,
 })
+
+-- Alt+Shift+t: プロジェクトの追加・削除 chooser
+local function buildKokukokuChoices(query)
+  local trimmed = (query or ""):match("^%s*(.-)%s*$")
+  local choices = {}
+  local exists = false
+  for _, p in ipairs(kokukokuProjects) do
+    if p.id == trimmed or p.name == trimmed then
+      exists = true
+    end
+    table.insert(choices, {
+      text = (p.icon or "") .. " " .. p.name,
+      subText = "選択して削除",
+      kind = "delete",
+      id = p.id,
+    })
+  end
+  if trimmed ~= "" and not exists then
+    table.insert(choices, 1, {
+      text = "➕ 追加: " .. trimmed,
+      subText = "新しいプロジェクトを追加",
+      kind = "add",
+      newId = trimmed,
+    })
+  end
+  return choices
+end
+
+local function showKokukokuProjectChooser()
+  local chooser
+  chooser = hs.chooser.new(function(choice)
+    if not choice then
+      return
+    end
+    if choice.kind == "add" then
+      table.insert(kokukokuProjects, {
+        id = choice.newId,
+        name = choice.newId,
+        icon = kokukokuDefaultIcon,
+      })
+      saveKokukokuProjects(kokukokuProjects)
+      setupKokukoku()
+      hs.alert.show("追加: " .. choice.newId)
+    elseif choice.kind == "delete" then
+      local newList = {}
+      for _, p in ipairs(kokukokuProjects) do
+        if p.id ~= choice.id then
+          table.insert(newList, p)
+        end
+      end
+      kokukokuProjects = newList
+      saveKokukokuProjects(kokukokuProjects)
+      setupKokukoku()
+      hs.alert.show("削除: " .. choice.id)
+    end
+  end)
+  chooser:placeholderText("IDを入力して追加 / 選択して削除")
+  chooser:choices(buildKokukokuChoices(""))
+  chooser:queryChangedCallback(function(query)
+    chooser:choices(buildKokukokuChoices(query))
+  end)
+  chooser:show()
+end
+
+hs.hotkey.bind({ "alt", "shift" }, "t", showKokukokuProjectChooser)
 
 local pinnedWindows = {}
 

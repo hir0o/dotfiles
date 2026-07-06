@@ -47,8 +47,11 @@ is_supported_ws() {
     '' ) return 1 ;;
     *[!0-9]* ) ;;
     * )
-      [ "$ws" -ge "$MIN_WORKSPACE" ] && [ "$ws" -le "$MAX_WORKSPACE" ]
-      return $? ;;
+      # 数値レンジ内なら対応。レンジ外でも下の EXTRA_WORKSPACES チェックへ
+      # フォールスルーする（例: レンジ [1,3] 外の "0" を追加WSとして許可）
+      if [ "$ws" -ge "$MIN_WORKSPACE" ] && [ "$ws" -le "$MAX_WORKSPACE" ]; then
+        return 0
+      fi ;;
   esac
 
   local extra

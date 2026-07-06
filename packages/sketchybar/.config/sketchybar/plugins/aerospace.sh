@@ -3,7 +3,8 @@
 
 CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
 MIN_WORKSPACE=${MIN_WORKSPACE:-1}
-MAX_WORKSPACE=${MAX_WORKSPACE:-9}
+MAX_WORKSPACE=${MAX_WORKSPACE:-3}
+EXTRA_WORKSPACES="${EXTRA_WORKSPACES:-0}"
 
 get_focused_workspace() {
   if command -v aerospace >/dev/null 2>&1; then
@@ -15,7 +16,7 @@ get_focused_workspace() {
 
 FOCUSED_WORKSPACE="$(get_focused_workspace)"
 
-for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
+for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE) $EXTRA_WORKSPACES; do
   if [ "$sid" = "$FOCUSED_WORKSPACE" ]; then
     sketchybar --set "space.$sid" \
       icon.color=0xFFFFFFFF \

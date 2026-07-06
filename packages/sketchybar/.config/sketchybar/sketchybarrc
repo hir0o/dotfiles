@@ -6,8 +6,8 @@ CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 export MIN_WORKSPACE=1
-export MAX_WORKSPACE=9
-export EXTRA_WORKSPACES=""
+export MAX_WORKSPACE=3
+export EXTRA_WORKSPACES="0"
 VISIBLE_ICON_SLOTS="${VISIBLE_ICON_SLOTS:-4}"
 export VISIBLE_ICON_SLOTS
 
@@ -40,7 +40,11 @@ sketchybar --default "${default[@]}"
 sketchybar --add event aerospace_workspace_change
 sketchybar --add event volume_change
 
-for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
+# 表示するワークスペースID: 数値レンジ + 追加ワークスペース(例: 内蔵ディスプレイ用の 0)
+WORKSPACE_IDS=($(seq "$MIN_WORKSPACE" "$MAX_WORKSPACE") $EXTRA_WORKSPACES)
+LAST_WORKSPACE="${WORKSPACE_IDS[@]: -1}"
+
+for sid in "${WORKSPACE_IDS[@]}"; do
   sketchybar --add item space.$sid left \
     --set space.$sid \
       drawing=on \
@@ -110,7 +114,7 @@ for sid in $(seq $MIN_WORKSPACE $MAX_WORKSPACE); do
       background.padding_right=0 \
       background.y_offset=-12
 
-  if [ "$sid" -lt $MAX_WORKSPACE ]; then
+  if [ "$sid" != "$LAST_WORKSPACE" ]; then
     sketchybar --add item space.$sid.separator left \
       --set space.$sid.separator \
         drawing=on \

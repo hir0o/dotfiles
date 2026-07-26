@@ -79,8 +79,9 @@ The setup relies on XDG Base Directory specification:
 - `XDG_CACHE_HOME` - Cache files (default: `~/.cache`)
 
 ### Development Tools Managed
-- Package managers: Homebrew, pnpm, cargo, proto, bun, deno
-- Version managers: proto (for Node.js, pnpm, bun)
+- Package managers: Homebrew, pnpm, cargo, bun, deno
+- Version managers: mise - versions are declared in `packages/mise/config.toml`
+  (Java, Kotlin, Node.js, pnpm). proto was replaced by mise and is no longer used
 - Terminal emulators: iTerm2, Alacritty
 - Shell utilities: fzf, ripgrep, gh, ghq, delta, yazi
 - Development: Node.js ecosystem, Rust, Go, Android SDK

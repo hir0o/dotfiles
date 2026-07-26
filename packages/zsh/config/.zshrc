@@ -78,10 +78,6 @@ done
 source "$XDG_CONFIG_HOME/zsh/completion-for-pnpm.zsh"
 zsh-defer source "$XDG_CONFIG_HOME/zsh/completion-for-zellij.zsh"
 
-# proto
-export PROTO_HOME="$XDG_DATA_HOME/proto";
-export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH";
-
 export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 
 export PATH="$HOME/.console-ninja/.bin:$PATH"

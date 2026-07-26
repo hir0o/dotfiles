@@ -1,13 +1,7 @@
 #!/bin/bash
-INSTALL_DIR="$(pwd)"
+set -euo pipefail
 
-# if [ -d "$INSTALL_DIR" ]; then
-#     echo "Updating dotfiles..."
-#     git -C "$INSTALL_DIR" pull
-# else
-#     echo "Installing dotfiles..."
-#     git clone https://github.com/hir0o/dotfiles "$INSTALL_DIR"
-# fi
+INSTALL_DIR="$(pwd)"
 
 # bunがインストールされていなければインストール
 if ! command -v bun &> /dev/null; then
@@ -15,5 +9,16 @@ if ! command -v bun &> /dev/null; then
     curl -fsSL https://bun.sh/install | bash
 fi
 
-export REPO_DIR="$INSTALL_DIR"
-/bin/bash "$INSTALL_DIR/scripts/setup.sh"
+# miseがインストールされていなければインストール
+if ! command -v mise &> /dev/null; then
+    echo "Installing mise..."
+    curl -fsSL https://mise.run | sh
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+cd "$INSTALL_DIR"
+
+# mise.toml を信頼した上で、dotfiles の配置・ツール導入・
+# Homebrew パッケージのインストールまでを一括で実行する
+mise trust
+mise bootstrap --yes

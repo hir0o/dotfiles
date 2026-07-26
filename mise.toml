@@ -33,6 +33,22 @@ dotfiles.default_mode = "symlink"
 "~/.zshenv" = { source = "packages/zsh/zshenv" }
 "~/.zshenv.local" = { source = "packages/zsh/zshenv.local" }
 
+# Cursor は VSCode の設定を共有する。
+# globalStorage / History は Cursor 自身の実データなので、
+# ディレクトリごとではなく共有したいファイルだけを個別にリンクする。
+"~/Library/Application Support/Cursor/User/settings.json" = { source = "packages/vscode/settings.json" }
+"~/Library/Application Support/Cursor/User/keybindings.json" = { source = "packages/vscode/keybindings.json" }
+"~/Library/Application Support/Cursor/User/snippets" = { source = "packages/vscode/snippets" }
+
 # 保留:
 #   claude    — ~/.claude が実データ入りの実ディレクトリのため対象外
 #   rectangle — target が ~/RectangleConfig.json でよいか要確認（Stow 対象外だった）
+
+# Brewfile は cask/tap/mas を含み 119 パッケージあるため、
+# [bootstrap.packages] に展開せず brew bundle をそのまま使う
+[tasks.bootstrap]
+description = "Homebrew パッケージと APM 依存をインストールする"
+run = """
+brew bundle install --file packages/homebrew/Brewfile
+apm install -g
+"""

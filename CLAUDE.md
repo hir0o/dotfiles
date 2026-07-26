@@ -20,21 +20,26 @@ sh -c "`curl -fsSL https://raw.githubusercontent.com/hir0o/dotfiles/master/insta
 
 ### Manual Setup Steps
 ```bash
-# Install Homebrew packages (includes GNU Stow)
-brew bundle install --file ~/.config/homebrew/Brewfile
+# Set up everything (dotfiles, tools, Homebrew packages) in one command
+mise bootstrap
 
-# Create symbolic links using GNU Stow
-bash scripts/setup.sh
+# Apply only the dotfiles
+mise dotfiles apply
+
+# Check what is out of sync without changing anything
+mise dotfiles status
+mise dotfiles apply --dry-run
 ```
 
 ## Architecture & Key Components
 
 ### Directory Structure
-- `packages/` - GNU Stow packages, each containing configurations in their target directory structure
-- `scripts/` - Setup scripts for initial environment setup
-  - `setup.sh` - Main setup script using GNU Stow
-  - `archive/` - Archived legacy setup scripts
-- Configurations are organized by tool name under `packages/`
+- `mise.toml` - Single source of truth. `[dotfiles]` declares where each package is
+  linked, `[tasks.bootstrap]` handles Homebrew and APM installation
+- `packages/` - Configuration sources, one directory per tool. The contents are
+  linked to the target declared in `mise.toml`, so the directory layout itself
+  carries no meaning
+- `scripts/` - Auxiliary scripts not covered by mise
 
 ### Critical Configurations
 
@@ -82,12 +87,22 @@ The setup relies on XDG Base Directory specification:
 
 ## Important Notes
 
-1. This repository uses **GNU Stow** for symlink management - a standard tool for managing dotfiles
-2. The setup script (`scripts/setup.sh`) creates symbolic links from `packages/` to their target locations
-3. Avoid editing files directly in system locations (e.g., `~/.config/nvim`) - edit files in this repository instead
-4. VSCode settings are managed by Stow and linked to `~/Library/Application Support/Code/User/`
-5. Cursor settings are linked to VSCode settings for consistency
-6. Git configuration includes many fzf-based interactive commands that require fzf to be installed
-7. Many shell aliases depend on tools installed via Homebrew - ensure Brewfile is installed first
-8. To add/remove packages: use `stow` command directly (e.g., `stow -d packages -t ~ <package>`)
-9. Legacy setup scripts are archived in `scripts/archive/` for reference
+1. This repository uses **mise** (`[dotfiles]` in `mise.toml`) for symlink management.
+   It was migrated from GNU Stow; see the `feat/migrate-to-mise-dotfiles` history for details
+2. Link targets live in `mise.toml`, **not** in the directory structure. Unlike Stow,
+   `packages/nvim/` needs no `.config/nvim/` intermediate layer
+3. Dotfiles are only applied when explicitly requested (`mise dotfiles apply` or
+   `mise bootstrap`). They are never applied implicitly
+4. Avoid editing files directly in system locations (e.g., `~/.config/nvim`) - edit files in this repository instead
+5. VSCode settings are linked to `~/Library/Application Support/Code/User/`, and Cursor
+   shares them by linking `settings.json` / `keybindings.json` / `snippets` individually
+   (Cursor's own `globalStorage` and `History` must stay intact)
+6. `herdr` and `cmux` use `symlink-each` because runtime artifacts (logs, sockets) live
+   alongside the config in the target directory. Linking the whole directory would put
+   those artifacts inside this repository
+7. To add a package: create `packages/<name>/` and add a `[dotfiles]` entry, then run
+   `mise dotfiles apply`. `mise dotfiles add <target>` can generate the entry from a live file
+8. Git configuration includes many fzf-based interactive commands that require fzf to be installed
+9. Many shell aliases depend on tools installed via Homebrew - ensure Brewfile is installed first
+10. `packages/zsh/zshenv.local` is encrypted with git-crypt. If it is ever moved, update
+    `.gitattributes` in the same commit and verify with `git-crypt status`

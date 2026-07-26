@@ -1,0 +1,17 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+s"
+
+# workspace の前後移動（小文字 j/k は pane 移動なので大文字を使う）
+previous_workspace = "prefix+shift+k"
+next_workspace = "prefix+shift+j"
+
+# swap_pane のデフォルトは prefix+shift+h/j/k/l で workspace 移動とぶつかるため ctrl 側へ退避
+swap_pane_left = "prefix+ctrl+h"
+swap_pane_down = "prefix+ctrl+j"
+swap_pane_up = "prefix+ctrl+k"
+swap_pane_right = "prefix+ctrl+l"
+
+[experimental]
+switch_ascii_input_source_in_prefix = false

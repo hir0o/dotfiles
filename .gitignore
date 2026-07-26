@@ -3,8 +3,8 @@
 .zsh_history
 .zsh_sessions/
 .shm.zshrc
-packages/zsh/.config/zsh/local/*.zsh
-packages/git/.config/git/config.local
+packages/zsh/config/local/*.zsh
+packages/git/config.local
 
 # opensrc - source code for packages
 opensrc/
@@ -14,8 +14,8 @@ opensrc/
 apm_modules/
 
 # VSCode/Cursor が実行時に生成する状態データ
-packages/vscode/Library/Application Support/Code/User/globalStorage/
-packages/vscode/Library/Application Support/Code/User/workspaceStorage/
+packages/vscode/globalStorage/
+packages/vscode/workspaceStorage/
 
 # Homebrew のロックファイル
-packages/homebrew/.config/homebrew/trust.json.lock
+packages/homebrew/trust.json.lock

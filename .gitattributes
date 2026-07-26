@@ -1,2 +1,2 @@
 # git-crypt encrypted files
-packages/zsh/.zshenv.local filter=git-crypt diff=git-crypt
+packages/zsh/zshenv.local filter=git-crypt diff=git-crypt

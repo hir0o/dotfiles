@@ -1,40 +1,38 @@
-# Phase 1: 検証用。source は現行の Stow レイアウトのまま記述している。
-# 既存の Stow シンボリックリンクと一致するかを `mise dotfiles status` で確認し、
-# マッピングの正しさを検証してから Phase 2 でフラット化する。
-
 [settings]
 dotfiles.default_mode = "symlink"
 
 [dotfiles]
-"~/.config/aerospace" = { source = "packages/aerospace/.config/aerospace" }
-"~/.local/share/sounds" = { source = "packages/assets/.local/share/sounds" }
-"~/.config/borders" = { source = "packages/borders/.config/borders" }
-"~/.config/ghostty" = { source = "packages/ghostty/.config/ghostty" }
-"~/.config/git" = { source = "packages/git/.config/git" }
-"~/.hammerspoon" = { source = "packages/hammerspoon/.hammerspoon" }
-"~/.config/homebrew" = { source = "packages/homebrew/.config/homebrew" }
-"~/.config/karabiner" = { source = "packages/karabiner/.config/karabiner" }
-"~/.config/nvim" = { source = "packages/nvim/.config/nvim" }
-"~/.config/octorus" = { source = "packages/octorus/.config/octorus" }
-"~/.config/p10k" = { source = "packages/p10k/.config/p10k" }
-"~/.config/sheldon" = { source = "packages/sheldon/.config/sheldon" }
-"~/.config/sketchybar" = { source = "packages/sketchybar/.config/sketchybar" }
-"~/.config/tmux" = { source = "packages/tmux/.config/tmux" }
-"~/Library/Application Support/Code/User" = { source = "packages/vscode/Library/Application Support/Code/User" }
-"~/.config/yazi" = { source = "packages/yazi/.config/yazi" }
-"~/.config/zed" = { source = "packages/zed/.config/zed" }
-"~/.config/zellij" = { source = "packages/zellij/.config/zellij" }
+"~/.config/aerospace" = { source = "packages/aerospace" }
+"~/.local/share/sounds" = { source = "packages/assets" }
+"~/.config/borders" = { source = "packages/borders" }
+"~/.config/ghostty" = { source = "packages/ghostty" }
+"~/.config/git" = { source = "packages/git" }
+"~/.hammerspoon" = { source = "packages/hammerspoon" }
+"~/.config/homebrew" = { source = "packages/homebrew" }
+"~/.config/karabiner" = { source = "packages/karabiner" }
+"~/.config/nvim" = { source = "packages/nvim" }
+"~/.config/octorus" = { source = "packages/octorus" }
+"~/.config/p10k" = { source = "packages/p10k" }
+"~/.config/sheldon" = { source = "packages/sheldon" }
+"~/.config/sketchybar" = { source = "packages/sketchybar" }
+"~/.config/tmux" = { source = "packages/tmux" }
+"~/Library/Application Support/Code/User" = { source = "packages/vscode" }
+"~/.config/yazi" = { source = "packages/yazi" }
+"~/.config/zed" = { source = "packages/zed" }
+"~/.config/zellij" = { source = "packages/zellij" }
 
-# 実行時生成ファイル（ログ・ソケット等）がライブ側に混在するため、
+# 実行時生成ファイル（ログ・ソケット・ローカル設定）がライブ側に混在するため、
 # ディレクトリごとではなくファイル単位でリンクする
-"~/.config/cmux" = { source = "packages/cmux/.config/cmux", mode = "symlink-each" }
-"~/.config/herdr" = { source = "packages/herdr/.config/herdr", mode = "symlink-each" }
+"~/.config/cmux" = { source = "packages/cmux", mode = "symlink-each" }
+"~/.config/herdr" = { source = "packages/herdr", mode = "symlink-each" }
 
-# zsh は ~/.zshenv（ホーム直下）と ~/.config/zsh に分かれる
-"~/.config/zsh" = { source = "packages/zsh/.config/zsh" }
-"~/.zshenv" = { source = "packages/zsh/.zshenv" }
-"~/.zshenv.local" = { source = "packages/zsh/.zshenv.local" }
+# zsh は ~/.zshenv（ホーム直下）と ~/.config/zsh に分かれる。
+# config/ 配下は ~/.config/zsh にそのまま展開されるため、
+# zsh が読み込めるようファイル名のドットを維持している。
+"~/.config/zsh" = { source = "packages/zsh/config" }
+"~/.zshenv" = { source = "packages/zsh/zshenv" }
+"~/.zshenv.local" = { source = "packages/zsh/zshenv.local" }
 
 # 保留:
-#   claude   — ~/.claude が実データ入りの実ディレクトリのため今回は対象外
+#   claude    — ~/.claude が実データ入りの実ディレクトリのため対象外
 #   rectangle — target が ~/RectangleConfig.json でよいか要確認（Stow 対象外だった）

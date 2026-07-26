@@ -226,7 +226,7 @@
   "hediet.vscode-drawio.resizeImages": null,
   "cursor.composer.shouldAllowCustomModes": true,
   "go.toolsManagement.autoUpdate": true,
-  "update.releaseTrack": "prerelease",
+  "update.releaseTrack": "stable",
   "haskell.manageHLS": "PATH",
   "cursor.general.enableShadowWorkspace": true,
   "cSpell.enabledNotifications": {
@@ -248,7 +248,6 @@
   "cursor.general.disableHttp1SSE": true,
   "claudeCode.preferredLocation": "panel",
   "window.autoDetectColorScheme": false,
-  "workbench.statusBar.visible": false,
   "window.autoDetectColorScheme": false,
   "workbench.colorTheme": "Ayu Dark",
   "workbench.editorAssociations": {},

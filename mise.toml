@@ -21,37 +21,18 @@ dotfiles.default_mode = "symlink"
 "~/.config/zed" = { source = "packages/zed" }
 "~/.config/zellij" = { source = "packages/zellij" }
 
-# 実行時生成ファイル（ログ・ソケット・ローカル設定）がライブ側に混在するため、
-# ディレクトリごとではなくファイル単位でリンクする
 "~/.config/cmux" = { source = "packages/cmux", mode = "symlink-each" }
 "~/.config/herdr" = { source = "packages/herdr", mode = "symlink-each" }
+"~/.config/mise" = { source = "packages/mise", mode = "symlink-each" }
 
-# zsh は ~/.zshenv（ホーム直下）と ~/.config/zsh に分かれる。
-# config/ 配下は ~/.config/zsh にそのまま展開されるため、
-# zsh が読み込めるようファイル名のドットを維持している。
 "~/.config/zsh" = { source = "packages/zsh/config" }
 "~/.zshenv" = { source = "packages/zsh/zshenv" }
 "~/.zshenv.local" = { source = "packages/zsh/zshenv.local" }
 
-# mise 自身のグローバル設定（[tools] など）。
-# mise が同じディレクトリに状態ファイルを作る場合に備えて symlink-each を使う
-"~/.config/mise" = { source = "packages/mise", mode = "symlink-each" }
-
-# Cursor は VSCode の設定を共有する。
-# globalStorage / History は Cursor 自身の実データなので、
-# ディレクトリごとではなく共有したいファイルだけを個別にリンクする。
 "~/Library/Application Support/Cursor/User/settings.json" = { source = "packages/vscode/settings.json" }
 "~/Library/Application Support/Cursor/User/keybindings.json" = { source = "packages/vscode/keybindings.json" }
 "~/Library/Application Support/Cursor/User/snippets" = { source = "packages/vscode/snippets" }
 
-# リンクしないパッケージ:
-#   rectangle — Rectangle.app からエクスポートした設定をリポジトリに保管しているだけ。
-#               アプリが読む場所ではないためリンクはしない
-#   claude    — ~/.claude の agents/commands/settings.json は別リポジトリ
-#               claude-workspace が管理している。packages/claude/ は移行前の残骸
-
-# Brewfile は cask/tap/mas を含み 119 パッケージあるため、
-# [bootstrap.packages] に展開せず brew bundle をそのまま使う
 [tasks.bootstrap]
 description = "Homebrew パッケージと APM 依存をインストールする"
 run = """

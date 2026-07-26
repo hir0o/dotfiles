@@ -18,7 +18,5 @@ fi
 
 cd "$INSTALL_DIR"
 
-# mise.toml を信頼した上で、dotfiles の配置・ツール導入・
-# Homebrew パッケージのインストールまでを一括で実行する
 mise trust
 mise bootstrap --yes

@@ -11,14 +11,14 @@ dotfiles.default_mode = "symlink"
 "~/.config/homebrew" = { source = "packages/homebrew" }
 "~/.config/karabiner" = { source = "packages/karabiner" }
 "~/.config/nvim" = { source = "packages/nvim" }
-"~/.config/octorus" = { source = "packages/octorus" }
+"~/.config/octorus" = { source = "packages/octorus", mode = "symlink-each" }
 "~/.config/p10k" = { source = "packages/p10k" }
 "~/.config/sheldon" = { source = "packages/sheldon" }
 "~/.config/sketchybar" = { source = "packages/sketchybar" }
 "~/.config/tmux" = { source = "packages/tmux" }
-"~/Library/Application Support/Code/User" = { source = "packages/vscode" }
+"~/Library/Application Support/Code/User" = { source = "packages/vscode", mode = "symlink-each" }
 "~/.config/yazi" = { source = "packages/yazi" }
-"~/.config/zed" = { source = "packages/zed" }
+"~/.config/zed" = { source = "packages/zed", mode = "symlink-each" }
 "~/.config/zellij" = { source = "packages/zellij" }
 
 "~/.config/cmux" = { source = "packages/cmux", mode = "symlink-each" }

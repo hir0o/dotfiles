@@ -179,6 +179,20 @@ sketchybar --add item clock right \
              padding_right=1 \
   --subscribe battery system_woke power_source_change
 
+# Raycast Project Timer の稼働状況（稼働中のみ表示・毎秒更新）
+sketchybar --add item project_timer right \
+  --set project_timer \
+    update_freq=1 \
+    script="$PLUGIN_DIR/project_timer.sh" \
+    icon="▶" \
+    icon.font="HackGen Console NF:Bold:13.0" \
+    icon.color=0xff7ee787 \
+    label.font="HackGen Console NF:Semibold:13.0" \
+    label.color=0xffffffff \
+    padding_left=4 \
+    padding_right=4 \
+    drawing=off
+
 # GitHub PR レビュー待ち数
 sketchybar --add item github_prs right \
   --set github_prs \

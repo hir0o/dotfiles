@@ -119,7 +119,7 @@
   // エディタのカーソル
   "editor.cursorStyle": "line",
   // 行数の表示
-  "editor.lineNumbers": "off",
+  "editor.lineNumbers": "on",
   // 文字の折り返し
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?",
   // タブサイズ

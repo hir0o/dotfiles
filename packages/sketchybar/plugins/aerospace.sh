@@ -3,8 +3,8 @@
 
 CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
 MIN_WORKSPACE=${MIN_WORKSPACE:-1}
-MAX_WORKSPACE=${MAX_WORKSPACE:-3}
-EXTRA_WORKSPACES="${EXTRA_WORKSPACES:-0}"
+MAX_WORKSPACE=${MAX_WORKSPACE:-4}
+EXTRA_WORKSPACES="${EXTRA_WORKSPACES-}"
 
 get_focused_workspace() {
   if command -v aerospace >/dev/null 2>&1; then

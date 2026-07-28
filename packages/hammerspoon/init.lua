@@ -38,7 +38,15 @@ spoon.SpoonInstall:andUse("Jinrai", {
             },
             {
               match = { bundleID = "com.cmuxterm.app" },
+              prefix = "X",
+            },
+            {
+              match = { bundleID = "com.microsoft.teams2" },
               prefix = "T",
+            },
+            {
+              match = { bundleID = "com.microsoft.VSCode" },
+              prefix = "V",
             },
           },
         },

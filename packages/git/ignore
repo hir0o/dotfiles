@@ -1,8 +1,10 @@
 **/.claude/settings.local.json
 
+**/.claude/skills/my_*/
+
 **/CLAUDE.local.md
 
-**/__resources
+**/__resource
 
 .local-hooks/
 

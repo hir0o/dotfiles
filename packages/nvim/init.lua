@@ -184,16 +184,6 @@ require("lazy").setup({
     },
   },
   {
-    'luckasRanarison/tailwind-tools.nvim',
-    name = 'tailwind-tools',
-    build = ':UpdateRemotePlugins',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'neovim/nvim-lspconfig',
-    },
-    opts = {},
-  },
-  {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = { 'markdown', 'Avante' },
     -- nvim-treesitter (main) の query_predicates.lua が Neovim 0.12 の match API

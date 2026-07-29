@@ -3,9 +3,8 @@ onboarding = false
 [keys]
 prefix = "ctrl+s"
 
-# workspace の前後移動（小文字 j/k は pane 移動なので大文字を使う）
-previous_workspace = "prefix+shift+k"
-next_workspace = "prefix+shift+j"
+previous_workspace = "shift+ctrl+k"
+next_workspace = "shift+ctrl+j"
 
 # swap_pane のデフォルトは prefix+shift+h/j/k/l で workspace 移動とぶつかるため ctrl 側へ退避
 swap_pane_left = "prefix+ctrl+h"

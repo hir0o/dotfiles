@@ -21,4 +21,4 @@ cursor-style = block
 cursor-style-blink = false
 
 # テーマ（自動切り替え）
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = Ayu

@@ -16,11 +16,37 @@
     // ウィンドウヒント: alt+f でヒントを表示し、キー入力でウィンドウを選択
     "windowHints": {
         "hotkey": { "modifiers": ["alt"], "key": "f" },
+        "hint": {
+            // アプリごとにヒントの頭文字を固定(旧 Hammerspoon 設定から引き継ぎ)
+            "prefixOverrides": [
+                { "match": { "bundleID": "md.obsidian" }, "prefix": "O" },
+                { "match": { "bundleID": "com.google.Chrome" }, "prefix": "C" },
+                { "match": { "bundleID": "com.mitchellh.ghostty" }, "prefix": "G" },
+                { "match": { "bundleID": "com.cmuxterm.app" }, "prefix": "X" },
+                { "match": { "bundleID": "com.microsoft.teams2" }, "prefix": "T" },
+                { "match": { "bundleID": "com.microsoft.VSCode" }, "prefix": "V" }
+            ]
+        },
         "navigation": {
             // 表示中に space で Area Hints(移動先選択)へ切り替え
             "areaHints": { "key": "space" },
             // 表示中に tab で Application Hints(アプリランチャー)へ切り替え
-            "applicationHints": { "key": "tab" }
+            "applicationHints": { "key": "tab" },
+            // vim風の方向キーでウィンドウ移動(旧 Hammerspoon 設定から引き継ぎ)
+            "direction": {
+                "hints": {
+                    "keys": {
+                        "left": "h",
+                        "down": "j",
+                        "up": "k",
+                        "right": "l",
+                        "upLeft": "y",
+                        "upRight": "u",
+                        "downLeft": "b",
+                        "downRight": "n"
+                    }
+                }
+            }
         }
     },
 

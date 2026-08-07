@@ -1,5 +1,9 @@
 {
   "trustedformulae": [
     "sorafujitani/tap/ccsession"
+  ],
+  "trustedcasks": [
+    "tadashi-aikawa/tap/jinrai",
+    "barutsrb/tap/omniwm"
   ]
 }

@@ -7,7 +7,6 @@ dotfiles.default_mode = "symlink"
 "~/.config/borders" = { source = "packages/borders" }
 "~/.config/ghostty" = { source = "packages/ghostty" }
 "~/.config/git" = { source = "packages/git" }
-"~/.hammerspoon" = { source = "packages/hammerspoon" }
 "~/.config/homebrew" = { source = "packages/homebrew" }
 "~/.config/karabiner" = { source = "packages/karabiner" }
 "~/.config/nvim" = { source = "packages/nvim" }

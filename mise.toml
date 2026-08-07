@@ -8,6 +8,7 @@ dotfiles.default_mode = "symlink"
 "~/.config/ghostty" = { source = "packages/ghostty" }
 "~/.config/git" = { source = "packages/git" }
 "~/.config/homebrew" = { source = "packages/homebrew" }
+"~/.config/jinrai" = { source = "packages/jinrai" }
 "~/.config/karabiner" = { source = "packages/karabiner" }
 "~/.config/nvim" = { source = "packages/nvim" }
 "~/.config/octorus" = { source = "packages/octorus", mode = "symlink-each" }

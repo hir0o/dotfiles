@@ -3,6 +3,10 @@ onboarding = false
 [ui]
 prompt_new_tab_name = false
 show_agent_labels_on_pane_borders = true
+status_indicators = "symbols"
+hide_tab_bar_when_single_tab = true
+agent_panel_sort = "priority"
+window_title = "{hostname}: {workspace}"
 
 [ui.sidebar.agents]
 row_gap = 1
@@ -12,6 +16,12 @@ row_gap = 1
 
 [ui.toast]
 delivery = "terminal"
+
+[ui.sound]
+enabled = true
+
+[session]
+resume_agents_on_restore = true
 
 [keys]
 prefix = "ctrl+s"
@@ -52,3 +62,4 @@ height = "90%"
 [experimental]
 switch_ascii_input_source_in_prefix = false
 kitty_graphics = true
+reveal_hidden_cursor_for_cjk_ime = true

@@ -32,6 +32,9 @@ next_workspace = "shift+ctrl+j"
 previous_tab = "shift+ctrl+["
 next_tab = "shift+ctrl+]"
 
+# 左右分割（tmux の prefix+% 相当。デフォルトの prefix+v から変更）
+split_vertical = 'prefix+\'
+
 # swap_pane のデフォルトは prefix+shift+h/j/k/l で workspace 移動とぶつかるため ctrl 側へ退避
 swap_pane_left = "prefix+ctrl+h"
 swap_pane_down = "prefix+ctrl+j"

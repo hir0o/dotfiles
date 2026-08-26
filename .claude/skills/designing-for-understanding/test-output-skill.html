@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プロンプトキャッシュと推論コスト最適化</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f0f;
+    --surface: #171717;
+    --surface2: #1f1f1f;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --muted: #888;
+    --accent: #d4a843;
+    --accent2: #7eb3d4;
+    --warn: #c9624a;
+    --green: #5a9e6f;
+    --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --sans: 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== LAYOUT ===== */
+  .page-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+  }
+
+  /* ===== TOP NAV ===== */
+  .topbar {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .topbar-tabs {
+    display: flex;
+    gap: 0;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0 16px;
+    height: 48px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tab-btn:hover:not(.active) {
+    color: var(--text);
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 48px;
+    height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+
+  .sidebar-section {
+    margin-bottom: 24px;
+  }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 8px;
+  }
+
+  .sidebar-link {
+    display: block;
+    padding: 6px 20px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .sidebar-link:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .sidebar-link.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(212,168,67,0.06);
+  }
+
+  /* ===== MAIN ===== */
+  .main {
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ===== HERO (30 seconds layer) ===== */
+  .hero {
+    padding: 64px 56px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-tldr {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    max-width: 680px;
+    margin-bottom: 32px;
+  }
+
+  .hero-tldr-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .hero-tldr p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .axis-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .axis-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .axis-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ===== STRUCTURE MAP (3 min layer) ===== */
+  .section {
+    padding: 48px 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* ===== CONCEPT MAP ===== */
+  .concept-map-wrap {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .concept-map-svg {
+    display: block;
+    min-width: 700px;
+  }
+
+  /* ===== CLAIM CARDS ===== */
+  .claims-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .claim-card {
+    background: var(--surface);
+    padding: 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .claim-card:hover {
+    background: var(--surface2);
+  }
+
+  .claim-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .claim-text {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .claim-evidence {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+
+  .claim-evidence-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+
+  /* ===== SOURCE BADGE ===== */
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-genmon { background: rgba(90,158,111,0.15); color: #5a9e6f; border: 1px solid rgba(90,158,111,0.3); }
+  .badge-yoyaku { background: rgba(126,179,212,0.15); color: #7eb3d4; border: 1px solid rgba(126,179,212,0.3); }
+  .badge-kaishaku { background: rgba(212,168,67,0.15); color: #d4a843; border: 1px solid rgba(212,168,67,0.3); }
+  .badge-suisoku { background: rgba(201,98,74,0.15); color: #c9624a; border: 1px solid rgba(201,98,74,0.3); }
+
+  /* ===== WARNING CALLOUTS ===== */
+  .warn-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .warn-item {
+    background: var(--surface);
+    border-left: 3px solid var(--warn);
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.15s;
+  }
+
+  .warn-item:hover { background: var(--surface2); }
+
+  .warn-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .warn-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    color: var(--warn);
+    font-weight: 700;
+    font-family: var(--mono);
+  }
+
+  .warn-myth {
+    font-size: 13px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .warn-toggle {
+    font-size: 16px;
+    color: var(--muted);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .warn-item.open .warn-toggle {
+    transform: rotate(180deg);
+  }
+
+  .warn-body {
+    display: none;
+    padding: 0 20px 16px 44px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .warn-item.open .warn-body { display: block; }
+
+  .warn-correction {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(90,158,111,0.08);
+    border-left: 2px solid var(--green);
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .warn-correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+
+  /* ===== DETAIL VIEW ===== */
+  .detail-sections {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .detail-block {
+    padding: 40px 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-block-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .detail-block-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .detail-block p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #ccc;
+    margin-bottom: 14px;
+    max-width: 660px;
+  }
+
+  .detail-block p:last-child { margin-bottom: 0; }
+
+  .highlight-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent2);
+    padding: 16px 20px;
+    margin: 20px 0;
+    max-width: 660px;
+  }
+
+  .highlight-box p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+  }
+
+  /* ===== COMPARISON TABLE ===== */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    max-width: 700px;
+  }
+
+  .compare-table th {
+    text-align: left;
+    padding: 10px 16px;
+    background: var(--surface2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: #ccc;
+    line-height: 1.5;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .compare-table .col-method {
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .tag-good { color: var(--green); font-weight: 600; font-size: 11px; }
+  .tag-bad { color: var(--warn); font-weight: 600; font-size: 11px; }
+
+  /* ===== GLOSSARY ===== */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .glossary-item {
+    background: var(--surface);
+    padding: 20px 24px;
+  }
+
+  .glossary-term {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+
+  .glossary-def {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.55;
+  }
+
+  /* ===== QUIZ VIEW ===== */
+  .quiz-wrap {
+    padding: 48px 56px;
+    max-width: 760px;
+  }
+
+  .quiz-intro {
+    margin-bottom: 40px;
+  }
+
+  .quiz-intro p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .quiz-item {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .quiz-item:last-child {
+    border-bottom: none;
+  }
+
+  .quiz-q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .quiz-q-text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: left;
+    width: 100%;
+    font-family: var(--sans);
+    color: var(--text);
+  }
+
+  .quiz-option:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .quiz-option:disabled { cursor: default; }
+
+  .quiz-option.correct {
+    border-color: var(--green);
+    background: rgba(90,158,111,0.08);
+  }
+
+  .quiz-option.wrong {
+    border-color: var(--warn);
+    background: rgba(201,98,74,0.06);
+  }
+
+  .quiz-option .opt-letter {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .quiz-option.correct .opt-letter { color: var(--green); }
+  .quiz-option.wrong .opt-letter { color: var(--warn); }
+
+  .quiz-option .opt-text {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .quiz-feedback {
+    display: none;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--border);
+    font-size: 13px;
+    line-height: 1.6;
+    color: #aaa;
+  }
+
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.fb-correct { border-color: var(--green); background: rgba(90,158,111,0.06); }
+  .quiz-feedback.fb-wrong { border-color: var(--warn); background: rgba(201,98,74,0.05); }
+
+  .quiz-feedback strong { color: var(--text); }
+
+  .quiz-score {
+    display: none;
+    padding: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .quiz-score.show { display: block; }
+  .quiz-score .score-num { font-size: 36px; font-weight: 700; color: var(--accent); }
+  .quiz-score .score-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* ===== FLOW / CASCADE ===== */
+  .flow-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 480px;
+    margin: 20px 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40px;
+    flex-shrink: 0;
+  }
+
+  .flow-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent2);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .flow-line {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    min-height: 20px;
+  }
+
+  .flow-box {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .flow-box-title {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .flow-box-sub {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .flow-branch {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .flow-branch-item {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .flow-branch-item.yes { border-color: rgba(90,158,111,0.4); }
+  .flow-branch-item.no { border-color: rgba(201,98,74,0.4); }
+
+  .flow-branch-label { font-weight: 700; margin-bottom: 2px; color: var(--muted); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .flow-branch-item.yes .flow-branch-label { color: var(--green); }
+  .flow-branch-item.no .flow-branch-label { color: var(--warn); }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #333; }
+  ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .page-grid { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .hero, .section, .detail-block, .quiz-wrap { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-grid">
+
+  <!-- TOP BAR -->
+  <header class="topbar" role="banner">
+    <span class="topbar-title">推論コスト最適化</span>
+    <nav class="topbar-tabs" role="tablist">
+      <button class="tab-btn active" role="tab" onclick="showView('view-overview', this)">30秒で把握</button>
+      <button class="tab-btn" role="tab" onclick="showView('view-detail', this)">詳細</button>
+      <button class="tab-btn" role="tab" onclick="showView('view-quiz', this)">理解チェック</button>
+    </nav>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" role="complementary" aria-label="ナビゲーション">
+    <div class="sidebar-section">
+      <div class="sidebar-label">概要</div>
+      <a href="#hero" class="sidebar-link active" onclick="activeSidebarLink(this)">中心テーマ</a>
+      <a href="#claims" class="sidebar-link" onclick="activeSidebarLink(this)">主張マップ</a>
+      <a href="#misunderstandings" class="sidebar-link" onclick="activeSidebarLink(this)">よくある誤解</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">3つの軸</div>
+      <a href="#cache" class="sidebar-link" onclick="activeSidebarLink(this)">① キャッシュ</a>
+      <a href="#batch" class="sidebar-link" onclick="activeSidebarLink(this)">② バッチ推論</a>
+      <a href="#model" class="sidebar-link" onclick="activeSidebarLink(this)">③ モデル選択</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">参照</div>
+      <a href="#compare" class="sidebar-link" onclick="activeSidebarLink(this)">手法比較表</a>
+      <a href="#glossary" class="sidebar-link" onclick="activeSidebarLink(this)">用語集</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" role="main">
+
+    <!-- ===== VIEW: OVERVIEW ===== -->
+    <div id="view-overview" class="view active" role="tabpanel">
+
+      <!-- HERO -->
+      <section id="hero" class="hero">
+        <div class="hero-eyebrow">中心テーマ <span class="badge badge-yoyaku">要約</span></div>
+        <h1 class="hero-title">コスト削減の正解は<br>「トークンを減らす」ではない</h1>
+        <div class="hero-tldr">
+          <div class="hero-tldr-label">30秒 TL;DR <span class="badge badge-yoyaku">要約</span></div>
+          <p>LLM推論コストの最適化は<strong>3つの独立した軸</strong>（キャッシュ・バッチ・モデル選択）を<strong>統合的に</strong>扱う問題である。単純にトークン数を減らすと、キャッシュヒット率が下がり逆効果になることがある。各軸には固有のトレードオフがあり、ユースケースに応じた選択が必要。</p>
+        </div>
+        <div class="axis-pills">
+          <button class="axis-pill" onclick="scrollToSection('cache')">① プロンプトキャッシュ</button>
+          <button class="axis-pill" onclick="scrollToSection('batch')">② バッチ推論</button>
+          <button class="axis-pill" onclick="scrollToSection('model')">③ モデル選択・カスケード</button>
+        </div>
+      </section>
+
+      <!-- CONCEPT MAP -->
+      <section class="section">
+        <div class="section-heading">構造マップ <span class="badge badge-kaishaku">解釈</span></div>
+        <div class="concept-map-wrap">
+          <svg class="concept-map-svg" viewBox="0 0 740 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="コスト最適化の構造マップ">
+            <!-- Center node -->
+            <rect x="280" y="100" width="180" height="60" fill="#1f1f1f" stroke="#d4a843" stroke-width="1.5"/>
+            <text x="370" y="127" text-anchor="middle" fill="#d4a843" font-size="12" font-weight="700" font-family="Helvetica Neue, Arial, sans-serif">推論コスト最適化</text>
+            <text x="370" y="148" text-anchor="middle" fill="#888" font-size="11" font-family="Helvetica Neue, Arial, sans-serif">3軸の統合アプローチ</text>
+
+            <!-- Axis 1: Cache -->
+            <rect x="20" y="20" width="160" height="70" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+            <text x="100" y="46" text-anchor="middle" fill="#7eb3d4" font-size="12" font-weight="700" font-family="Helvetica Neue, Arial, sans-serif">① キャッシュ</text>
+            <text x="100" y="63" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">TTL 5分</text>
+            <text x="100" y="78" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">コスト 10%に削減</text>
+            <line x1="180" y1="55" x2="280" y2="120" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Axis 2: Batch -->
+            <rect x="20" y="130" width="160" height="70" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+            <text x="100" y="156" text-anchor="middle" fill="#7eb3d4" font-size="12" font-weight="700" font-family="Helvetica Neue, Arial, sans-serif">② バッチ推論</text>
+            <text x="100" y="173" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">コスト 50%に削減</text>
+            <text x="100" y="188" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">最大24時間遅延</text>
+            <line x1="180" y1="165" x2="280" y2="145" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Axis 3: Model -->
+            <rect x="560" y="75" width="160" height="110" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+            <text x="640" y="101" text-anchor="middle" fill="#7eb3d4" font-size="12" font-weight="700" font-family="Helvetica Neue, Arial, sans-serif">③ モデル選択</text>
+            <text x="640" y="118" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">Haiku / Sonnet / Opus</text>
+            <text x="640" y="140" text-anchor="middle" fill="#d4a843" font-size="10" font-weight="600" font-family="Helvetica Neue, Arial, sans-serif">カスケード戦略</text>
+            <text x="640" y="156" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">安価→高価にフォールバック</text>
+            <text x="640" y="172" text-anchor="middle" fill="#888" font-size="10" font-family="Helvetica Neue, Arial, sans-serif">品質を保ちコスト削減</text>
+            <line x1="560" y1="130" x2="460" y2="130" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!--併用可能ラベル -->
+            <rect x="180" y="190" width="200" height="28" fill="rgba(90,158,111,0.08)" stroke="rgba(90,158,111,0.3)" stroke-width="1"/>
+            <text x="280" y="209" text-anchor="middle" fill="#5a9e6f" font-size="11" font-weight="600" font-family="Helvetica Neue, Arial, sans-serif">① + ② は同時適用可能</text>
+            <line x1="100" y1="200" x2="180" y2="204" stroke="rgba(90,158,111,0.3)" stroke-width="1"/>
+            <line x1="100" y1="200" x2="100" y2="200" stroke="none"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- CLAIMS -->
+      <section id="claims" class="section">
+        <div class="section-heading">主張と根拠 <span class="badge badge-genmon">原文</span></div>
+        <div class="claims-grid">
+
+          <article class="claim-card">
+            <span class="claim-number">CLAIM 01</span>
+            <div class="claim-text">トークン削減だけでは最適化にならない。むしろコストが上がる場合がある。</div>
+            <div class="claim-evidence">
+              <div class="claim-evidence-label">根拠</div>
+              プロンプトを短くしてキャッシュプレフィックスが短縮されると、キャッシュヒット率が低下し、通常料金が多く発生する。
+            </div>
+          </article>
+
+          <article class="claim-card">
+            <span class="claim-number">CLAIM 02</span>
+            <div class="claim-text">キャッシュの有効性はプロンプトの<strong>構造設計</strong>に大きく依存する。</div>
+            <div class="claim-evidence">
+              <div class="claim-evidence-label">根拠・具体例</div>
+              静的部分（システムプロンプト・ツール定義・few-shot例）を先頭に、動的部分（ユーザー入力）を末尾に配置する必要がある。この順序が逆だとキャッシュヒット率は実質ゼロになる。
+            </div>
+          </article>
+
+          <article class="claim-card">
+            <span class="claim-number">CLAIM 03</span>
+            <div class="claim-text">バッチ推論とプロンプトキャッシュは相互排他ではなく、同時適用できる。</div>
+            <div class="claim-evidence">
+              <div class="claim-evidence-label">根拠</div>
+              同一のシステムプロンプトを持つ複数リクエストをバッチ送信する場合、キャッシュとバッチの両割引が適用される可能性がある。
+            </div>
+          </article>
+
+          <article class="claim-card">
+            <span class="claim-number">CLAIM 04</span>
+            <div class="claim-text">コスト最適化の本質はレイテンシとコストのトレードオフを正しく理解し、ユースケースに応じて選択することである。</div>
+            <div class="claim-evidence">
+              <div class="claim-evidence-label">根拠</div>
+              バッチ推論は50%安いがリアルタイム応答が必要なケースには使えない。モデルカスケードは品質を維持しながら平均コストを削減できる。
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- MISUNDERSTANDINGS -->
+      <section id="misunderstandings" class="section">
+        <div class="section-heading">よくある誤解 <span class="badge badge-genmon">原文</span></div>
+        <div class="warn-list">
+
+          <div class="warn-item" id="warn1">
+            <div class="warn-header" onclick="toggleWarn('warn1')">
+              <div class="warn-icon">!</div>
+              <div class="warn-myth">誤解①：トークン数を減らせばコストは必ず下がる</div>
+              <div class="warn-toggle">▼</div>
+            </div>
+            <div class="warn-body">
+              <p>プロンプトを短くしてキャッシュヒット率が下がると、逆にコストが上がる場合がある。</p>
+              <p><strong>具体例：</strong>few-shotの例を削除してプロンプトを短縮した結果、キャッシュプレフィックスが短くなり、キャッシュヒット率が低下するケース。</p>
+              <div class="warn-correction">
+                <div class="warn-correction-label">正しい理解</div>
+                キャッシュヒット率を考慮したうえでプロンプト設計を行う必要がある。静的コンテンツを削除するとキャッシュ効率が下がりうる。
+              </div>
+            </div>
+          </div>
+
+          <div class="warn-item" id="warn2">
+            <div class="warn-header" onclick="toggleWarn('warn2')">
+              <div class="warn-icon">!</div>
+              <div class="warn-myth">誤解②：バッチ推論は常に安い</div>
+              <div class="warn-toggle">▼</div>
+            </div>
+            <div class="warn-body">
+              <p>50%割引は魅力的だが、24時間の遅延を許容できないユースケースでは使えない。</p>
+              <p><strong>追加の注意点：</strong>バッチサイズが小さすぎる場合、オーバーヘッドが割引を上回ることがある。</p>
+              <div class="warn-correction">
+                <div class="warn-correction-label">正しい理解</div>
+                バッチ推論はリアルタイム性が不要で、かつ十分なバッチサイズが確保できる場合にのみ有効。
+              </div>
+            </div>
+          </div>
+
+          <div class="warn-item" id="warn3">
+            <div class="warn-header" onclick="toggleWarn('warn3')">
+              <div class="warn-icon">!</div>
+              <div class="warn-myth">誤解③：最も高価なモデルが最も正確</div>
+              <div class="warn-toggle">▼</div>
+            </div>
+            <div class="warn-body">
+              <p>タスクによっては、小さなモデルの方が一貫した結果を出すことがある。</p>
+              <p><strong>具体例：</strong>出力フォーマットが厳密に定義されている構造化出力タスクでは、大きなモデルの「創造性」がかえって邪魔になる場合がある。</p>
+              <div class="warn-correction">
+                <div class="warn-correction-label">正しい理解</div>
+                タスクの性質（分類・抽出・構造化出力など）に応じてモデルを選ぶ。Haikuで十分なケースも多い。
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- COMPARISON TABLE -->
+      <section id="compare" class="section">
+        <div class="section-heading">手法比較 <span class="badge badge-yoyaku">要約</span></div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>手法</th>
+              <th>コスト削減</th>
+              <th>制約・条件</th>
+              <th>適するケース</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-method">プロンプトキャッシュ</td>
+              <td><span class="tag-good">最大90%削減</span><br><small style="color:var(--muted)">（入力トークンのみ）</small></td>
+              <td>TTL 5分／静的プレフィックス必須</td>
+              <td>同一システムプロンプトを繰り返し使うチャットや検索</td>
+            </tr>
+            <tr>
+              <td class="col-method">バッチ推論</td>
+              <td><span class="tag-good">50%削減</span></td>
+              <td>最大24時間の遅延／リアルタイム不可</td>
+              <td>分類・ラベリング・非同期処理パイプライン</td>
+            </tr>
+            <tr>
+              <td class="col-method">モデルカスケード</td>
+              <td>平均コストを大幅削減<br><small style="color:var(--muted)">（効果はタスク依存）</small></td>
+              <td>信頼度スコアの設計が必要</td>
+              <td>分類・抽出など、軽量モデルで多くをカバーできるタスク</td>
+            </tr>
+            <tr>
+              <td class="col-method">① + ② 併用</td>
+              <td><span class="tag-good">最大90% × 50%</span></td>
+              <td>両方の制約を同時に満たす必要</td>
+              <td>非同期・大量バッチ処理で同一プロンプトを使うケース</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- GLOSSARY -->
+      <section id="glossary" class="section">
+        <div class="section-heading">用語集 <span class="badge badge-genmon">原文</span></div>
+        <div class="glossary-grid">
+          <div class="glossary-item">
+            <div class="glossary-term">プロンプトキャッシュ</div>
+            <div class="glossary-def">APIリクエスト間で共通するプロンプトのプレフィックス（先頭部分）をサーバー側でキャッシュし、再計算を省略する技術。</div>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">TTL (Time To Live)</div>
+            <div class="glossary-def">キャッシュの有効期限。Anthropic APIでは5分間。この時間内に同一プレフィックスのリクエストがなければキャッシュは破棄される。</div>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">バッチ推論</div>
+            <div class="glossary-def">複数のリクエストをまとめて非同期で処理する手法。通常の50%のコストで実行できるが、完了まで最大24時間かかる場合がある。</div>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">モデルカスケード</div>
+            <div class="glossary-def">まず安価なモデルで処理を試み、信頼度が低い場合にのみ高価なモデルにフォールバックする戦略。</div>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">キャッシュヒット率</div>
+            <div class="glossary-def">リクエストのうち、キャッシュを利用できた割合。プロンプトの構造設計によって大きく変わる。</div>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">few-shot例</div>
+            <div class="glossary-def">モデルに出力形式や推論スタイルを示すために、プロンプト内に含める入出力のサンプル。静的なのでキャッシュのプレフィックスに含める。</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ===== VIEW: DETAIL ===== -->
+    <div id="view-detail" class="view" role="tabpanel">
+      <div class="detail-sections">
+
+        <div id="cache" class="detail-block">
+          <div class="detail-block-title">① プロンプトキャッシュ <span class="badge badge-genmon">原文</span></div>
+          <div class="detail-block-meta">コスト削減：最大90%（入力トークン）　制約：TTL 5分</div>
+
+          <p>プロンプトキャッシュとは、APIリクエスト間で共通するプロンプトプレフィックスをサーバー側でキャッシュし、再計算を省略する技術である。Anthropic APIでは、キャッシュヒット時の入力トークンコストが通常の10%に削減される。</p>
+
+          <p>重要な制約として、キャッシュにはTTL（Time To Live）が存在する。Anthropic APIの場合、TTLは5分間である。つまり、5分以内に同一プレフィックスのリクエストが来なければキャッシュは破棄される。</p>
+
+          <div class="highlight-box">
+            <p><span class="badge badge-genmon">原文</span> キャッシュの有効性は、プロンプトの構造設計に大きく依存する。静的な部分をプレフィックスに配置し、動的な部分を末尾に配置する必要がある。この順序を逆にすると、キャッシュヒット率は実質ゼロになる。</p>
+          </div>
+
+          <p style="font-size:13px; color:var(--muted);">静的部分の例：システムプロンプト、ツール定義、few-shotの例<br>動的部分の例：ユーザー入力（毎回変わるもの）</p>
+
+          <div style="margin-top: 24px;">
+            <div class="section-heading" style="margin-bottom:16px;">プロンプト構造の正しい並び順 <span class="badge badge-kaishaku">解釈</span></div>
+            <div class="flow-diagram">
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">1. システムプロンプト（静的）</div>
+                  <div class="flow-box-sub">モデルへの指示、役割定義</div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">2. ツール定義（静的）</div>
+                  <div class="flow-box-sub">Function calling の定義</div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">3. few-shot 例（静的）</div>
+                  <div class="flow-box-sub">入出力のサンプル</div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot" style="background: var(--accent);"></div></div>
+                <div class="flow-box" style="border-color: var(--accent); border-width: 1.5px;">
+                  <div class="flow-box-title" style="color: var(--accent);">4. ユーザー入力（動的）← 末尾に配置</div>
+                  <div class="flow-box-sub">毎回変わる部分。ここだけがキャッシュ対象外になる。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="batch" class="detail-block">
+          <div class="detail-block-title">② バッチ推論 <span class="badge badge-genmon">原文</span></div>
+          <div class="detail-block-meta">コスト削減：50%　制約：最大24時間の遅延</div>
+
+          <p>バッチ推論はキャッシュとは独立した最適化手法である。複数のリクエストをまとめて非同期で処理することで、通常の50%のコストで推論を実行できる。</p>
+
+          <div class="highlight-box">
+            <p><span class="badge badge-genmon">原文</span> バッチ推論とプロンプトキャッシュは相互排他ではない。同一のシステムプロンプトを持つ複数のリクエストをバッチで送信する場合、キャッシュとバッチの両方の割引が適用される可能性がある。</p>
+          </div>
+
+          <p>ただし注意が必要なのは、バッチ推論には24時間以内の完了保証しかなく、リアルタイム応答が必要なユースケースには適さない。</p>
+
+          <div style="margin-top: 24px;">
+            <div class="section-heading" style="margin-bottom:16px;">バッチ推論を使うべきか判断フロー <span class="badge badge-kaishaku">解釈</span></div>
+            <div class="flow-diagram">
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">リアルタイム応答が必要か？</div>
+                  <div class="flow-branch">
+                    <div class="flow-branch-item yes">
+                      <div class="flow-branch-label">YES</div>
+                      バッチ推論は使えない。通常APIを使用する。
+                    </div>
+                    <div class="flow-branch-item no">
+                      <div class="flow-branch-label">NO</div>
+                      次のステップへ
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">バッチサイズは十分か？</div>
+                  <div class="flow-branch">
+                    <div class="flow-branch-item yes">
+                      <div class="flow-branch-label">YES（十分な量）</div>
+                      バッチ推論を使用。50%コスト削減。
+                    </div>
+                    <div class="flow-branch-item no">
+                      <div class="flow-branch-label">NO（少量）</div>
+                      オーバーヘッドが割引を上回る可能性。通常APIを検討。
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="model" class="detail-block">
+          <div class="detail-block-title">③ モデル選択とカスケード <span class="badge badge-genmon">原文</span></div>
+          <div class="detail-block-meta">削減効果：タスク・構成依存</div>
+
+          <p>Haiku、Sonnet、Opusの3つのモデルは、能力とコストが大きく異なる。分類タスクや抽出タスクにはHaikuで十分な場合が多く、Opusを使う必要はない。</p>
+
+          <div class="highlight-box">
+            <p><span class="badge badge-genmon">原文</span> 「モデルカスケード」という手法では、まず安価なモデルで処理を試み、信頼度が低い場合にのみ高価なモデルにフォールバックする。これにより、平均コストを大幅に削減しつつ、品質を維持できる。</p>
+          </div>
+
+          <div style="margin-top: 24px;">
+            <div class="section-heading" style="margin-bottom:16px;">モデルカスケードの流れ <span class="badge badge-kaishaku">解釈</span></div>
+            <div class="flow-diagram">
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">Step 1: Haikuで推論</div>
+                  <div class="flow-box-sub">最も安価。分類・抽出など多くのケースでこれで完結する。</div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">Step 2: 信頼度スコアを確認</div>
+                  <div class="flow-branch">
+                    <div class="flow-branch-item yes">
+                      <div class="flow-branch-label">高信頼度</div>
+                      そのまま結果を使用。コスト最小。
+                    </div>
+                    <div class="flow-branch-item no">
+                      <div class="flow-branch-label">低信頼度</div>
+                      次ステップへ
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-connector"><div class="flow-dot" style="background: var(--accent);"></div></div>
+                <div class="flow-box">
+                  <div class="flow-box-title">Step 3: Sonnet / Opusにフォールバック</div>
+                  <div class="flow-box-sub">必要な場合のみ高価なモデルを使用。全体の平均コストを抑える。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== VIEW: QUIZ ===== -->
+    <div id="view-quiz" class="view" role="tabpanel">
+      <div class="quiz-wrap">
+        <div class="section-heading" style="margin-bottom:8px;">理解チェック</div>
+        <div class="quiz-intro">
+          <p>単純な用語の暗記ではなく、実際のシナリオでの判断力を問います。4問中何問正解できますか？</p>
+        </div>
+
+        <!-- Q1 -->
+        <div class="quiz-item" id="q1">
+          <div class="quiz-q-num">Q1 / 4　— シナリオベース</div>
+          <div class="quiz-q-text">あなたのチームが「few-shotの例をプロンプトから削除してトークン数を減らしたら、コストが下がるはずだ」と提案した。この判断の何が問題か、最も正確に説明しているものはどれか？</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-q="q1" data-idx="0" onclick="answerQuiz(this, 'q1', false)">
+              <span class="opt-letter">A</span>
+              <span class="opt-text">few-shot例は出力品質に影響するため、削除するとモデルの精度が下がる。</span>
+            </button>
+            <button class="quiz-option" data-q="q1" data-idx="1" onclick="answerQuiz(this, 'q1', true)">
+              <span class="opt-letter">B</span>
+              <span class="opt-text">few-shot例はキャッシュプレフィックスの一部であり、削除するとキャッシュヒット率が下がり、トークン削減による節約を上回るコスト増になる可能性がある。</span>
+            </button>
+            <button class="quiz-option" data-q="q1" data-idx="2" onclick="answerQuiz(this, 'q1', false)">
+              <span class="opt-letter">C</span>
+              <span class="opt-text">バッチ推論との組み合わせが使えなくなるため、最適化の選択肢が減る。</span>
+            </button>
+            <button class="quiz-option" data-q="q1" data-idx="3" onclick="answerQuiz(this, 'q1', false)">
+              <span class="opt-letter">D</span>
+              <span class="opt-text">トークン数の削減は常に有効であり、この判断に問題はない。</span>
+            </button>
+          </div>
+          <div class="quiz-feedback" id="fb-q1">
+            <strong>正解はB。</strong>  few-shotの例は静的なコンテンツであり、キャッシュのプレフィックスに含まれる。これを削除するとプレフィックスが短くなり、キャッシュヒット率が低下する。キャッシュヒット時は入力トークンコストが90%削減されるため、ヒット率の低下はトークン削減の効果を容易に上回りうる。これが誤解①の核心。
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-item" id="q2">
+          <div class="quiz-q-num">Q2 / 4　— 構造判断</div>
+          <div class="quiz-q-text">プロンプトキャッシュのヒット率を最大化するために、プロンプトの構成要素を正しい順序に並べてほしい。最も適切なものはどれか？</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-q="q2" data-idx="0" onclick="answerQuiz(this, 'q2', false)">
+              <span class="opt-letter">A</span>
+              <span class="opt-text">ユーザー入力 → システムプロンプト → few-shot例 → ツール定義</span>
+            </button>
+            <button class="quiz-option" data-q="q2" data-idx="1" onclick="answerQuiz(this, 'q2', false)">
+              <span class="opt-letter">B</span>
+              <span class="opt-text">システムプロンプト → ユーザー入力 → few-shot例 → ツール定義</span>
+            </button>
+            <button class="quiz-option" data-q="q2" data-idx="2" onclick="answerQuiz(this, 'q2', true)">
+              <span class="opt-letter">C</span>
+              <span class="opt-text">システムプロンプト → ツール定義 → few-shot例 → ユーザー入力</span>
+            </button>
+            <button class="quiz-option" data-q="q2" data-idx="3" onclick="answerQuiz(this, 'q2', false)">
+              <span class="opt-letter">D</span>
+              <span class="opt-text">順序は関係なく、キャッシュはすべての要素を自動的に最適化する。</span>
+            </button>
+          </div>
+          <div class="quiz-feedback" id="fb-q2">
+            <strong>正解はC。</strong>  静的な部分（システムプロンプト・ツール定義・few-shot例）をプレフィックスとして先頭に固めて配置し、毎回変わる動的部分（ユーザー入力）を末尾に置く。プレフィックスが変わらないリクエストほどキャッシュにヒットしやすくなる。
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-item" id="q3">
+          <div class="quiz-q-num">Q3 / 4　— トレードオフ判断</div>
+          <div class="quiz-q-text">ユーザーが送信したレビューを1日1回まとめて感情分析し、データベースに格納するパイプラインを設計している。コスト最適化の観点で最も合理的な選択はどれか？</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-q="q3" data-idx="0" onclick="answerQuiz(this, 'q3', false)">
+              <span class="opt-letter">A</span>
+              <span class="opt-text">レイテンシが重要なのでリアルタイムAPIを使い、できるだけ短いプロンプトにする。</span>
+            </button>
+            <button class="quiz-option" data-q="q3" data-idx="1" onclick="answerQuiz(this, 'q3', false)">
+              <span class="opt-letter">B</span>
+              <span class="opt-text">Opusモデルを使って精度を最大化し、バッチAPIで送信する。</span>
+            </button>
+            <button class="quiz-option" data-q="q3" data-idx="2" onclick="answerQuiz(this, 'q3', true)">
+              <span class="opt-letter">C</span>
+              <span class="opt-text">Haikuモデルでバッチ推論を使い、同一システムプロンプトでキャッシュも活用する。</span>
+            </button>
+            <button class="quiz-option" data-q="q3" data-idx="3" onclick="answerQuiz(this, 'q3', false)">
+              <span class="opt-letter">D</span>
+              <span class="opt-text">バッチ推論は24時間の遅延があるため、このケースでは使えない。</span>
+            </button>
+          </div>
+          <div class="quiz-feedback" id="fb-q3">
+            <strong>正解はC。</strong>  1日1回のバッチ処理なのでリアルタイム性は不要→バッチ推論が使える（50%削減）。感情分析はHaikuで十分なことが多い。同一のシステムプロンプトを使えばキャッシュも適用できる。バッチ＋キャッシュ＋Haikuの3軸を組み合わせることでコストを最大化できる。
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-item" id="q4">
+          <div class="quiz-q-num">Q4 / 4　— 概念理解</div>
+          <div class="quiz-q-text">「モデルカスケード」戦略を使う主な目的は何か？</div>
+          <div class="quiz-options">
+            <button class="quiz-option" data-q="q4" data-idx="0" onclick="answerQuiz(this, 'q4', false)">
+              <span class="opt-letter">A</span>
+              <span class="opt-text">常にOpusを使って最高精度を確保し、コストは二次的に考える。</span>
+            </button>
+            <button class="quiz-option" data-q="q4" data-idx="1" onclick="answerQuiz(this, 'q4', true)">
+              <span class="opt-letter">B</span>
+              <span class="opt-text">安価なモデルで多くを処理し、信頼度が低い場合のみ高価なモデルを使うことで、品質を維持しながら平均コストを下げる。</span>
+            </button>
+            <button class="quiz-option" data-q="q4" data-idx="2" onclick="answerQuiz(this, 'q4', false)">
+              <span class="opt-letter">C</span>
+              <span class="opt-text">複数のモデルに同じリクエストを送り、多数決で結果を決定する。</span>
+            </button>
+            <button class="quiz-option" data-q="q4" data-idx="3" onclick="answerQuiz(this, 'q4', false)">
+              <span class="opt-letter">D</span>
+              <span class="opt-text">バッチ推論とプロンプトキャッシュを組み合わせる技術名称。</span>
+            </button>
+          </div>
+          <div class="quiz-feedback" id="fb-q4">
+            <strong>正解はB。</strong>  モデルカスケードは「全クエリにOpusを使う」でも「全クエリにHaikuを使う」でもない中間戦略。信頼度スコアを閾値として、多くは安価なモデルで済ませ、難しいケースだけ高価なモデルに渡す。これにより品質を保ちながら平均コストを大幅に削減できる。
+          </div>
+        </div>
+
+        <div class="quiz-score" id="quiz-score">
+          <div class="score-num" id="score-num">-</div>
+          <div class="score-label">/ 4 問正解</div>
+          <p style="margin-top:12px; font-size:13px; color:var(--muted);" id="score-comment"></p>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // ===== TAB SWITCHING =====
+  function showView(viewId, btn) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ===== SIDEBAR ACTIVE LINK =====
+  function activeSidebarLink(el) {
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // ===== SCROLL TO SECTION =====
+  function scrollToSection(id) {
+    // Switch to detail view first if needed
+    const detailEl = document.getElementById(id);
+    if (detailEl && detailEl.closest('#view-detail')) {
+      const detailTab = document.querySelectorAll('.tab-btn')[1];
+      showView('view-detail', detailTab);
+    }
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  // ===== WARN ACCORDIONS =====
+  function toggleWarn(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  // ===== QUIZ =====
+  const quizState = { q1: null, q2: null, q3: null, q4: null };
+  let answeredCount = 0;
+  let correctCount = 0;
+
+  function answerQuiz(btn, qId, isCorrect) {
+    if (quizState[qId] !== null) return; // already answered
+
+    quizState[qId] = isCorrect;
+    if (isCorrect) correctCount++;
+    answeredCount++;
+
+    // Disable all options for this question
+    const allOpts = btn.closest('.quiz-item').querySelectorAll('.quiz-option');
+    allOpts.forEach(o => {
+      o.disabled = true;
+      const oIsCorrect = o.getAttribute('onclick').includes('true');
+      if (oIsCorrect) o.classList.add('correct');
+    });
+
+    if (!isCorrect) {
+      btn.classList.add('wrong');
+    }
+
+    // Show feedback
+    const fb = document.getElementById('fb-' + qId);
+    fb.classList.add('show');
+    fb.classList.add(isCorrect ? 'fb-correct' : 'fb-wrong');
+
+    // Show score if all answered
+    if (answeredCount === 4) {
+      const scoreEl = document.getElementById('quiz-score');
+      scoreEl.classList.add('show');
+      document.getElementById('score-num').textContent = correctCount;
+      const comments = {
+        0: 'もう一度ドキュメントを読み直してみましょう。',
+        1: '基本的な概念をもう少し確認してみましょう。',
+        2: '半分正解。トレードオフの理解をさらに深めると良いです。',
+        3: 'よく理解できています。あと一歩です。',
+        4: '完璧な理解です。3軸の統合的思考ができています。'
+      };
+      document.getElementById('score-comment').textContent = comments[correctCount];
+    }
+  }
+
+  // ===== SIDEBAR INTERSECTION OBSERVER =====
+  // Track which section is in view and highlight sidebar
+  const sectionIds = ['hero', 'claims', 'misunderstandings', 'compare', 'glossary', 'cache', 'batch', 'model'];
+  const sectionLinks = {};
+  sectionIds.forEach(id => {
+    const link = document.querySelector(`.sidebar-link[href="#${id}"]`);
+    if (link) sectionLinks[id] = link;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        if (sectionLinks[id]) {
+          document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+          sectionLinks[id].classList.add('active');
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>

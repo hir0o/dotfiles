@@ -20,6 +20,8 @@
             // アプリごとにヒントの頭文字を固定(旧 Hammerspoon 設定から引き継ぎ)
             "prefixOverrides": [
                 { "match": { "bundleID": "md.obsidian" }, "prefix": "O" },
+                // Microsoft Loop は Chrome の PWA なので com.google.Chrome より前に置く
+                { "match": { "bundleID": "com.google.Chrome.app.ahjdipcglkflohmjbcjmjpidpbbiocpk" }, "prefix": "L" },
                 { "match": { "bundleID": "com.google.Chrome" }, "prefix": "C" },
                 { "match": { "bundleID": "com.mitchellh.ghostty" }, "prefix": "G" },
                 { "match": { "bundleID": "com.cmuxterm.app" }, "prefix": "X" },

@@ -29,6 +29,9 @@ github = "zsh-users/zsh-completions"
 [plugins.compinit]
 inline = 'autoload -Uz compinit && compinit'
 
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+
 # --- パッケージマネージャー抽象化 ---
 [plugins.ni-zsh]
 github = "azu/ni.zsh"
@@ -38,18 +41,12 @@ apply = ["defer"]
 github = "hlissner/zsh-autopair"
 apply = ["defer"]
 
-# --- ナビゲーション ---
-[plugins.zsh-z]
-github = 'agkozak/zsh-z'
-
 # ↑↓キーで履歴検索
 [plugins.zsh-history-substring-search]
 github = "zsh-users/zsh-history-substring-search"
 apply = ["defer"]
 
 # --- ビジュアル・フィードバック（最後推奨） ---
-# deja: 履歴ベースの予測サジェスト（zsh-autosuggestions の置き換え。併用不可）
-# Tab は通常の補完に残し、候補の切り替えは Shift+↓ に移す
 [plugins.deja]
 inline = '''
 export DEJA_CYCLE_KEY='^[[1;2B'

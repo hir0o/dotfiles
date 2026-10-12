@@ -86,6 +86,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # FZF key-bindings (プラグインの後に読み込む必要がある) - lazy load for faster startup
 zsh-defer source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
 
+(( $+commands[atuin] )) && zsh-defer -c 'eval "$(atuin init zsh --disable-up-arrow)"'
+
 # fancy-ctrl-z: バッファが空なら fg、入力中なら push-input
 fancy-ctrl-z() {
   if [[ $#BUFFER -eq 0 ]]; then

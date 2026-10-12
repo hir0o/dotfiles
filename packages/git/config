@@ -70,6 +70,7 @@
   brl = !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) - %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/heads/
   brla= !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/remotes/
   ui = gitui
+  dft = -c diff.external=difft diff
 
 [core]
 	editor = code --wait

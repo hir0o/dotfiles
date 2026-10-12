@@ -3,7 +3,12 @@
     "sorafujitani/tap/ccsession"
   ],
   "trustedcasks": [
+    "barutsrb/tap/omniwm",
+    "maddada/tap/ghostex",
     "tadashi-aikawa/tap/jinrai",
-    "barutsrb/tap/omniwm"
+    "vishvavariya/notchy/notchy"
+  ],
+  "trustedtaps": [
+    "maddada/tap"
   ]
 }

@@ -48,9 +48,17 @@ github = "zsh-users/zsh-history-substring-search"
 apply = ["defer"]
 
 # --- ビジュアル・フィードバック（最後推奨） ---
-[plugins.zsh-autosuggestions]
-github = 'zsh-users/zsh-autosuggestions'
-apply = ["defer"]
+# deja: 履歴ベースの予測サジェスト（zsh-autosuggestions の置き換え。併用不可）
+# Tab は通常の補完に残し、候補の切り替えは Shift+↓ に移す
+[plugins.deja]
+inline = '''
+export DEJA_CYCLE_KEY='^[[1;2B'
+if [[ -r "$HOME/.local/share/deja/init.zsh" ]]; then
+  source "$HOME/.local/share/deja/init.zsh"
+elif (( $+commands[deja] )); then
+  eval "$(deja init zsh)"
+fi
+'''
 
 # 必ず最後に読み込む（他のプラグインが定義したエイリアス等に色を付けるため）
 [plugins.zsh-syntax-highlighting]

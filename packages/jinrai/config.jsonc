@@ -19,7 +19,7 @@
         "hint": {
             // アプリごとにヒントの頭文字を固定(旧 Hammerspoon 設定から引き継ぎ)
             "prefixOverrides": [
-                { "match": { "bundleID": "md.obsidian" }, "prefix": "O" },
+                { "match": { "bundleID": "md.obsidian" }, "prefix": "B" },
                 // Microsoft Loop は Chrome の PWA なので com.google.Chrome より前に置く
                 { "match": { "bundleID": "com.google.Chrome.app.ahjdipcglkflohmjbcjmjpidpbbiocpk" }, "prefix": "L" },
                 { "match": { "bundleID": "com.google.Chrome" }, "prefix": "C" },
@@ -76,16 +76,21 @@
         }
     },
 
-    // アプリランチャー: Window Hints から tab で開く。
+    // アプリランチャー: alt+a で直接開く(Window Hints から tab でも開ける)。
     // 起動済みアプリは新規ウィンドウ(既定 cmd+n)、未起動なら起動する
     "applicationHints": {
+        "hotkey": { "modifiers": ["alt"], "key": "a" },
         "apps": [
-            { "bundleID": "com.apple.Safari", "key": "S" },
+            // Chrome / Finder は cmd+n がそのまま新規ウィンドウなので既定のまま
+            { "bundleID": "com.google.Chrome", "key": "C" },
             { "bundleID": "com.apple.finder", "key": "F" },
-            // 例:
-            // { "bundleID": "com.google.Chrome", "key": "E" },
-            // { "bundleID": "md.obsidian", "key": "O", "name": "Obsidian",
-            //   "newWindow": { "url": "obsidian://open?path=/path/to/vault" } },
+            // 以下3つは cmd+n が「新規ノート/新規ToDo」等になるので URL で開く
+            { "bundleID": "md.obsidian", "key": "B",
+              "newWindow": { "url": "obsidian://open?vault=Obsidian%20Vault" } },
+            { "bundleID": "com.tinyspeck.slackmacgap", "key": "S",
+              "newWindow": { "url": "slack://open" } },
+            { "bundleID": "com.culturedcode.ThingsMac", "key": "T",
+              "newWindow": { "url": "things:///show?id=today" } },
         ]
     },
 

@@ -119,7 +119,7 @@
   // エディタのカーソル
   "editor.cursorStyle": "line",
   // 行数の表示
-  "editor.lineNumbers": "on",
+  "editor.lineNumbers": "off",
   // 文字の折り返し
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?",
   // タブサイズ
@@ -252,4 +252,5 @@
   "workbench.colorTheme": "Ayu Dark",
   "workbench.editorAssociations": {},
   "richdown.openMarkdownAsRichEditor": false,
+  "workbench.statusBar.visible": false,
 }

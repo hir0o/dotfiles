@@ -5,6 +5,7 @@
   "trustedcasks": [
     "barutsrb/tap/omniwm",
     "maddada/tap/ghostex",
+    "penso/tap/herdr-gpui",
     "tadashi-aikawa/tap/jinrai",
     "tadashi-aikawa/tap/kikigaki",
     "vishvavariya/notchy/notchy"

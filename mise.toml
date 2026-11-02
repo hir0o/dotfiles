@@ -27,7 +27,6 @@ dotfiles.default_mode = "symlink"
 
 "~/.config/zsh" = { source = "packages/zsh/config" }
 "~/.zshenv" = { source = "packages/zsh/zshenv" }
-"~/.zshenv.local" = { source = "packages/zsh/zshenv.local" }
 
 "~/Library/Application Support/Cursor/User/settings.json" = { source = "packages/vscode/settings.json" }
 "~/Library/Application Support/Cursor/User/keybindings.json" = { source = "packages/vscode/keybindings.json" }

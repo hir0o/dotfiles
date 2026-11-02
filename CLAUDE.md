@@ -105,11 +105,9 @@ The setup relies on XDG Base Directory specification:
    `mise dotfiles apply`. `mise dotfiles add <target>` can generate the entry from a live file
 8. Git configuration includes many fzf-based interactive commands that require fzf to be installed
 9. Many shell aliases depend on tools installed via Homebrew - ensure Brewfile is installed first
-10. `packages/zsh/zshenv.local` is encrypted with git-crypt. If it is ever moved, update
-    `.gitattributes` in the same commit and verify with `git-crypt status`
-11. Add PATH entries in zsh as `path=(<dir> $path)` / `path+=(<dir>)`, not
+10. Add PATH entries in zsh as `path=(<dir> $path)` / `path+=(<dir>)`, not
     `export PATH="<dir>:$PATH"`. `typeset -U path` in `packages/zsh/zshenv` only
     deduplicates assignments to the `path` array
-12. Installers (bun in particular) may append `source ~/.bun/_bun` to `packages/zsh/zshenv`.
+11. Installers (bun in particular) may append `source ~/.bun/_bun` to `packages/zsh/zshenv`.
     It is already sourced in `.zshrc`, and the duplicate runs `compinit` again and slows
     startup, so remove such lines when they appear

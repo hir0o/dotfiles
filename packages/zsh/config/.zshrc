@@ -1,3 +1,8 @@
+# Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # EDITOR
 export EDITOR=nvim
 export TERM=xterm-256color
@@ -28,12 +33,18 @@ egc(){
 # Plugins
 export SHELDON_CONFIG_DIR="$XDG_CONFIG_HOME/sheldon"
 export SHELDON_DATA_DIR="$XDG_STATE_HOME/sheldon"
+
+# p10k の SSH 判定（who の実行）を省く
+if [[ -z $SSH_CLIENT$SSH_TTY$SSH_CONNECTION ]]; then
+  typeset -gix P9K_SSH=0
+  typeset -gx _P9K_SSH_TTY=$TTY
+fi
+
 eval "$(sheldon source)"
 
 P10K_PATH="$XDG_CONFIG_HOME/p10k/.p10k.zsh"
 if [ -f "$P10K_PATH" ]; then
     zstyle ':prezto:module:prompt' theme 'powerlevel10k'
-    chmod 644 "$P10K_PATH"
     source "$P10K_PATH"
 fi
 
@@ -50,12 +61,12 @@ export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 export PATH=$PATH:$CARGO_HOME/bin
-export PATH="$(go env GOPATH)/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 # bun completions
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
-export GPG_TTY=$(tty)
+export GPG_TTY=$TTY
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
@@ -111,7 +122,8 @@ bindkey -M emacs '^N' history-substring-search-down
 
 # ターミナル起動時にカレントディレクトリの .localrc があれば読み込む
 [[ -f .localrc ]] && source .localrc
-source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+# Safe-chain Zsh initialization script
+zsh-defer source ~/.safe-chain/scripts/init-posix.sh
 
-# Vite+ bin (https://viteplus.dev)
-. "$HOME/.config/vite-plus/env"
+# Vite+ completion (https://viteplus.dev)
+zsh-defer source "$HOME/.config/vite-plus/env"

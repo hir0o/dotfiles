@@ -114,4 +114,4 @@ bindkey -M emacs '^N' history-substring-search-down
 source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
 
 # Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
+. "$HOME/.config/vite-plus/env"

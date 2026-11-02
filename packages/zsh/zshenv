@@ -33,5 +33,9 @@ export PATH="$HOME/.local/share/mise/shims:$PATH"
 # Vite+ bin (https://viteplus.dev)
 [ -f "$HOME/.config/vite-plus/env" ] && . "$HOME/.config/vite-plus/env"
 
+### Microsoft Graph ###
+# rd-kanban・my__teams-thread・my__sp-place が共有する Graph のトークン
+export RD_KANBAN_GRAPH_TOKEN="$XDG_CONFIG_HOME/msgraph/graph-token.json"
+
 ### local (secrets etc.) ###
 [ -f "$HOME/.zshenv.local" ] && source "$HOME/.zshenv.local"

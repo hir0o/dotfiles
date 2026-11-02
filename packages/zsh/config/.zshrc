@@ -57,11 +57,8 @@ eval "$(zoxide init zsh)"
 zsh-defer source "$XDG_CONFIG_HOME/zsh/.lazy.zshrc"
 
 # PATH
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
-export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
-export PATH=$PATH:$CARGO_HOME/bin
-export PATH="$HOME/go/bin:$PATH"
+path+=("$CARGO_HOME/bin")
+path=("$HOME/go/bin" $path)
 
 # bun completions
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
@@ -69,7 +66,7 @@ export PATH="$HOME/go/bin:$PATH"
 export GPG_TTY=$TTY
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+path=("$PNPM_HOME" $path)
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 # SDKMAN - lazy load for faster startup
@@ -89,10 +86,7 @@ done
 source "$XDG_CONFIG_HOME/zsh/completion-for-pnpm.zsh"
 zsh-defer source "$XDG_CONFIG_HOME/zsh/completion-for-zellij.zsh"
 
-export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-
-export PATH="$HOME/.console-ninja/.bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+path=("$HOME/.local/bin" $path)
 
 # FZF key-bindings (プラグインの後に読み込む必要がある) - lazy load for faster startup
 zsh-defer source /opt/homebrew/opt/fzf/shell/key-bindings.zsh

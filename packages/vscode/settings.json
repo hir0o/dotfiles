@@ -249,7 +249,6 @@
   "claudeCode.preferredLocation": "panel",
   "window.autoDetectColorScheme": false,
   "window.autoDetectColorScheme": false,
-  "workbench.colorTheme": "Ayu Dark",
   "workbench.editorAssociations": {},
   "richdown.openMarkdownAsRichEditor": false,
   "workbench.statusBar.visible": false,

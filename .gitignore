@@ -16,6 +16,7 @@ apm_modules/
 # VSCode/Cursor が実行時に生成する状態データ
 packages/vscode/globalStorage/
 packages/vscode/workspaceStorage/
+packages/vscode/History/
 
 # Homebrew のロックファイル
 packages/homebrew/trust.json.lock

@@ -1,5 +1,6 @@
 {
   "trustedformulae": [
+    "anomalyco/tap/opencode",
     "sorafujitani/tap/ccsession"
   ],
   "trustedcasks": [
@@ -8,6 +9,7 @@
     "penso/tap/herdr-gpui",
     "tadashi-aikawa/tap/jinrai",
     "tadashi-aikawa/tap/kikigaki",
+    "tadashi-aikawa/tap/utsushie",
     "vishvavariya/notchy/notchy"
   ],
   "trustedtaps": [

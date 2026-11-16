@@ -26,8 +26,22 @@ github = 'romkatv/powerlevel10k'
 github = "zsh-users/zsh-completions"
 
 # compinit初期化（zsh-completionsの後に実行）
+# 補完ファイルの検査（compaudit）は遅いので、dump が 24 時間以内なら -C で省く
 [plugins.compinit]
-inline = 'autoload -Uz compinit && compinit'
+inline = '''
+autoload -Uz compinit
+() {
+  local dump="${ZDOTDIR:-$HOME}/.zcompdump"
+  local -a fresh=($dump(N.mh-24))
+  if (( $#fresh )); then
+    compinit -C -d "$dump"
+  else
+    compinit -d "$dump"
+    # 内容が変わらないと dump は書き換わらないため、次回の判定用に更新時刻を進める
+    touch "$dump"
+  fi
+}
+'''
 
 [plugins.fzf-tab]
 github = "Aloxaf/fzf-tab"

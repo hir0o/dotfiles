@@ -1,7 +1,7 @@
 # 横幅を指定してリサイズ
 function ffres() {
   read inputname"?type input file name:  ";
-  read outputname"?type output file type: ";
+  read outputtype"?type output file type: ";
   read size"?type file size:        ";
   ffmpeg -i ${inputname} -vf "scale=${size}:-1" -q 2 output.${outputtype}
 }

@@ -3,8 +3,8 @@ ZSH_PATH="$XDG_CONFIG_HOME/zsh"
 
 # General
 mkcd() { mkdir $@; cd $@; }
-alias vz='nvim ${DOTPATH}/.zshrc'
-alias srz='source ~/.zshrc'
+alias vz='nvim ${ZDOTDIR}/.zshrc'
+alias srz='source ${ZDOTDIR}/.zshrc'
 alias ...='cd ../../'
 alias op='open ./'
 alias oplg='open https://github.com/hir0o/log/issues'
@@ -28,4 +28,3 @@ done
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden -g '!.git' -g '!node_modules' --max-columns 200"
 export FZF_DEFAULT_OPTS='--reverse --color fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:229 --color info:150,prompt:110,spinner:150,pointer:167,marker:174'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

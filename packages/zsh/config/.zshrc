@@ -57,7 +57,8 @@ eval "$(zoxide init zsh)"
 zsh-defer source "$XDG_CONFIG_HOME/zsh/.lazy.zshrc"
 
 # PATH
-path+=("$CARGO_HOME/bin")
+# brew bundle 経由の cargo install は CARGO_HOME を見ず ~/.cargo/bin に入る
+path+=("$CARGO_HOME/bin" "$HOME/.cargo/bin")
 path=("$HOME/go/bin" $path)
 
 # bun completions
@@ -67,15 +68,6 @@ export GPG_TTY=$TTY
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 path=("$PNPM_HOME" $path)
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# SDKMAN - lazy load for faster startup
-export SDKMAN_DIR="$HOME/.sdkman"
-sdk() {
-  unfunction sdk
-  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-  sdk "$@"
-}
 
 # Load local configurations (not tracked by git)
 # Place your private settings in ~/.config/zsh/local/*.zsh

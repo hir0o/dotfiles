@@ -109,167 +109,17 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local cargo_build = nil
-if vim.fn.executable('cargo') == 1 then
-  cargo_build = 'cargo build --release'
-end
-
-require("lazy").setup({
-  'Shatur/neovim-ayu',
-  'nvim-lualine/lualine.nvim',
-  'nvim-tree/nvim-web-devicons',
-  'nvim-lua/plenary.nvim',
-  'nvim-telescope/telescope.nvim',
-  'neovim/nvim-lspconfig',
-  'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
-  'stevearc/dressing.nvim',
-  'nvimdev/lspsaga.nvim',
-  'ray-x/lsp_signature.nvim',
-  'j-hui/fidget.nvim',
-  {
-    'saghen/blink.cmp',
-    dependencies = {
-      'rafamadriz/friendly-snippets',
-      'saghen/blink.compat',
-    },
-    version = '1.*',
-    build = cargo_build,
-  },
-  {
-    'nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    lazy = false,
-    build = ':TSInstall! typescript tsx javascript css',
-    config = function()
-      local treesitter = require('nvim-treesitter')
-
-      treesitter.setup({})
-
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'css' },
-        callback = function(args)
-          pcall(vim.treesitter.start, args.buf)
-        end,
-      })
-    end,
-  },
-  'zbirenbaum/copilot.lua',
-  {
-    'folke/flash.nvim',
-    event = 'VeryLazy',
-  },
-  {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
-  },
-  'stevearc/conform.nvim',
-  'mfussenegger/nvim-lint',
-  'akinsho/toggleterm.nvim',
-  'kylechui/nvim-surround',
-  'antosha417/nvim-lsp-file-operations',
-  'akinsho/git-conflict.nvim',
-  'mikavilpas/yazi.nvim',
-  'lewis6991/gitsigns.nvim',
-  {
-    'folke/sidekick.nvim',
-    event = 'VeryLazy',
-  },
-  {
-    'folke/noice.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify',
-    },
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    ft = { 'markdown', 'Avante' },
-    -- nvim-treesitter (main) の query_predicates.lua が Neovim 0.12 の match API
-    -- 変更に未追従で、markdown injection 時に node:range() で落ちるため一時無効化
-    enabled = false,
-  },
-  {
-    'HakonHarnes/img-clip.nvim',
-    event = 'VeryLazy',
-    opts = {
-      default = {
-        embed_image_as_base64 = false,
-        prompt_for_file_name = false,
-        drag_and_drop = {
-          insert_mode = true,
-        },
-        use_absolute_path = true,
+require("lazy").setup("plugins", {
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'gzip',
+        'tarPlugin',
+        'zipPlugin',
+        'tohtml',
+        'tutor',
+        'netrwPlugin', -- ディレクトリは yazi.nvim で開く
       },
-    },
-  },
-  {
-    'yuki-yano/vinsert.vim',
-    lazy = true,
-    cmd = { 'VinsertToggle', 'VinsertStart', 'VinsertStop', 'VinsertCancel' },
-    dependencies = { 'vim-denops/denops.vim' },
-    init = function()
-      vim.g.vinsert_openai_api_key = os.getenv('OPENAI_API_KEY') or ''
-      vim.g.vinsert_ffmpeg_args = { '-f', 'avfoundation', '-i', ':0' }
-      vim.g.vinsert_stt_streaming_mode = 'progressive'
-      vim.g.vinsert_indicator = 'virt'
-      vim.g.vinsert_always_yank = true
-      vim.g.vinsert_debug = false
-      vim.g.vinsert_text_stream = false
-
-      vim.keymap.set('i', '<C-.>', function()
-        vim.cmd('VinsertToggle insert')
-      end, { silent = true, desc = 'Vinsert Toggle' })
-    end,
-    config = function()
-      vim.keymap.set('i', '<C-w>', function()
-        local status = vim.fn['vinsert#status']()
-        if status.active then
-          vim.cmd('VinsertCancel')
-          return ''
-        end
-        return '<C-w>'
-      end, { expr = true, silent = true })
-
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'VinsertComplete',
-        callback = function()
-          local result = vim.g.vinsert_last_completion or {}
-          local body = table.concat({
-            string.format('Mode: %s', result.mode or 'unknown'),
-            string.format('Success: %s', tostring(result.success)),
-            '',
-            result.final or '(no text)',
-          }, '\n')
-          vim.notify(body, vim.log.levels.INFO, { title = 'vinsert' })
-        end,
-      })
-    end,
-  },
-  {
-    'pwntester/octo.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    event = 'VeryLazy',
-  },
-  {
-    'yetone/avante.nvim',
-    event = 'VeryLazy',
-    version = false,
-    build = 'make',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'MunifTanjim/nui.nvim',
-      'nvim-telescope/telescope.nvim',
-      'stevearc/dressing.nvim',
-      'nvim-tree/nvim-web-devicons',
-      'zbirenbaum/copilot.lua',
-      'HakonHarnes/img-clip.nvim',
-      'MeanderingProgrammer/render-markdown.nvim',
     },
   },
 })

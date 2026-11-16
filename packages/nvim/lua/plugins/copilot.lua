@@ -1,0 +1,35 @@
+return {
+  'zbirenbaum/copilot.lua',
+  cmd = 'Copilot',
+  event = 'InsertEnter',
+  config = function()
+    require("copilot").setup({
+      suggestion = {
+        enabled = true, -- インライン補完を有効化（sidekick.nvimと併用）
+        auto_trigger = true,
+        debounce = 75,
+        keymap = {
+          accept = "<Tab>", -- Tabキーで受け入れる（Cursor風）
+          accept_word = "<M-w>",
+          accept_line = "<M-j>",
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-]>",
+        },
+      },
+      filetypes = {
+        yaml = false,
+        markdown = false,
+        help = false,
+        gitcommit = false,
+        gitrebase = false,
+        hgcommit = false,
+        svn = false,
+        cvs = false,
+        ["."] = false,
+      },
+      copilot_node_command = 'node',
+      server_opts_overrides = {},
+    })
+  end,
+}

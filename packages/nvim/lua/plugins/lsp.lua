@@ -13,14 +13,11 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
-      local lspconfig = require('lspconfig')
-      local mason_lspconfig = require('mason-lspconfig')
-
       require('lspsaga').setup()
       require('lsp_signature').setup({ hint_enable = false })
       require('fidget').setup()
 
-      mason_lspconfig.setup({
+      require('mason-lspconfig').setup({
         ensure_installed = {
           'vtsls',
           'eslint',
@@ -81,21 +78,9 @@ return {
         'tailwindcss',
       }
 
-      if mason_lspconfig.setup_handlers then
-        mason_lspconfig.setup_handlers({
-          function(server_name)
-            lspconfig[server_name].setup(make_server_opts(server_name))
-          end,
-        })
-      elseif vim.lsp and vim.lsp.config and vim.lsp.enable then
-        for _, server_name in ipairs(servers) do
-          vim.lsp.config(server_name, make_server_opts(server_name))
-          vim.lsp.enable(server_name)
-        end
-      else
-        for _, server_name in ipairs(servers) do
-          lspconfig[server_name].setup(make_server_opts(server_name))
-        end
+      for _, server_name in ipairs(servers) do
+        vim.lsp.config(server_name, make_server_opts(server_name))
+        vim.lsp.enable(server_name)
       end
 
       vim.api.nvim_create_autocmd("CursorHold", {

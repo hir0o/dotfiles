@@ -18,7 +18,6 @@
   sba = !git branch --all | tr -d '* ' | grep -v -e '->' | fzf | sed -e 's+remotes/[^/]*/++g' | xargs git switch
   pco = !gh pr list --limit 1000 | fzf --preview 'GH_FORCE_TTY=100% gh pr view {1}' | awk '{print $1}' | xargs gh pr checkout
   sc = switch -c
-  scb= !git branch -a | fzf | xargs -I @ git switch -c -b @
   df  = diff
   dfb = !git branch --sort=-committerdate | fzf | xargs git diff
   dfh = diff HEAD
@@ -59,17 +58,13 @@
   fps = ftp push
   g   = !ghq get
   rmg = !rm -rf `ghq list -p | fzf`
-  fst = fuzzy status
-  fbr = fuzzy branch
-  flg = fuzzy log
-  fss = fuzzy stash
   fh = fetch
   cin = !gibo dump $(gibo list | fzf) >> .gitignore
-  cmdl= git reset --soft HEAD^
+  cmdl= reset --soft HEAD^
   empty = !git commit --allow-empty -m 'empty' && git push
   brl = !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) - %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/heads/
   brla= !git for-each-ref --format='%(color:cyan)%(refname:short)%(color:reset) %(color:yellow)%(committerdate:relative)%(color:reset)' --sort=-committerdate refs/heads/ refs/remotes/
-  ui = gitui
+  ui = !gitui
   dft = -c diff.external=difft diff
 
 [core]

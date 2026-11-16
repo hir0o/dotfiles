@@ -17,19 +17,7 @@ return {
       -- キーマップ設定
       keymap = {
         preset = 'default',
-        -- Tabキーはsidekick/copilotと統合
-        ['<Tab>'] = {
-          'snippet_forward',
-          function(cmp)
-            -- sidekickのNESがあればそちらを優先
-            if require("sidekick").nes_jump_or_apply() then
-              return true
-            end
-            return false
-          end,
-          'select_next',
-          'fallback'
-        },
+        ['<Tab>'] = { 'snippet_forward', 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'snippet_backward', 'select_prev', 'fallback' },
         -- Ctrl+n/pでも補完選択可能
         ['<C-n>'] = { 'select_next', 'fallback' },

@@ -31,7 +31,6 @@
   "octo.nvim": { "branch": "master", "commit": "b495047f0b9d35de3d8c6b84fad9de296d353b41" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "render-markdown.nvim": { "branch": "main", "commit": "629eb9533ec989d9d5c6cab8f3ad5372422c24e0" },
-  "sidekick.nvim": { "branch": "main", "commit": "208e1c5b8170c01fd1d07df0139322a76479b235" },
   "telescope.nvim": { "branch": "master", "commit": "7d324792b7943e4aa16ad007212e6acc6f9fe335" },
   "toggleterm.nvim": { "branch": "main", "commit": "9a88eae817ef395952e08650b3283726786fb5fb" },
   "vinsert.vim": { "branch": "main", "commit": "24d55cdfda08b77eaf12fc5da380a7a1109f7e5b" },

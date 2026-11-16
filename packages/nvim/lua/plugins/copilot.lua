@@ -5,7 +5,7 @@ return {
   config = function()
     require("copilot").setup({
       suggestion = {
-        enabled = true, -- インライン補完を有効化（sidekick.nvimと併用）
+        enabled = true, -- インライン補完を有効化
         auto_trigger = true,
         debounce = 75,
         keymap = {

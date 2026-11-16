@@ -1,7 +1,18 @@
 #!/bin/bash
 set -euo pipefail
 
-INSTALL_DIR="$(pwd)"
+REPO_URL="https://github.com/hir0o/dotfiles.git"
+
+# リポジトリの中で実行された場合はそのまま使い、それ以外は clone する
+if [ -f "mise.toml" ] && [ -d "packages" ]; then
+    INSTALL_DIR="$(pwd)"
+else
+    INSTALL_DIR="${DOTFILES_DIR:-$HOME/ghq/github.com/hir0o/dotfiles}"
+    if [ ! -d "$INSTALL_DIR/.git" ]; then
+        echo "Cloning dotfiles into $INSTALL_DIR..."
+        git clone "$REPO_URL" "$INSTALL_DIR"
+    fi
+fi
 
 # bunがインストールされていなければインストール
 if ! command -v bun &> /dev/null; then

@@ -15,7 +15,7 @@ This is a dotfiles repository for macOS development environment setup. It manage
 ### Initial Setup
 ```bash
 # Clone and run the installation script
-sh -c "`curl -fsSL https://raw.githubusercontent.com/hir0o/dotfiles/master/install.bash`"
+sh -c "`curl -fsSL https://raw.githubusercontent.com/hir0o/dotfiles/main/install.bash`"
 ```
 
 ### Manual Setup Steps
@@ -39,7 +39,6 @@ mise dotfiles apply --dry-run
 - `packages/` - Configuration sources, one directory per tool. The contents are
   linked to the target declared in `mise.toml`, so the directory layout itself
   carries no meaning
-- `scripts/` - Auxiliary scripts not covered by mise
 
 ### Critical Configurations
 

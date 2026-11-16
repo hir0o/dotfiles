@@ -106,8 +106,6 @@ bindkey '^[[B' history-substring-search-down  # ↓キー
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 
-# ターミナル起動時にカレントディレクトリの .localrc があれば読み込む
-[[ -f .localrc ]] && source .localrc
 # Safe-chain Zsh initialization script
 zsh-defer source ~/.safe-chain/scripts/init-posix.sh
 

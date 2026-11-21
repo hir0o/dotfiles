@@ -35,7 +35,8 @@ mise dotfiles apply --dry-run
 
 ### Directory Structure
 - `mise.toml` - Single source of truth. `[dotfiles]` declares where each package is
-  linked, `[tasks.bootstrap]` handles Homebrew and APM installation
+  linked, `[bootstrap.packages]` declares the homebrew/core formulae, and
+  `[tasks.bootstrap]` installs the rest of the Brewfile and the APM dependencies
 - `packages/` - Configuration sources, one directory per tool. The contents are
   linked to the target declared in `mise.toml`, so the directory layout itself
   carries no meaning
@@ -103,7 +104,10 @@ The setup relies on XDG Base Directory specification:
 7. To add a package: create `packages/<name>/` and add a `[dotfiles]` entry, then run
    `mise dotfiles apply`. `mise dotfiles add <target>` can generate the entry from a live file
 8. Git configuration includes many fzf-based interactive commands that require fzf to be installed
-9. Many shell aliases depend on tools installed via Homebrew - ensure Brewfile is installed first
+9. Many shell aliases depend on tools installed via Homebrew - run `mise bootstrap` first.
+   Add a homebrew/core formula to `[bootstrap.packages]` in `mise.toml`
+   (`mise bootstrap packages use brew:<name>`). Casks, formulae from third-party taps,
+   mas, VS Code extensions, go, cargo and uv stay in `packages/homebrew/Brewfile`
 10. Add PATH entries in zsh as `path=(<dir> $path)` / `path+=(<dir>)`, not
     `export PATH="<dir>:$PATH"`. `typeset -U path` in `packages/zsh/zshenv` only
     deduplicates assignments to the `path` array

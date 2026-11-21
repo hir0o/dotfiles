@@ -25,7 +25,9 @@
                 { "match": { "bundleID": "com.google.Chrome" }, "prefix": "C" },
                 { "match": { "bundleID": "com.mitchellh.ghostty" }, "prefix": "G" },
                 { "match": { "bundleID": "com.cmuxterm.app" }, "prefix": "X" },
+                { "match": { "bundleID": "dev.herdr.app" }, "prefix": "H" },
                 { "match": { "bundleID": "com.microsoft.teams2" }, "prefix": "T" },
+                { "match": { "bundleID": "com.microsoft.Outlook" }, "prefix": "O" },
                 { "match": { "bundleID": "com.microsoft.VSCode" }, "prefix": "V" }
             ]
         },
